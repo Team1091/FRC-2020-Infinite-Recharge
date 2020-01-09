@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveTrainSubsystem extends SubsystemBase {
 
     private final int leftMotorChannel = 3;
-    private final int rightMotorChannel = 5;
+    private final int rightMotorChannel = 2;
 
     private Victor leftMotor = new Victor(leftMotorChannel);
     private Victor rightMotor = new Victor(rightMotorChannel);
