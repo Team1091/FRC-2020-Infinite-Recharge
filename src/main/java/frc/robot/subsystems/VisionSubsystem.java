@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.shared.TargetCoordinate;
 
 public class VisionSubsystem extends SubsystemBase {
-    private UsbCamera visionFeed = new UsbCamera("Camera1", 1);
+    private UsbCamera visionFeed = new UsbCamera("Camera1", 0);
     private NetworkTableInstance networkTable  = null;
     private NetworkTable gripNetworkTable  = null;
 
@@ -18,7 +18,6 @@ public class VisionSubsystem extends SubsystemBase {
         CameraServer.getInstance().startAutomaticCapture(visionFeed);
         networkTable = NetworkTableInstance.getDefault();
         gripNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
-
     }
 
     public boolean targetInSight() {

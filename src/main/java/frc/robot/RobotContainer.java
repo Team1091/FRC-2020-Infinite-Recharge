@@ -14,6 +14,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,16 +23,10 @@ import edu.wpi.first.wpilibj2.command.Command;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-    private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-    //Actual implementation
+    private final VisionSubsystem visionSystem = new VisionSubsystem();
     private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
 
     private final XboxController xbox = new XboxController(0);
-
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -63,6 +58,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return m_autoCommand;
+        return new ExampleCommand(new ExampleSubsystem());
     }
 }

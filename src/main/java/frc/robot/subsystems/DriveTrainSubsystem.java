@@ -15,7 +15,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     private Victor rightMotor = new Victor(rightMotorChannel);
 
     private final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
-    private final AccelerationCurve accelerationCurve = new AccelerationCurve(0.5);
+    private final AccelerationCurve accelerationCurve = new AccelerationCurve(4, .375, .8);
 
     public DriveTrainSubsystem() {
         super();
