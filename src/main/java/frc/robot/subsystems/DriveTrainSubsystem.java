@@ -7,8 +7,8 @@ import frc.robot.util.AccelerationCurve;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
-    private final int leftMotorChannel = 1;
-    private final int rightMotorChannel = 0;
+    private final int leftMotorChannel = 0;
+    private final int rightMotorChannel = 1;
 
     private Victor leftMotor = new Victor(leftMotorChannel);
     private Victor rightMotor = new Victor(rightMotorChannel);

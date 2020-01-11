@@ -2,12 +2,11 @@ package frc.robot.util;
 
 public class AccelerationCurve {
     private long time;
-    private double currentspeed;
+    private double currentSpeed = 0;
     private double acceleration;
 
     public AccelerationCurve(double acceleration) {
         time = System.currentTimeMillis();
-        currentspeed = 0;
         this.acceleration = acceleration;
     }
 
@@ -17,16 +16,29 @@ public class AccelerationCurve {
         time = currenttime;
 
         double velocitychange = acceleration * seconds;
-        if (currentspeed > input) {
-            currentspeed = currentspeed - velocitychange;
+        if (input == 0)
+            currentSpeed = 0;
+        else if (input > 0) {
+            if (currentSpeed >= 0)
+                currentSpeed = (input > currentSpeed) ?
+                        currentSpeed + velocitychange :
+                        input;
+            else
+                currentSpeed = 0;
 
-        } else if (currentspeed < input) {
-            currentspeed = currentspeed + velocitychange;
+        } else if (input < 0) {
+            if (currentSpeed <= 0)
+                currentSpeed = (input < currentSpeed) ?
+                        currentSpeed - velocitychange :
+                        input;
+            else
+                currentSpeed = 0;
         }
-
     }
+
 
     public double getCurrentSpeed() {
-        return currentspeed;
+        return currentSpeed;
     }
 }
+
