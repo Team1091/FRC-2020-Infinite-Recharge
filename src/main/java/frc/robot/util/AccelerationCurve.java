@@ -1,19 +1,20 @@
 package frc.robot.util;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class AccelerationCurve {
-    private long time;
+    private Timer timer = new Timer();
     private double currentSpeed = 0;
     private double acceleration;
 
     public AccelerationCurve(double acceleration) {
-        time = System.currentTimeMillis();
+        timer.start();
         this.acceleration = acceleration;
     }
 
     public void set(double input) {
-        long currenttime = System.currentTimeMillis();
-        double seconds = ((currenttime - time) / 1000.0);
-        time = currenttime;
+        double seconds = timer.get();
+        timer.reset();
 
         double velocitychange = acceleration * seconds;
         if (input == 0)
@@ -35,7 +36,6 @@ public class AccelerationCurve {
                 currentSpeed = 0;
         }
     }
-
 
     public double getCurrentSpeed() {
         return currentSpeed;
