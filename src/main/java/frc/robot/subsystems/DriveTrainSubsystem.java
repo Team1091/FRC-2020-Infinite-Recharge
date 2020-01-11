@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.AccelerationCurve;
 
@@ -18,11 +19,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     public DriveTrainSubsystem() {
         super();
+        SmartDashboard.putData("Left motor", leftMotor);
+        SmartDashboard.putData("Right Motor", rightMotor);
     }
 
 
     public void doArcadeDrive(double speed, double rotation) {
         accelerationCurve.set(speed);
         drive.arcadeDrive(accelerationCurve.getCurrentSpeed(), rotation);
+        SmartDashboard.putNumber("Target Drive Speed", speed);
+        SmartDashboard.putNumber("Current Drive Speed", accelerationCurve.getCurrentSpeed());
     }
 }
