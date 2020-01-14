@@ -4,8 +4,11 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.shared.TargetCoordinate;
+
+import java.util.Arrays;
 
 public class VisionSubsystem extends SubsystemBase {
     private UsbCamera visionFeed = new UsbCamera("Camera1", 0);
@@ -35,4 +38,25 @@ public class VisionSubsystem extends SubsystemBase {
         return null;
     }
 
+    @Override
+    public void periodic() {
+        double[] xs = gripNetworkTable.getEntry("x").getDoubleArray(new double[0]);
+        double[] ys = gripNetworkTable.getEntry("y").getDoubleArray(new double[0]);
+        double[] sizes = gripNetworkTable.getEntry("size").getDoubleArray(new double[0]);
+        if(xs.length > 0){
+            SmartDashboard.putNumber("X IS", xs[0]);
+        } else {
+            SmartDashboard.putNumber("X IS", -1);
+        }
+        if(ys.length > 0){
+            SmartDashboard.putNumber("Y IS", ys[0]);
+        } else {
+            SmartDashboard.putNumber("Y IS", -1);
+        }
+        if(sizes.length > 0){
+            SmartDashboard.putNumber("Size IS", sizes[0]);
+        } else {
+            SmartDashboard.putNumber("Size IS", -1);
+        }
+    }
 }
