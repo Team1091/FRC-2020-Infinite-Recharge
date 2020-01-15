@@ -1,4 +1,4 @@
-package frc.robot.shared;
+package frc.robot.util;
 
 public class TargetCoordinate {
     private double x;
