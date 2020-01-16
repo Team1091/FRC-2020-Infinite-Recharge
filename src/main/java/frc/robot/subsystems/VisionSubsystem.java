@@ -7,6 +7,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.TargetCoordinate;
+import frc.robot.util.VisionBlob;
 
 public class VisionSubsystem extends SubsystemBase {
     private UsbCamera visionFeed = new UsbCamera("Camera1", 0);
@@ -41,6 +42,13 @@ public class VisionSubsystem extends SubsystemBase {
         double[] xs = gripNetworkTable.getEntry("x").getDoubleArray(new double[0]);
         double[] ys = gripNetworkTable.getEntry("y").getDoubleArray(new double[0]);
         double[] sizes = gripNetworkTable.getEntry("size").getDoubleArray(new double[0]);
+
+        VisionBlob[] blobs = new VisionBlob[sizes.length];
+
+        for (int i = 0; sizes.length < i; i++) {
+            blobs[i] = new VisionBlob(xs[i], ys[i], sizes[i]);
+        }
+
         if(xs.length > 0){
             SmartDashboard.putNumber("X IS", xs[0]);
         } else {
