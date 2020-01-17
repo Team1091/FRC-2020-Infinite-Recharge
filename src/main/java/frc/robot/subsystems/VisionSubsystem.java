@@ -16,9 +16,11 @@ public class VisionSubsystem extends SubsystemBase {
     private NetworkTable blobNetworkTable = null;
     private NetworkTable contoursNetworkTable = null;
 
+    private final int cameraWidth = 640;
+    private final int cameraHeight = 480;
 
     public VisionSubsystem(){
-        visionFeed.setResolution(640, 480);
+        visionFeed.setResolution(cameraWidth,cameraHeight);
         CameraServer.getInstance().startAutomaticCapture(visionFeed);
         networkTable = NetworkTableInstance.getDefault();
         blobNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
@@ -27,8 +29,13 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public boolean targetInSight() {
-        //todo implement
-        return false;
+        VisionContour[] contours = getContours();
+        boolean seen = false;
+        for(VisionContour contour : contours){
+            if (contour.getArea() > 5)
+                seen = true;
+        }
+        return seen;
     }
 
     public double getDistanceToTarget () {
@@ -37,9 +44,24 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public TargetCoordinate getTargetCoordinates() {
-        //todo implement
-        return null;
+        VisionContour largestContour = null;
+        for (VisionContour contour : getContours()){
+            if (largestContour == null)
+                largestContour = contour;
+            else if (largestContour.getArea() < contour.getArea())
+                    largestContour = contour;
+        }
+
+        if (largestContour == null)
+            return null;
+
+        double cameraWidthCenter = (double) cameraWidth / 2;
+        double cameraHeightCenter = (double) cameraHeight / 2;
+        double contourX = (double) largestContour.getCenterX() / cameraWidthCenter - 1;
+        double contourY = (double) largestContour.getCenterY() / cameraHeightCenter + 1;
+        return new TargetCoordinate(contourX, contourY);
     }
+
 
     public VisionBlob[] getBlobs(){
         double[] xs = blobNetworkTable.getEntry("x").getDoubleArray(new double[0]);
@@ -77,6 +99,13 @@ public class VisionSubsystem extends SubsystemBase {
         VisionBlob[] blobs = getBlobs();
         SmartDashboard.putNumber("Countoursfound", contours.length);
         SmartDashboard.putNumber("Blobfound", blobs.length);
+        SmartDashboard.putBoolean("targetseen", targetInSight());
+        TargetCoordinate coordinate = getTargetCoordinates();
+        if (coordinate != null)
+            SmartDashboard.putString("coordinate", "X: " + coordinate.getX() + " Y: " + coordinate.getY());
+        else
+            SmartDashboard.putString("coordinate", "not found");
+        
 
     }
 }
