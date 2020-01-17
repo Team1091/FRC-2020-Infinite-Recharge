@@ -69,3 +69,16 @@ jar {
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
+
+
+task compileAndDeploy() {
+    group "team1091"
+    description "Compile all the projects and deploy the robot code"
+
+    dependsOn(getTasksByName('assemble', true))
+
+    doLast {
+        println "Done Compiling, will try to deploy"
+    }
+    finalizedBy(":deploy")
+}
