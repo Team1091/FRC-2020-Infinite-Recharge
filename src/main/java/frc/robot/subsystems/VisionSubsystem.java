@@ -8,18 +8,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.TargetCoordinate;
 import frc.robot.util.VisionBlob;
+import frc.robot.util.VisionContour;
 
 public class VisionSubsystem extends SubsystemBase {
     private UsbCamera visionFeed = new UsbCamera("Camera1", 0);
     private NetworkTableInstance networkTable  = null;
-    private NetworkTable gripNetworkTable  = null;
+    private NetworkTable blobNetworkTable = null;
+    private NetworkTable contoursNetworkTable = null;
 
 
     public VisionSubsystem(){
         visionFeed.setResolution(640, 480);
         CameraServer.getInstance().startAutomaticCapture(visionFeed);
         networkTable = NetworkTableInstance.getDefault();
-        gripNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
+        blobNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
+        contoursNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myContoursReport");
+
     }
 
     public boolean targetInSight() {
@@ -37,32 +41,42 @@ public class VisionSubsystem extends SubsystemBase {
         return null;
     }
 
-    @Override
-    public void periodic() {
-        double[] xs = gripNetworkTable.getEntry("x").getDoubleArray(new double[0]);
-        double[] ys = gripNetworkTable.getEntry("y").getDoubleArray(new double[0]);
-        double[] sizes = gripNetworkTable.getEntry("size").getDoubleArray(new double[0]);
-
+    public VisionBlob[] getBlobs(){
+        double[] xs = blobNetworkTable.getEntry("x").getDoubleArray(new double[0]);
+        double[] ys = blobNetworkTable.getEntry("y").getDoubleArray(new double[0]);
+        double[] sizes = blobNetworkTable.getEntry("size").getDoubleArray(new double[0]);
         VisionBlob[] blobs = new VisionBlob[sizes.length];
 
         for (int i = 0; sizes.length < i; i++) {
             blobs[i] = new VisionBlob(xs[i], ys[i], sizes[i]);
         }
 
-        if(xs.length > 0){
-            SmartDashboard.putNumber("X IS", xs[0]);
-        } else {
-            SmartDashboard.putNumber("X IS", -1);
+        return blobs;
+    }
+
+    public VisionContour[] getContours(){
+        double[] centerXs = contoursNetworkTable.getEntry("centerX").getDoubleArray(new double[0]);
+        double[] centerYs = contoursNetworkTable.getEntry("centerY").getDoubleArray(new double[0]);
+        double[] widths = contoursNetworkTable.getEntry("width").getDoubleArray(new double[0]);
+        double[] areas = contoursNetworkTable.getEntry("area").getDoubleArray(new double[0]);
+        double[] heights = contoursNetworkTable.getEntry("height").getDoubleArray(new double[0]);
+        double[] soliditys = contoursNetworkTable.getEntry("solidity").getDoubleArray(new double[0]);
+        VisionContour[] contours = new VisionContour[centerXs.length];
+
+        for (int i = 0; centerXs.length < i; i++) {
+            contours[i] = new VisionContour(centerXs[i], centerYs[i], widths[i], areas[i], heights[i], soliditys[i]);
         }
-        if(ys.length > 0){
-            SmartDashboard.putNumber("Y IS", ys[0]);
-        } else {
-            SmartDashboard.putNumber("Y IS", -1);
-        }
-        if(sizes.length > 0){
-            SmartDashboard.putNumber("Size IS", sizes[0]);
-        } else {
-            SmartDashboard.putNumber("Size IS", -1);
-        }
+
+        return contours;
+    }
+
+    @Override
+    public void periodic() {
+
+        VisionContour[] contours = getContours();
+        VisionBlob[] blobs = getBlobs();
+        SmartDashboard.putNumber("Countoursfound", contours.length);
+        SmartDashboard.putNumber("Blobfound", blobs.length);
+
     }
 }
