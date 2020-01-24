@@ -13,11 +13,14 @@ public class DriveForwardsCommand extends CommandBase {
     }
     @Override
     public void initialize() {
+        driveTrainSubsystem.reset();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        driveTrainSubsystem.doArcadeDrive(1,0);
+
     }
 
     // Called once the command ends or is interrupted.
@@ -28,6 +31,6 @@ public class DriveForwardsCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return this.driveTrainSubsystem.getDistance() > 1;
     }
 }
