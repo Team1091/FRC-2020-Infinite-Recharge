@@ -2,37 +2,29 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootABallCommand extends CommandBase {
+public class RunShooterMotor extends CommandBase {
     private ShooterSubsystem shooterSubsystem;
-    private boolean shot;
-    private Timer timer;
-    private double timeToShoot;
+    private double power;
 
-
-
-    public ShootABallCommand(ShooterSubsystem shooterSubsystem, double timeToShoot) {
+    public RunShooterMotor(ShooterSubsystem shooterSubsystem, double velocity) {
         super();
         this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
-        timer = new Timer();
-        this.timeToShoot = timeToShoot;
+        this.power = velocity;
     }
 
     @Override
     public void initialize() {
-        timer.reset();
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(timer.hasPeriodPassed(timeToShoot)) {
-           shot = true;
-           return;
-        }
-        this.shooterSubsystem.shootshot();
+        this.shooterSubsystem.runShooterMotor(power);
     }
 
     // Called once the command ends or is interrupted.
@@ -43,8 +35,6 @@ public class ShootABallCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return shot;
+        return false;
     }
-
-
 }

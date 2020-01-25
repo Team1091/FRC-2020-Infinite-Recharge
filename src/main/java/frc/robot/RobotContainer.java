@@ -61,7 +61,7 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new DriveForwardsCommand(drivetrain, 5.0),
                 new TurnCommand(drivetrain, 180.0),
-                new ShootABallCommand(shooterSubsystem, 1)
+                new RunShooterMotor(shooterSubsystem, 1)
 
         );
     }
