@@ -15,7 +15,6 @@ public class ShooterSubsystem extends SubsystemBase {
     private final int pickUpPosition = 0;
     private final int shootPosition = 0;
     private final double aimMotorSpeed = 0.5;
-    private final int aimPositionDelta = 10;
 
     public ShooterSubsystem() {
         super();
@@ -54,17 +53,10 @@ public class ShooterSubsystem extends SubsystemBase {
         return pickUpLimitSwitch.get();
     }
 
-    public void setAim(int encoderPosition) {
+    public void setAim(int encoderPosition, int delta) {
         runAimMotor(0);
-        if (encoderPosition < 0) {
-            encoderPosition = 0;
-        }
-        if (shooterLimitSwitch.get()) {
-            encoderPosition = aimMotorEncoder.get();
-        }
-        if (aimMotorEncoder.get() == encoderPosition ||
-                aimMotor.get() <= encoderPosition + aimPositionDelta ||
-                aimMotor.get() >= encoderPosition - aimPositionDelta) {
+       encoderPosition = clampAimPosition(encoderPosition);
+        if (isAtPosition(encoderPosition, delta)) {
             return;
         }
         if (aimMotorEncoder.get() > encoderPosition) {
@@ -75,5 +67,27 @@ public class ShooterSubsystem extends SubsystemBase {
             runAimMotor(-aimMotorSpeed);
             return;
         }
+    }
+
+    public boolean isAtPosition(int position, int delta) {
+        position = clampAimPosition(position);
+        if (aimMotorEncoder.get() == position) {
+            return true;
+        }
+        if (aimMotorEncoder.get() <= position + delta &&
+                aimMotorEncoder.get() >= position - delta) {
+            return true;
+        }
+        return false;
+    }
+
+    private int clampAimPosition(int position){
+        if (pickUpLimitSwitch.get()) {
+           return  0;
+        }
+        if (shooterLimitSwitch.get()) {
+            return aimMotorEncoder.get();
+        }
+        return position;
     }
 }
