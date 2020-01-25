@@ -1,15 +1,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.CollectorSubsystem;
+import frc.robot.subsystems.PickUpSubsystem;
 
 public class GrabABallCommand extends CommandBase {
-    private final CollectorSubsystem collectorSubsystem;
+    private final PickUpSubsystem pickUpSubsystem;
 
-    public GrabABallCommand(CollectorSubsystem collectorSubsystem) {
+    public GrabABallCommand(PickUpSubsystem pickUpSubsystem) {
         super();
-        this.collectorSubsystem = collectorSubsystem;
-        addRequirements(collectorSubsystem);
+        this.pickUpSubsystem = pickUpSubsystem;
+        addRequirements(pickUpSubsystem);
 
 
     }

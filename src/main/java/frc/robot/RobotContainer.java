@@ -25,7 +25,7 @@ public class RobotContainer {
     private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
-    private final CollectorSubsystem collectorSubsystem = new CollectorSubsystem();
+    private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final XboxController xbox = new XboxController(0);
 
     /**
@@ -61,7 +61,7 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new DriveForwardsCommand(drivetrain, 5.0),
                 new TurnCommand(drivetrain, 180.0),
-                new ShootABallCommand(shooterSubsystem)
+                new ShootABallCommand(shooterSubsystem, 1)
 
         );
     }
