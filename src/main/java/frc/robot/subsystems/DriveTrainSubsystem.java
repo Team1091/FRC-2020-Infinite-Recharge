@@ -5,17 +5,18 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.util.AccelerationCurve;
+
+import static frc.robot.Constants.*;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
-    private final int leftMotorChannel = 0;
-    private final int rightMotorChannel = 1;
 
-    private Victor leftMotor = new Victor(leftMotorChannel);
-    private Victor rightMotor = new Victor(rightMotorChannel);
-    private Encoder leftEncoder = new Encoder(2, 3);
-    private Encoder rightEncoder = new Encoder(4,5);
+    private Victor leftMotor = new Victor(Constants.leftDriveMotor);
+    private Victor rightMotor = new Victor(Constants.rightDriveMotor);
+    private Encoder leftEncoder = new Encoder(leftEncoderA, leftEncoderB);
+    private Encoder rightEncoder = new Encoder(rightEncoderA, rightEncoderB);
 
     private final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
     private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);

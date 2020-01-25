@@ -23,4 +23,10 @@ public final class Constants {
     public static final int pickupMotor = 4;
     public static final int HopperMotor = 5;
     public static final int liftMotor = 6;
+
+    public static final int leftEncoderA = 7;
+    public static final int leftEncoderB = 8;
+    public static final int rightEncoderA = 9;
+    public static final int rightEncoderB = 10;
+
 }

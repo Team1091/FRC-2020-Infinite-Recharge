@@ -11,6 +11,7 @@ public class ShootABallCommand extends CommandBase {
     private double timeToShoot;
 
 
+
     public ShootABallCommand(ShooterSubsystem shooterSubsystem, double timeToShoot) {
         super();
         this.shooterSubsystem = shooterSubsystem;
