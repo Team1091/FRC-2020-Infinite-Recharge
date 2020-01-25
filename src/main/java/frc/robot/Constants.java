@@ -28,5 +28,9 @@ public final class Constants {
     public static final int leftEncoderB = 8;
     public static final int rightEncoderA = 9;
     public static final int rightEncoderB = 10;
+    public static final int aimEncoderA = 11;
+    public static final int aimEncoderB = 12;
+    public static final int shooterLimitSwitch = 1;
+    public static final int pickUpLimitSwitch = 2;
 
 }
