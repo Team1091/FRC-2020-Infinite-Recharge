@@ -5,12 +5,14 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class TurnCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
-//    private final double degrees;
+   private final double degrees;
 
-    public TurnCommand(DriveTrainSubsystem driveTrainSubsystem){
+    public TurnCommand(DriveTrainSubsystem driveTrainSubsystem, double clockwiseRotation){
         super();
         this.driveTrainSubsystem = driveTrainSubsystem;
+        this.degrees = clockwiseRotation;
         addRequirements(driveTrainSubsystem);
+
 
     }
     @Override

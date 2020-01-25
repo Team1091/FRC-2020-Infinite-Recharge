@@ -5,9 +5,10 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DriveForwardsCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
-
-    public DriveForwardsCommand(DriveTrainSubsystem driveTrainSubsystem) {
+    private final Double distanceToTravle;
+    public DriveForwardsCommand(DriveTrainSubsystem driveTrainSubsystem, Double distanceToTravle) {
         super();
+        this.distanceToTravle = distanceToTravle;
         this.driveTrainSubsystem = driveTrainSubsystem;
         addRequirements(driveTrainSubsystem);
     }
@@ -31,6 +32,6 @@ public class DriveForwardsCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return this.driveTrainSubsystem.getDistance() > 1;
+        return this.driveTrainSubsystem.getDistance() > distanceToTravle;
     }
 }

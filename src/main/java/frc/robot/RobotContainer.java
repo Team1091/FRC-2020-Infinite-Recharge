@@ -9,12 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArcadeDriveCommand;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,7 +23,9 @@ import frc.robot.subsystems.VisionSubsystem;
 public class RobotContainer {
     private final VisionSubsystem visionSystem = new VisionSubsystem();
     private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
-
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
+    private final CollectorSubsystem collectorSubsystem = new CollectorSubsystem();
     private final XboxController xbox = new XboxController(0);
 
     /**
@@ -58,6 +58,11 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new ExampleCommand(new ExampleSubsystem());
+        return new SequentialCommandGroup(
+                new DriveForwardsCommand(drivetrain, 5.0),
+                new TurnCommand(drivetrain, 180.0),
+                new ShootABallCommand(shooterSubsystem)
+
+        );
     }
 }
