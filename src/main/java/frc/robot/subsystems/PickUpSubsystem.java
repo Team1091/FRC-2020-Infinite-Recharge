@@ -2,13 +2,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class PickUpSubsystem extends SubsystemBase {
-    private Victor pickUpMotor = new Victor(1);
+    private Victor pickUpMotor = new Victor(Constants.pickupMotor);
 
     public PickUpSubsystem() {
         super();
-
     }
 
     public void runPickUpMotor(double speed) {
