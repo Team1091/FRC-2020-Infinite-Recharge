@@ -3,15 +3,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HangerSubsystem;
 
-public class HangerCommand extends CommandBase {
+public class HangerRetractCommand extends CommandBase {
     private final HangerSubsystem hangerSubsystem;
 
-    public HangerCommand(HangerSubsystem hangerSubsystem) {
-
+    public HangerRetractCommand(HangerSubsystem hangerSubsystem) {
         super();
         this.hangerSubsystem = hangerSubsystem;
         addRequirements(hangerSubsystem);
-
     }
 
     @Override
@@ -21,12 +19,17 @@ public class HangerCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        hangerSubsystem.down();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        hangerSubsystem.stop();
     }
+
+    // todo implement Make sure to make it so that when the robot is finishing with the game, then it spits
+    // out all of its balls
 
     // Returns true when the command should end.
     @Override
