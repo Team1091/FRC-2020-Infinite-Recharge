@@ -18,16 +18,16 @@ public class VisionSubsystem extends SubsystemBase {
     private NetworkTable blobNetworkTable = null;
     private NetworkTable contoursNetworkTable = null;
 
-    private final int cameraWidth = 640;
-    private final int cameraHeight = 480;
+    private final int cameraWidth = 480;
+    private final int cameraHeight = 270;
 
     public VisionSubsystem(){
         timer.start();
         visionFeed.setResolution(cameraWidth,cameraHeight);
         CameraServer.getInstance().startAutomaticCapture(visionFeed);
         networkTable = NetworkTableInstance.getDefault();
-        blobNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
-        contoursNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myContoursReport");
+        //blobNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
+        contoursNetworkTable = NetworkTableInstance.getDefault().getTable("SNIP/myContoursReport");
 
     }
 
@@ -78,18 +78,18 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
 
-    public VisionBlob[] getBlobs(){
-        double[] xs = blobNetworkTable.getEntry("x").getDoubleArray(new double[0]);
-        double[] ys = blobNetworkTable.getEntry("y").getDoubleArray(new double[0]);
-        double[] sizes = blobNetworkTable.getEntry("size").getDoubleArray(new double[0]);
-        VisionBlob[] blobs = new VisionBlob[sizes.length];
-
-        for (int i = 0; sizes.length > i; i++) {
-            blobs[i] = new VisionBlob(xs[i], ys[i], sizes[i]);
-        }
-
-        return blobs;
-    }
+//    public VisionBlob[] getBlobs(){
+////        double[] xs = blobNetworkTable.getEntry("x").getDoubleArray(new double[0]);
+////        double[] ys = blobNetworkTable.getEntry("y").getDoubleArray(new double[0]);
+////        double[] sizes = blobNetworkTable.getEntry("size").getDoubleArray(new double[0]);
+////        VisionBlob[] blobs = new VisionBlob[sizes.length];
+////
+////        for (int i = 0; sizes.length > i; i++) {
+////            blobs[i] = new VisionBlob(xs[i], ys[i], sizes[i]);
+////        }
+////
+////        return blobs;
+////    }
 
     public VisionContour[] getContours(){
         double[] centerXs = contoursNetworkTable.getEntry("centerX").getDoubleArray(new double[0]);
@@ -97,11 +97,11 @@ public class VisionSubsystem extends SubsystemBase {
         double[] widths = contoursNetworkTable.getEntry("width").getDoubleArray(new double[0]);
         double[] areas = contoursNetworkTable.getEntry("area").getDoubleArray(new double[0]);
         double[] heights = contoursNetworkTable.getEntry("height").getDoubleArray(new double[0]);
-        double[] soliditys = contoursNetworkTable.getEntry("solidity").getDoubleArray(new double[0]);
+        //double[] soliditys = contoursNetworkTable.getEntry("solidity").getDoubleArray(new double[0]);
         VisionContour[] contours = new VisionContour[centerXs.length];
 
         for (int i = 0; centerXs.length > i; i++) {
-            contours[i] = new VisionContour(centerXs[i], centerYs[i], widths[i], areas[i], heights[i], soliditys[i]);
+            contours[i] = new VisionContour(centerXs[i], centerYs[i], widths[i], areas[i], heights[i], 0.0);
         }
 
         return contours;
@@ -111,9 +111,9 @@ public class VisionSubsystem extends SubsystemBase {
     public void periodic() {
         if(timer.hasPeriodPassed(.2)) {
             VisionContour[] contours = getContours();
-            VisionBlob[] blobs = getBlobs();
+            //VisionBlob[] blobs = getBlobs();
             SmartDashboard.putNumber("Countoursfound", contours.length);
-            SmartDashboard.putNumber("Blobfound", blobs.length);
+            //SmartDashboard.putNumber("Blobfound", blobs.length);
             SmartDashboard.putBoolean("targetseen", targetInSight());
             SmartDashboard.putNumber("distancetotarget",getDistanceToTarget());
             TargetCoordinate coordinate = getTargetCoordinates();
