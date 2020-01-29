@@ -2,9 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HangerSubsystem;
+import frc.robot.commands.RunHopperMotorCommand;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class HangerRetractCommand extends CommandBase {
     private final HangerSubsystem hangerSubsystem;
+    private ShooterSubsystem Shooter = new ShooterSubsystem();
+    private double velocity = 0.4;
 
     public HangerRetractCommand(HangerSubsystem hangerSubsystem) {
         super();
@@ -30,6 +34,10 @@ public class HangerRetractCommand extends CommandBase {
 
     // todo implement Make sure to make it so that when the robot is finishing with the game, then it spits
     // out all of its balls
+    public void disposeBalls () {
+        RunHopperMotorCommand(Shooter, velocity);
+        //todo the above does not wrk and I do not know why
+    }
 
     // Returns true when the command should end.
     @Override
