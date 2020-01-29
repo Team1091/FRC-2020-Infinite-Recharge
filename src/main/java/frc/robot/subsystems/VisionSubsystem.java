@@ -17,6 +17,7 @@ public class VisionSubsystem extends SubsystemBase {
     private NetworkTableInstance networkTable  = null;
     private NetworkTable blobNetworkTable = null;
     private NetworkTable contoursNetworkTable = null;
+    private double targetCoordX = 0;
 
     private final int cameraWidth = 480;
     private final int cameraHeight = 270;
@@ -117,10 +118,18 @@ public class VisionSubsystem extends SubsystemBase {
             SmartDashboard.putBoolean("targetseen", targetInSight());
             SmartDashboard.putNumber("distancetotarget",getDistanceToTarget());
             TargetCoordinate coordinate = getTargetCoordinates();
-            if (coordinate != null)
+            if (coordinate != null) {
                 SmartDashboard.putString("coordinate", "X: " + coordinate.getX() + " Y: " + coordinate.getY());
-            else
+                targetCoordX = coordinate.getX();
+            }
+            else{
                 SmartDashboard.putString("coordinate", "not found");
+                targetCoordX = 0;
+            }
         }
+    }
+
+    public double getTargetCordX() {
+        return targetCoordX;
     }
 }
