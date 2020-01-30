@@ -1,9 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.PickUpSubsystem;
@@ -25,6 +22,17 @@ public class CommandFactory {
                         new DoWhileTrueCommand(booleanSupplier)
                 )
         );
-        //todo:SToP
+        //Todo: Stop.
+    }
+
+    public CommandBase buildShootBallCommand(ShooterSubsystem shooterSubsystem,
+                                             BooleanSupplier booleanSupplier){
+        return new SequentialCommandGroup(
+                new SetShooterPositionCommand(shooterSubsystem,45),
+                new ParallelRaceGroup(
+                        new RunShooterMotorCommand(shooterSubsystem,0.5),
+                        new DoWhileTrueCommand(booleanSupplier)
+                )
+        );
     }
 }

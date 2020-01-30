@@ -1,37 +1,79 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.examples.gearsbot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.util.TargetCoordinate;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class TakeAimCommand extends CommandBase {
-    //private double distance = VisionSubsystem.getDistanceToTarget();
-    private double targetCoordX = 0;
-    private VisionSubsystem visionSubsystem = new VisionSubsystem();
-    private double rotate = 0;
+    private VisionSubsystem visionSubsystem;
+    private DriveTrainSubsystem driveTrainSubsystem;
+    private final double deltaX = .25;
+    //private final double deltaY = .25;
+    private final double desiredDistance = 8;
+    private final double desiredDistanceDelta = 1;
 
-    public TakeAimCommand(){
+    public TakeAimCommand(VisionSubsystem visionSubsystem, DriveTrainSubsystem driveTrainSubsystem){
         super();
+        this.visionSubsystem = visionSubsystem;
+        this.driveTrainSubsystem = driveTrainSubsystem;
 
+        addRequirements(visionSubsystem);
+        addRequirements(driveTrainSubsystem);
     }
 
     @Override
     public void initialize() {
-
     }
+
+    public boolean targetCloseEnough () {
+        var distance = visionSubsystem.getDistanceToTarget();
+        //1 are we within the DISTA NCE ????
+        if(Math.abs(distance - desiredDistance) < desiredDistanceDelta){
+            return true;
+        }
+        //2 diRECtion
+        return false;
+        //3 how far away :)
+    }
+
+
+   public double getTurn(TargetCoordinate targetCoordinate) {
+       var X = targetCoordinate.getX();
+       if(X < -deltaX){
+        return 1;
+       }
+       if(X > deltaX){
+           return -1;
+       }
+        return 0;
+   }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        targetCoordX = visionSubsystem.getTargetCordX();
-        //todo and fix
-        //ArcadeDriveCommand(0, GetX(), DriveTrain());
+        var targetCoordinate = visionSubsystem.getTargetCoordinates();
+        //1 can we see the target?
+        if (!visionSubsystem.targetInSight()) {
+            return;
+        }
+        //2 find out if we can shoot
+        if (targetCloseEnough()) {
+            return;
+        }
+
+        //3 if we can see it then do we need to turn
+        var turn = getTurn(targetCoordinate);
+        //4 if we don't need to turn then how far forwards do we go
+        var move = getMove(targetCoordinate);
+        //5 once we have this get this info to the arcade drive
+        driveTrainSubsystem.doArcadeDrive(move, turn);
     }
 
-    public double GetX(){
-        return  targetCoordX;
+    public double getMove(TargetCoordinate targetCoordinate) {
+
+        return 0.0;
     }
 
     // Called once the command ends or is interrupted.
@@ -42,7 +84,7 @@ public class TakeAimCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return targetCloseEnough();
     }
 
 }
