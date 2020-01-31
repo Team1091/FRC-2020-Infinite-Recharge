@@ -22,15 +22,26 @@ public class CommandFactory {
                         new DoWhileTrueCommand(booleanSupplier)
                 )
         );
-        //Todo: Stop.
+
     }
 
     public CommandBase buildShootBallCommand(ShooterSubsystem shooterSubsystem,
+                                             HopperSubsystem hopperSubsystem,
                                              BooleanSupplier booleanSupplier){
         return new SequentialCommandGroup(
-                new SetShooterPositionCommand(shooterSubsystem,45),
                 new ParallelRaceGroup(
-                        new RunShooterMotorCommand(shooterSubsystem,0.5),
+                        new SetShooterPositionCommand(shooterSubsystem, 45),
+                        new RunShooterMotorCommand(shooterSubsystem, 1.0),
+                        new DoWhileTrueCommand(booleanSupplier)
+                ),
+                new ParallelRaceGroup(
+                        new RunShooterMotorCommand(shooterSubsystem, 1.0),
+                        new DoWhileTrueCommand(()->shooterSubsystem.getSpeed() < 10.0),
+                        new DoWhileTrueCommand(booleanSupplier)
+                ),
+                new ParallelRaceGroup(
+                        new RunShooterMotorCommand(shooterSubsystem, 1.0),
+                        new RunHopperMotorCommand(hopperSubsystem, 1.0),
                         new DoWhileTrueCommand(booleanSupplier)
                 )
         );

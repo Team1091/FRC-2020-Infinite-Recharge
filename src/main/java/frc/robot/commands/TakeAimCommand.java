@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.util.TargetCoordinate;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -9,12 +8,11 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 public class TakeAimCommand extends CommandBase {
     private VisionSubsystem visionSubsystem;
     private DriveTrainSubsystem driveTrainSubsystem;
-    private final double deltaX = .25;
-    //private final double deltaY = .25;
+    private final double rotationalDelta = .25;
     private final double desiredDistance = 8;
     private final double desiredDistanceDelta = 1;
 
-    public TakeAimCommand(VisionSubsystem visionSubsystem, DriveTrainSubsystem driveTrainSubsystem){
+    public TakeAimCommand(VisionSubsystem visionSubsystem, DriveTrainSubsystem driveTrainSubsystem) {
         super();
         this.visionSubsystem = visionSubsystem;
         this.driveTrainSubsystem = driveTrainSubsystem;
@@ -27,10 +25,10 @@ public class TakeAimCommand extends CommandBase {
     public void initialize() {
     }
 
-    public boolean targetCloseEnough () {
+    public boolean targetCloseEnough() {
         var distance = visionSubsystem.getDistanceToTarget();
         //1 are we within the DISTA NCE ????
-        if(Math.abs(distance - desiredDistance) < desiredDistanceDelta){
+        if (Math.abs(distance - desiredDistance) < desiredDistanceDelta) {
             return true;
         }
         //2 diRECtion
@@ -39,16 +37,16 @@ public class TakeAimCommand extends CommandBase {
     }
 
 
-   public double getTurn(TargetCoordinate targetCoordinate) {
-       var X = targetCoordinate.getX();
-       if(X < -deltaX){
-        return 1;
-       }
-       if(X > deltaX){
-           return -1;
-       }
+    public double getTurn(TargetCoordinate targetCoordinate) {
+        var X = targetCoordinate.getX();
+        if (X < -rotationalDelta) {
+            return 1;
+        }
+        if (X > rotationalDelta) {
+            return -1;
+        }
         return 0;
-   }
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -66,19 +64,30 @@ public class TakeAimCommand extends CommandBase {
         //3 if we can see it then do we need to turn
         var turn = getTurn(targetCoordinate);
         //4 if we don't need to turn then how far forwards do we go
-        var move = getMove(targetCoordinate);
+        var move = getMove();
         //5 once we have this get this info to the arcade drive
         driveTrainSubsystem.doArcadeDrive(move, turn);
     }
 
-    public double getMove(TargetCoordinate targetCoordinate) {
-
+    public double getMove() {
+//1 calculate distance between desierd position and robot
+        var distance = visionSubsystem.getDistanceToTarget();
+        var desiredTravel = distance - desiredDistance;
+        //2 if to far away move forward
+        if (desiredTravel > desiredDistanceDelta) {
+            return -1;
+        }
+        //3 if to close move backward
+        if (desiredTravel < -desiredDistanceDelta) {
+            return 1;
+        }
         return 0.0;
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        driveTrainSubsystem.doArcadeDrive(0, 0);
     }
 
     // Returns true when the command should end.

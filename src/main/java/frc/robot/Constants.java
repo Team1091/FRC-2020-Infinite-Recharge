@@ -33,4 +33,6 @@ public final class Constants {
     public static final int shooterLimitSwitch = 1;
     public static final int pickUpLimitSwitch = 2;
 
+    public static final int shooterEncoderA = 13;
+    public static final int shooterEncoderB = 14;
 }

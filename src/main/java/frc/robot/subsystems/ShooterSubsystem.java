@@ -8,6 +8,7 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
     private Victor shooterMotor = new Victor(Constants.shooterMotor);
+    private Encoder shooterMotorEncoder = new Encoder(Constants.shooterEncoderA, Constants.shooterEncoderB);
     private Victor aimMotor = new Victor(Constants.aimMotor);
     private Encoder aimMotorEncoder = new Encoder(Constants.aimEncoderA, Constants.aimEncoderB);
     private DigitalInput pickUpLimitSwitch = new DigitalInput(Constants.pickUpLimitSwitch);
@@ -89,5 +90,9 @@ public class ShooterSubsystem extends SubsystemBase {
             return aimMotorEncoder.get();
         }
         return position;
+    }
+
+    public double getSpeed() {
+        return shooterMotorEncoder.getRate();
     }
 }
