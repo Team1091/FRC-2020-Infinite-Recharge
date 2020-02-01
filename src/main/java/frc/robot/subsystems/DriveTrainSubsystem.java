@@ -1,6 +1,11 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.SparkMax;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,7 +18,7 @@ import static frc.robot.Constants.*;
 public class DriveTrainSubsystem extends SubsystemBase {
 
 
-    private Victor leftMotor = new Victor(Constants.leftDriveMotor);
+    private Victor leftMotor =  new Victor(Constants.leftDriveMotor);
     private Victor rightMotor = new Victor(Constants.rightDriveMotor);
     private Encoder leftEncoder = new Encoder(leftEncoderA, leftEncoderB);
     private Encoder rightEncoder = new Encoder(rightEncoderA, rightEncoderB);
@@ -24,8 +29,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     public DriveTrainSubsystem() {
         super();
-        SmartDashboard.putData("Left motor", leftMotor);
-        SmartDashboard.putData("Right Motor", rightMotor);
+        SmartDashboard.putNumber("Left motor", leftMotor.get());
+        SmartDashboard.putNumber("Right Motor", rightMotor.get());
     }
 
 

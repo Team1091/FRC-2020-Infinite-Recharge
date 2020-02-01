@@ -47,8 +47,18 @@ public class VisionSubsystem extends SubsystemBase {
             return -1;
         }
         double targetPhysWidth = 35;
+        double targetPhysHeight = 17.5;
+        double ratio = targetPhysWidth/targetPhysHeight;
+        double visibleTargetRatio = largestContour.getWidth() / largestContour.getHeight();
+        //epislon is the acceptable tolerance
+        double epislon = 0.5;
+        SmartDashboard.putNumber("Contour ratio", visibleTargetRatio);
+        if (ratio - epislon > visibleTargetRatio || ratio + epislon < visibleTargetRatio) {
+            return -1;
+        }
         double viewAngle = 44.5;
         SmartDashboard.putNumber("Contour Width", largestContour.getWidth());
+
         double distance = ((targetPhysWidth / 12.0) * (double) cameraWidth) /  ((2.0 * largestContour.getWidth()) * Math.tan(viewAngle));
         return distance;
     }
