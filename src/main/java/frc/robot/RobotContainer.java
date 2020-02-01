@@ -26,6 +26,7 @@ public class RobotContainer {
     private final VisionSubsystem visionSystem = new VisionSubsystem();
     private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final AimSubsystem aimSubsystem = new AimSubsystem();
     private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final XboxController xbox = new XboxController(0);
@@ -53,13 +54,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
         var leftbumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftbumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
-                shooterSubsystem, hopperSubsystem, pickUpSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kLeft)
         ));
 
         var rightbumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
         rightbumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
-                shooterSubsystem, hopperSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
 
@@ -73,10 +74,11 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
+       // return new ExampleCommand(new ExampleSubsystem());
         return new SequentialCommandGroup(
                 new DriveForwardsCommand(drivetrain, 5.0),
                 new TurnCommand(drivetrain, 180.0),
-                CommandFactory.buildShootBallCommand(shooterSubsystem, hopperSubsystem, ()->true)
+                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ()->true)
                 //todo CHANGE THIS
 
         );
