@@ -8,8 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +29,7 @@ public class RobotContainer {
     private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final XboxController xbox = new XboxController(0);
+    private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -48,6 +51,18 @@ public class RobotContainer {
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+        var leftbumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
+        leftbumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
+                shooterSubsystem, hopperSubsystem, pickUpSubsystem,
+                () -> xbox.getBumper(GenericHID.Hand.kLeft)
+        ));
+
+        var rightbumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
+        rightbumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
+                shooterSubsystem, hopperSubsystem,
+                () -> xbox.getBumper(GenericHID.Hand.kRight)
+        ));
+
     }
 
 
@@ -61,7 +76,8 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new DriveForwardsCommand(drivetrain, 5.0),
                 new TurnCommand(drivetrain, 180.0),
-                new RunShooterMotorCommand(shooterSubsystem, 1)
+                CommandFactory.buildShootBallCommand(shooterSubsystem, hopperSubsystem, ()->true)
+                //todo CHANGE THIS
 
         );
     }

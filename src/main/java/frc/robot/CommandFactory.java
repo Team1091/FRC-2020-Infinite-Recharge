@@ -9,7 +9,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 import java.util.function.BooleanSupplier;
 
 public class CommandFactory {
-    public CommandBase buildSuctionBallCommand(ShooterSubsystem shooterSubsystem,
+    public static CommandBase buildSuctionBallCommand(ShooterSubsystem shooterSubsystem,
                                                HopperSubsystem hopperSubsystem,
                                                PickUpSubsystem pickUpSubsystem,
                                                BooleanSupplier booleanSupplier){
@@ -25,7 +25,7 @@ public class CommandFactory {
 
     }
 
-    public CommandBase buildShootBallCommand(ShooterSubsystem shooterSubsystem,
+    public static CommandBase buildShootBallCommand(ShooterSubsystem shooterSubsystem,
                                              HopperSubsystem hopperSubsystem,
                                              BooleanSupplier booleanSupplier){
         return new SequentialCommandGroup(
