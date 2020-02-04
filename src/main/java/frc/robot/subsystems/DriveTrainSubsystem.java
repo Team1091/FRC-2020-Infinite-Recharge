@@ -18,10 +18,10 @@ import static frc.robot.Constants.*;
 public class DriveTrainSubsystem extends SubsystemBase {
 
 
-    private Victor leftMotor =  new Victor(Constants.leftDriveMotor);
-    private Victor rightMotor = new Victor(Constants.rightDriveMotor);
-    private Encoder leftEncoder = new Encoder(leftEncoderA, leftEncoderB);
-    private Encoder rightEncoder = new Encoder(rightEncoderA, rightEncoderB);
+    private CANSparkMax leftMotor =  new CANSparkMax(Constants.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax rightMotor = new CANSparkMax(Constants.rightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANEncoder leftEncoder = new CANEncoder(leftMotor);
+    private CANEncoder rightEncoder = new CANEncoder(rightMotor);
 
     private final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
     private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);
@@ -43,11 +43,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void reset() {
-        leftEncoder.reset();
-        rightEncoder.reset();
+        leftEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
     }
 
     public double getDistance() {
-        return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2.0;
+        return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
     }
 }
