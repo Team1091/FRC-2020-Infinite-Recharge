@@ -126,6 +126,7 @@ public class VisionSubsystem extends SubsystemBase {
             //SmartDashboard.putNumber("Blobfound", blobs.length);
             SmartDashboard.putBoolean("targetseen", targetInSight());
             SmartDashboard.putNumber("distancetotarget",getDistanceToTarget());
+            SmartDashboard.putNumber("contour count",contours.length);
             TargetCoordinate coordinate = getTargetCoordinates();
             if (coordinate != null) {
                 SmartDashboard.putString("coordinate", "X: " + coordinate.getX() + " Y: " + coordinate.getY());

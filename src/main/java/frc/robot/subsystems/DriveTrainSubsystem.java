@@ -15,7 +15,7 @@ import frc.robot.util.AccelerationCurve;
 
 import static frc.robot.Constants.*;
 
-public class DriveTrainSubsystem extends SubsystemBase { 
+public class DriveTrainSubsystem extends SubsystemBase {
 
 
     private CANSparkMax leftMotor =  new CANSparkMax(Constants.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);

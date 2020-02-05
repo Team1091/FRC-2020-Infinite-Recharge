@@ -8,55 +8,75 @@
     </edu.wpi.grip.core.sources.CameraSource>
   </sources>
   <steps>
-    <edu.wpi.grip.core.Step name="CV medianBlur">
+    <edu.wpi.grip.core.Step name="Blur">
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="1">
-        <value>7.0</value>
+        <value>MEDIAN</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="2">
+        <value>0.0</value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.OutputSocketImpl step="0" socket="0" previewed="true"/>
     </edu.wpi.grip.core.Step>
-    <edu.wpi.grip.core.Step name="HSL Threshold">
+    <edu.wpi.grip.core.Step name="HSV Threshold">
       <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="0"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="1">
         <value>
-          <double>40.46762589928056</double>
-          <double>117.03071672354949</double>
+          <double>59.89208633093524</double>
+          <double>92.12121212121212</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="2">
         <value>
-          <double>105.48561151079136</double>
-          <double>244.1211604095563</double>
+          <double>158.22841726618705</double>
+          <double>255.0</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="3">
         <value>
           <double>91.72661870503596</double>
-          <double>220.18771331058022</double>
+          <double>255.0</double>
         </value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="true"/>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
+    </edu.wpi.grip.core.Step>
+    <edu.wpi.grip.core.Step name="CV dilate">
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="1"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="2"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="3">
+        <value>5.0</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="4">
+        <value>BORDER_CONSTANT</value>
+      </edu.wpi.grip.core.sockets.InputSocketImpl>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="5"/>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="false"/>
     </edu.wpi.grip.core.Step>
     <edu.wpi.grip.core.Step name="Find Contours">
-      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
-      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="1">
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="0"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="1">
         <value>false</value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="true"/>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="3" socket="0" previewed="true"/>
     </edu.wpi.grip.core.Step>
   </steps>
   <connections>
-    <edu.wpi.grip.core.Connection>
-      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="true"/>
-      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
-    </edu.wpi.grip.core.Connection>
     <edu.wpi.grip.core.Connection>
       <edu.wpi.grip.core.sockets.OutputSocketImpl step="0" socket="0" previewed="true"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="1" socket="0"/>
     </edu.wpi.grip.core.Connection>
     <edu.wpi.grip.core.Connection>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="2" socket="0" previewed="false"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="3" socket="0"/>
+    </edu.wpi.grip.core.Connection>
+    <edu.wpi.grip.core.Connection>
       <edu.wpi.grip.core.sockets.OutputSocketImpl source="1" socket="0" previewed="false"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="0" socket="0"/>
+    </edu.wpi.grip.core.Connection>
+    <edu.wpi.grip.core.Connection>
+      <edu.wpi.grip.core.sockets.OutputSocketImpl step="1" socket="0" previewed="false"/>
+      <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="0"/>
     </edu.wpi.grip.core.Connection>
   </connections>
   <settings>
