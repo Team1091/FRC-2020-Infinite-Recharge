@@ -45,7 +45,7 @@
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="1"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="2"/>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="3">
-        <value>5.0</value>
+        <value>1.0</value>
       </edu.wpi.grip.core.sockets.InputSocketImpl>
       <edu.wpi.grip.core.sockets.InputSocketImpl step="2" socket="4">
         <value>BORDER_CONSTANT</value>

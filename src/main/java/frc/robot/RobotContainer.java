@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -31,6 +32,7 @@ public class RobotContainer {
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final XboxController xbox = new XboxController(0);
     private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
+
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.

@@ -8,22 +8,25 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.TargetCoordinate;
-import frc.robot.util.VisionBlob;
 import frc.robot.util.VisionContour;
 
 public class VisionSubsystem extends SubsystemBase {
     private UsbCamera visionFeed = new UsbCamera("Camera1", 0);
     private Timer timer = new Timer();
-    private NetworkTableInstance networkTable  = null;
+    private NetworkTableInstance networkTable = null;
     private NetworkTable blobNetworkTable = null;
     private NetworkTable contoursNetworkTable = null;
 
     private final int cameraWidth = 480;
     private final int cameraHeight = 270;
+    private final double targetPhysWidth = 35;
+    private final double targetPhysHeight = 17.5;
+    private final double contourRatio = targetPhysHeight / targetPhysHeight;
+    private final double contourRatioTolerance = .5;
 
-    public VisionSubsystem(){
+    public VisionSubsystem() {
         timer.start();
-        visionFeed.setResolution(cameraWidth,cameraHeight);
+        visionFeed.setResolution(cameraWidth, cameraHeight);
         CameraServer.getInstance().startAutomaticCapture(visionFeed);
         networkTable = NetworkTableInstance.getDefault();
         //blobNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
@@ -34,47 +37,43 @@ public class VisionSubsystem extends SubsystemBase {
     public boolean targetInSight() {
         VisionContour[] contours = getContours();
         boolean seen = false;
-        for(VisionContour contour : contours) {
+        for (VisionContour contour : contours) {
             if (contour != null && contour.getArea() > 5)
                 seen = true;
         }
         return seen;
     }
 
-    public double getDistanceToTarget () {
-        VisionContour largestContour = getLargestContour();
-        if (largestContour == null){
-            return -1;
-        }
-        double targetPhysWidth = 35;
-        double targetPhysHeight = 17.5;
-        double ratio = targetPhysWidth/targetPhysHeight;
-        double visibleTargetRatio = largestContour.getWidth() / largestContour.getHeight();
-        //epislon is the acceptable tolerance
-        double epislon = 0.5;
-        SmartDashboard.putNumber("Contour ratio", visibleTargetRatio);
-        if (ratio - epislon > visibleTargetRatio || ratio + epislon < visibleTargetRatio) {
+    public double getDistanceToTarget() {
+        VisionContour largestContour = getLargestValidContour();
+        if (largestContour == null) {
             return -1;
         }
         double viewAngle = 44.5;
-        SmartDashboard.putNumber("Contour Width", largestContour.getWidth());
-
-        double distance = ((targetPhysWidth / 12.0) * (double) cameraWidth) /  ((2.0 * largestContour.getWidth()) * Math.tan(viewAngle));
+        double distance = ((targetPhysWidth / 12.0) * (double) cameraWidth) / ((2.0 * largestContour.getWidth()) * Math.tan(viewAngle));
         return distance;
     }
-    public VisionContour getLargestContour(){
+
+    public VisionContour getLargestValidContour() {
         VisionContour largestContour = null;
-        for (VisionContour contour : getContours()){
-            if (largestContour == null)
+        for (VisionContour contour : getContours()) {
+            var ratio = contour.getWidth() / contour.getHeight();
+            if (ratio - contourRatioTolerance > contourRatio || ratio + contourRatioTolerance < contourRatio) {
+                continue;
+            }
+            if (largestContour == null) {
                 largestContour = contour;
-            else if (largestContour.getArea() < contour.getArea())
+                continue;
+            }
+            if (largestContour.getArea() < contour.getArea()){
                 largestContour = contour;
+            }
         }
         return largestContour;
     }
 
     public TargetCoordinate getTargetCoordinates() {
-        VisionContour largestContour = getLargestContour();
+        VisionContour largestContour = getLargestValidContour();
         if (largestContour == null)
             return null;
 
@@ -87,21 +86,7 @@ public class VisionSubsystem extends SubsystemBase {
         return new TargetCoordinate(contourX, contourY);
     }
 
-
-//    public VisionBlob[] getBlobs(){
-////        double[] xs = blobNetworkTable.getEntry("x").getDoubleArray(new double[0]);
-////        double[] ys = blobNetworkTable.getEntry("y").getDoubleArray(new double[0]);
-////        double[] sizes = blobNetworkTable.getEntry("size").getDoubleArray(new double[0]);
-////        VisionBlob[] blobs = new VisionBlob[sizes.length];
-////
-////        for (int i = 0; sizes.length > i; i++) {
-////            blobs[i] = new VisionBlob(xs[i], ys[i], sizes[i]);
-////        }
-////
-////        return blobs;
-////    }
-
-    public VisionContour[] getContours(){
+    public VisionContour[] getContours() {
         double[] centerXs = contoursNetworkTable.getEntry("centerX").getDoubleArray(new double[0]);
         double[] centerYs = contoursNetworkTable.getEntry("centerY").getDoubleArray(new double[0]);
         double[] widths = contoursNetworkTable.getEntry("width").getDoubleArray(new double[0]);
@@ -119,22 +104,16 @@ public class VisionSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if(timer.hasPeriodPassed(.2)) {
+        if (timer.hasPeriodPassed(.2)) {
             VisionContour[] contours = getContours();
-            //VisionBlob[] blobs = getBlobs();
-            SmartDashboard.putNumber("Countoursfound", contours.length);
-            //SmartDashboard.putNumber("Blobfound", blobs.length);
-            SmartDashboard.putBoolean("targetseen", targetInSight());
-            SmartDashboard.putNumber("distancetotarget",getDistanceToTarget());
-            SmartDashboard.putNumber("contour count",contours.length);
+            SmartDashboard.putBoolean("Target Seen", targetInSight());
+            SmartDashboard.putNumber("Distance To Target", getDistanceToTarget());
+            SmartDashboard.putNumber("Total Contours", contours.length);
             TargetCoordinate coordinate = getTargetCoordinates();
             if (coordinate != null) {
                 SmartDashboard.putString("coordinate", "X: " + coordinate.getX() + " Y: " + coordinate.getY());
-
-            }
-            else{
+            } else {
                 SmartDashboard.putString("coordinate", "not found");
-
             }
         }
     }
