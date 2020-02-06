@@ -37,8 +37,6 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
   }
 
-  Rev2mDistanceSensor test = new Rev2mDistanceSensor(Rev2mDistanceSensor.Port.kOnboard);
-
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
@@ -49,7 +47,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     //ToDo Test Rev2mDistanceSensor
-    
+
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

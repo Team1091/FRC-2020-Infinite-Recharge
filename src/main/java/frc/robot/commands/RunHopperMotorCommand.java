@@ -15,6 +15,7 @@ public class RunHopperMotorCommand extends CommandBase {
     public RunHopperMotorCommand(HopperSubsystem hopperSubsystem, double speed) {
         this.hopperSubsystem = hopperSubsystem;
         this.speed = speed;
+        addRequirements(hopperSubsystem);
     }
 
     @Override

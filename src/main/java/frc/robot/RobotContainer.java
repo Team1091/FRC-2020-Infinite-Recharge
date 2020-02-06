@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.revrobotics.Rev2mDistanceSensor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
@@ -32,7 +33,7 @@ public class RobotContainer {
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final XboxController xbox = new XboxController(0);
     private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
-
+    private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -56,13 +57,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
         var leftbumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftbumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
-                shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kLeft)
         ));
 
         var rightbumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
         rightbumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
-                shooterSubsystem, aimSubsystem, hopperSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
 
@@ -80,7 +81,7 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new DriveForwardsCommand(drivetrain, 5.0),
                 new TurnCommand(drivetrain, 180.0),
-                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ()->true)
+                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, ()->true)
                 //todo CHANGE THIS
 
         );
