@@ -32,13 +32,6 @@ public class HangerRetractCommand extends CommandBase {
         hangerSubsystem.stop();
     }
 
-    // todo implement Make sure to make it so that when the robot is finishing with the game, then it spits
-    // out all of its balls
-    public void disposeBalls () {
-//        RunHopperMotorCommand(Shooter, velocity);
-        //todo the above does not work and I do not know why
-    }
-
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
