@@ -1,8 +1,6 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class RunShooterMotorCommand extends CommandBase {
@@ -24,7 +22,7 @@ public class RunShooterMotorCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        this.shooterSubsystem.runShooterMotor(power);
+        this.shooterSubsystem.runShooter(power);
     }
 
     // Called once the command ends or is interrupted.
