@@ -14,6 +14,7 @@ public class RunPickUpMotorCommand extends CommandBase {
     public RunPickUpMotorCommand(PickUpSubsystem pickUpSubsystem, double speed) {
         this.pickUpSubsystem = pickUpSubsystem;
         this.speed = speed;
+        addRequirements(pickUpSubsystem);
     }
 
     @Override

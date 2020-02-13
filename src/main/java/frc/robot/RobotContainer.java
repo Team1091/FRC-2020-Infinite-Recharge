@@ -68,7 +68,6 @@ public class RobotContainer {
                 shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
-
     }
 
 

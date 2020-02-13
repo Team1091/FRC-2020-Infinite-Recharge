@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.AmmoCounterSubsystem;
 
@@ -18,6 +19,7 @@ public class TrackAmmoCommand extends CommandBase {
     public TrackAmmoCommand(AmmoCounterSubsystem ammoCounterSubsystem, boolean isShooting){
         this.ammoCounterSubsystem = ammoCounterSubsystem;
         this.isShooting = isShooting;
+        timer = new Timer();
         addRequirements(ammoCounterSubsystem);
     }
 
@@ -28,6 +30,7 @@ public class TrackAmmoCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        SmartDashboard.putString("Track Ammo", isShooting ? "Shooting" : "Loading");
         if (timerStarted){
             return;
         }
@@ -49,19 +52,19 @@ public class TrackAmmoCommand extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-
+        SmartDashboard.putString("Track Ammo", "Standing By");
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-         if (isShooting){
+                 if (isShooting){
              return ammoCounterSubsystem.outOfAmmo();
          }
          //If picking up balls final ball needs to travel to top of hopper
          if (ammoCounterSubsystem.atMaxCapcity()){
              timerStarted = true;
-             timer.reset();
+             timer.start();
          }
          return timer.hasPeriodPassed(finalBallTravelTimeRequired);
     }
