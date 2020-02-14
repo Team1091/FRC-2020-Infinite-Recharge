@@ -53,16 +53,17 @@ public class TrackAmmoCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         SmartDashboard.putString("Track Ammo", "Standing By");
+        timer.stop();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-                 if (isShooting){
+         if (isShooting){
              return ammoCounterSubsystem.outOfAmmo();
          }
          //If picking up balls final ball needs to travel to top of hopper
-         if (ammoCounterSubsystem.atMaxCapcity()){
+         if (ammoCounterSubsystem.atMaxCapcity() && !timerStarted){
              timerStarted = true;
              timer.start();
          }

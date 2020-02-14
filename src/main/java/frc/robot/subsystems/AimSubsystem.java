@@ -1,14 +1,12 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class AimSubsystem extends SubsystemBase {
 
-    private Victor aimMotor = new Victor(Constants.aimMotor);
+    private NidecBrushless aimMotor = new NidecBrushless(Constants.aimMotor,3);
     private Encoder aimMotorEncoder = new Encoder(Constants.aimEncoderA, Constants.aimEncoderB);
     private DigitalInput pickUpLimitSwitch = new DigitalInput(Constants.pickUpLimitSwitch);
     private DigitalInput shooterLimitSwitch = new DigitalInput(Constants.shooterLimitSwitch);
@@ -50,7 +48,7 @@ public class AimSubsystem extends SubsystemBase {
 
     public void setAim(int encoderPosition, int delta) {
         runAimMotor(0);
-       encoderPosition = clampAimPosition(encoderPosition);
+        encoderPosition = clampAimPosition(encoderPosition);
         if (isAtPosition(encoderPosition, delta)) {
             return;
         }
@@ -85,5 +83,9 @@ public class AimSubsystem extends SubsystemBase {
         }
         return position;
     }
-
+    @Override
+    public void periodic(){
+        aimMotor.enable();
+        aimMotor.set(1);
+    }
 }

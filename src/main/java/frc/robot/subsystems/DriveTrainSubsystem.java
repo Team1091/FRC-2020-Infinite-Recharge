@@ -47,6 +47,5 @@ public class DriveTrainSubsystem extends SubsystemBase {
     public void periodic(){
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
         SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
-        doArcadeDrive(0,0);
     }
 }

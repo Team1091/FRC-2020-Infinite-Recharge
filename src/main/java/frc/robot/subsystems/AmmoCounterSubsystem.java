@@ -36,6 +36,10 @@ public class AmmoCounterSubsystem extends SubsystemBase {
         return ammoCount == 0;
     }
 
+    public void reset() {
+        ammoCount = 0;
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Ammo Count", ammoCount);

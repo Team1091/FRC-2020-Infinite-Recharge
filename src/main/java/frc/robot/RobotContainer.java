@@ -57,6 +57,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncodersCommand(drivetrain));
+        SmartDashboard.putData("Reset Ammo", new ResetAmmoCommand(ammoCounterSubsystem));
         var leftbumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftbumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,
