@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-    private CANSparkMax firstShooterMotor = new CANSparkMax(Constants.firstShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax secondShooterMotor = new CANSparkMax(Constants.secondShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax firstShooterMotor = new CANSparkMax(Constants.CAN.firstShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax secondShooterMotor = new CANSparkMax(Constants.CAN.secondShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANEncoder firstShooterEncoder = new CANEncoder(firstShooterMotor);
     private CANEncoder secondShooterEncoder = new CANEncoder(secondShooterMotor);
 

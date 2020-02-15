@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PickUpSubsystem extends SubsystemBase {
-    private Victor pickUpMotor = new Victor(Constants.intakeMotor);
+    private Victor pickUpMotor = new Victor(Constants.PWM.intakeMotor);
 
     public PickUpSubsystem() {
         super();

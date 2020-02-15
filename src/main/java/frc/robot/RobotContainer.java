@@ -35,6 +35,7 @@ public class RobotContainer {
     private final XboxController xbox = new XboxController(0);
     private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
     private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
+    private final ElectroMagSubsystem electroMagSubsystem = new ElectroMagSubsystem();
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -66,10 +67,15 @@ public class RobotContainer {
 
         var rightbumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
         rightbumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
-                shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
+
+        var yButton = new JoystickButton(xbox, XboxController.Button.kY.value);
+        yButton.whileActiveOnce(new RunPickUpMotorCommand(pickUpSubsystem, -5));
+
     }
+
 
 
     /**
@@ -83,7 +89,7 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 new DriveForwardsCommand(drivetrain, 5.0),
                 new TurnCommand(drivetrain, 180.0),
-                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, ()->true)
+                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, ()->true)
                 //todo CHANGE THIS
 
         );

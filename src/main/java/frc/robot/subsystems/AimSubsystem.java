@@ -1,15 +1,18 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class AimSubsystem extends SubsystemBase {
 
-    private NidecBrushless aimMotor = new NidecBrushless(Constants.aimMotor,3);
-    private Encoder aimMotorEncoder = new Encoder(Constants.aimEncoderA, Constants.aimEncoderB);
-    private DigitalInput pickUpLimitSwitch = new DigitalInput(Constants.pickUpLimitSwitch);
-    private DigitalInput shooterLimitSwitch = new DigitalInput(Constants.shooterLimitSwitch);
+    private CANSparkMax aimMotor = new CANSparkMax(Constants.CAN.aimMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANEncoder aimMotorEncoder = new CANEncoder(aimMotor);
+    private DigitalInput pickUpLimitSwitch = new DigitalInput(Constants.DIO.pickUpLimitSwitch);
+    private DigitalInput shooterLimitSwitch = new DigitalInput(Constants.DIO.shooterLimitSwitch);
     private final double aimMotorSpeed = 0.5;
 
     public AimSubsystem() {
@@ -32,7 +35,7 @@ public class AimSubsystem extends SubsystemBase {
     public void goToPickupPosition() {
         runAimMotor(0);
         if (pickUpLimitSwitch.get()) {
-            aimMotorEncoder.reset();
+            aimMotorEncoder.setPosition(0);
             return;
         }
         runAimMotor(-aimMotorSpeed);
@@ -52,11 +55,11 @@ public class AimSubsystem extends SubsystemBase {
         if (isAtPosition(encoderPosition, delta)) {
             return;
         }
-        if (aimMotorEncoder.get() > encoderPosition) {
+        if (aimMotorEncoder.getPosition() > encoderPosition) {
             runAimMotor(aimMotorSpeed);
             return;
         }
-        if (aimMotorEncoder.get() < encoderPosition) {
+        if (aimMotorEncoder.getPosition() < encoderPosition) {
             runAimMotor(-aimMotorSpeed);
             return;
         }
@@ -64,11 +67,11 @@ public class AimSubsystem extends SubsystemBase {
 
     public boolean isAtPosition(int position, int delta) {
         position = clampAimPosition(position);
-        if (aimMotorEncoder.get() == position) {
+        if (aimMotorEncoder.getPosition() == position) {
             return true;
         }
-        if (aimMotorEncoder.get() <= position + delta &&
-                aimMotorEncoder.get() >= position - delta) {
+        if (aimMotorEncoder.getPosition() <= position + delta &&
+                aimMotorEncoder.getPosition() >= position - delta) {
             return true;
         }
         return false;
@@ -79,13 +82,12 @@ public class AimSubsystem extends SubsystemBase {
            return  0;
         }
         if (shooterLimitSwitch.get()) {
-            return aimMotorEncoder.get();
+            return (int)aimMotorEncoder.getPosition();
         }
         return position;
     }
     @Override
     public void periodic(){
-        aimMotor.enable();
-        aimMotor.set(1);
+
     }
 }

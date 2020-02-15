@@ -16,24 +16,26 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final int leftDriveMotor = 1; //CAN value
-    public static final int rightDriveMotor = 2; //CAN value
-    public static final int aimMotor = 2; //PWM value
-    public static final int firstShooterMotor = 3; //CAN value
-    public static final int secondShooterMotor = 4; //CAN value
-    public static final int intakeMotor = 5;
-    public static final int HopperMotor = 3;
-    public static final int liftMotor = 6;
+    public final class PWM {
+        public static final int intakeMotor = 1;
+        public static final int HopperMotor = 2;
+        public static final int liftMotor = 3;
+        public static final int hopperReleaseMotor = 4;
+    }
 
-    public static final int leftEncoderA = 7;
-    public static final int leftEncoderB = 8;
-    public static final int rightEncoderA = 9;
-    public static final int rightEncoderB = 10;
-    public static final int aimEncoderA = 11;
-    public static final int aimEncoderB = 12;
-    public static final int shooterLimitSwitch = 1;
-    public static final int pickUpLimitSwitch = 2;
+    public final class CAN {
+        public static final int leftDriveMotor = 1;
+        public static final int rightDriveMotor = 2;
+        public static final int aimMotor = 5;
+        public static final int firstShooterMotor = 3;
+        public static final int secondShooterMotor = 4;
+    }
 
-    public static final int shooterEncoderA = 13;
-    public static final int shooterEncoderB = 14;
+    public final class DIO {
+        public static final int shooterLimitSwitch = 1;
+        public static final int pickUpLimitSwitch = 2;
+    }
+    public final class RELAY {
+        public static final int electroMag = 1;
+    }
 }

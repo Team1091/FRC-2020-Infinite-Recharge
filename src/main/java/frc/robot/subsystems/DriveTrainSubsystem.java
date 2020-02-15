@@ -12,8 +12,8 @@ import frc.robot.util.AccelerationCurve;
 public class DriveTrainSubsystem extends SubsystemBase {
 
 
-    private CANSparkMax leftMotor =  new CANSparkMax(Constants.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax rightMotor = new CANSparkMax(Constants.rightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax leftMotor =  new CANSparkMax(Constants.CAN.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax rightMotor = new CANSparkMax(Constants.CAN.rightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANEncoder leftEncoder = new CANEncoder(leftMotor);
     private CANEncoder rightEncoder = new CANEncoder(rightMotor);
 

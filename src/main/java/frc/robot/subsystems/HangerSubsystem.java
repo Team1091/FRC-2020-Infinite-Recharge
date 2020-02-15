@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class HangerSubsystem extends SubsystemBase {
-    private Victor liftMotor = new Victor(Constants.liftMotor);
+    private Victor liftMotor = new Victor(Constants.PWM.liftMotor);
 
     public HangerSubsystem(){
         super();

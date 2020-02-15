@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class HopperSubsystem extends SubsystemBase {
-    private Victor hopperMotor = new Victor(Constants.HopperMotor);
+    private Victor hopperMotor = new Victor(Constants.PWM.HopperMotor);
     public HopperSubsystem(){
         super();
     }

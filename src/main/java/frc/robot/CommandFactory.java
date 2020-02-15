@@ -30,6 +30,7 @@ public class CommandFactory {
                                                     AimSubsystem aimSubsystem,
                                                     HopperSubsystem hopperSubsystem,
                                                     AmmoCounterSubsystem ammoCounterSubsystem,
+                                                    ElectroMagSubsystem electroMagSubsystem,
                                                     BooleanSupplier booleanSupplier) {
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
@@ -47,6 +48,7 @@ public class CommandFactory {
                 new ParallelRaceGroup(
                         new RunShooterMotorCommand(shooterSubsystem, 1.0),
                         new RunHopperMotorCommand(hopperSubsystem, 1.0),
+                        new ReleaseAmmoCommand(electroMagSubsystem, 1.0),
                         new DoWhileTrueCommand(booleanSupplier),
                         new TrackAmmoCommand(ammoCounterSubsystem, true)
                 )
