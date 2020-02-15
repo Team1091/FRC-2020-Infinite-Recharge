@@ -10,6 +10,7 @@ public class ReleaseAmmoCommand extends CommandBase {
     public ReleaseAmmoCommand(ElectroMagSubsystem electroMagSubsystem, double speed){
         this.electroMagSubsystem = electroMagSubsystem;
         this.speed = speed;
+        addRequirements(electroMagSubsystem);
     }
     @Override
     public void initialize() {

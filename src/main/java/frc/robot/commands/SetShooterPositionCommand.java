@@ -11,8 +11,8 @@ public class SetShooterPositionCommand extends CommandBase {
     public SetShooterPositionCommand(AimSubsystem aimSubsystem, int position) {
         super();
         this.aimSubsystem = aimSubsystem;
-        addRequirements(aimSubsystem);
         this.position = position;
+        addRequirements(aimSubsystem);
     }
 
     @Override

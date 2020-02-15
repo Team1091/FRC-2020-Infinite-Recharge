@@ -10,6 +10,7 @@ public class ResetAmmoCommand extends CommandBase {
 
     public ResetAmmoCommand(AmmoCounterSubsystem ammoCounterSubsystem){
         this.ammoCounterSubsystem = ammoCounterSubsystem;
+        addRequirements(ammoCounterSubsystem);
     }
 
     // Called when the command is initially scheduled.

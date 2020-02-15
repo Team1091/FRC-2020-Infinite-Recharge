@@ -7,15 +7,14 @@
 
 package frc.robot;
 
-import com.revrobotics.Rev2mDistanceSensor;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.autonomous.DriveForwardsCommand;
+import frc.robot.commands.autonomous.TurnCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -26,13 +25,14 @@ import edu.wpi.first.wpilibj2.command.Command;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+    private final XboxController xbox = new XboxController(0);
+
     private final VisionSubsystem visionSystem = new VisionSubsystem();
     private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final AimSubsystem aimSubsystem = new AimSubsystem();
     private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
-    private final XboxController xbox = new XboxController(0);
     private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
     private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
     private final ElectroMagSubsystem electroMagSubsystem = new ElectroMagSubsystem();
@@ -43,11 +43,15 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
+
         drivetrain.setDefaultCommand(new ArcadeDriveCommand(
+                drivetrain,
                 () -> (xbox.getY(GenericHID.Hand.kLeft)),
-                () -> (xbox.getX(GenericHID.Hand.kLeft)),
-                drivetrain));
-        hangerSubsystem.setDefaultCommand(new ControlHangerCommand(hangerSubsystem, ()-> xbox.getY(GenericHID.Hand.kRight)));
+                () -> (xbox.getX(GenericHID.Hand.kLeft))));
+
+        hangerSubsystem.setDefaultCommand(new ControlHangerCommand(
+                hangerSubsystem,
+                ()-> xbox.getY(GenericHID.Hand.kRight)));
     }
 
     /**
@@ -80,8 +84,6 @@ public class RobotContainer {
                 () -> (xbox.getX(GenericHID.Hand.kLeft)),
                 drivetrain));
     }
-
-
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -14,10 +14,11 @@ public class ArcadeDriveCommand extends CommandBase {
     private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);
     private final AccelerationCurve rotationCurve = new AccelerationCurve(4, .375, .8);
 
-    public ArcadeDriveCommand(DoubleSupplier speed, DoubleSupplier turn, DriveTrainSubsystem drivetrain){
+    public ArcadeDriveCommand(DriveTrainSubsystem drivetrain, DoubleSupplier speed, DoubleSupplier turn){
+        this.drivetrain = drivetrain;
         this.speed = speed;
         this.turn = turn;
-        this.drivetrain = drivetrain;
+
 
         addRequirements(drivetrain);
     }
@@ -41,5 +42,4 @@ public class ArcadeDriveCommand extends CommandBase {
     public boolean isFinished() {
         return false;
     }
-
 }

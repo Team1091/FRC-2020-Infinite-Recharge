@@ -9,6 +9,7 @@ public class ResetDriveEncodersCommand extends CommandBase {
 
     public ResetDriveEncodersCommand(DriveTrainSubsystem driveTrainSubsystem){
         this.driveTrainSubsystem = driveTrainSubsystem;
+        addRequirements(driveTrainSubsystem);
     }
 
     // Called when the command is initially scheduled.

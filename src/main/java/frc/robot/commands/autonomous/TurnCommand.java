@@ -1,27 +1,26 @@
-package frc.robot.commands;
+package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
-public class DriveForwardsCommand extends CommandBase {
+public class TurnCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
-    private final double distanceToTravel;
-    public DriveForwardsCommand(DriveTrainSubsystem driveTrainSubsystem, double distanceToTravel) {
+    private final double degrees;
+
+    public TurnCommand(DriveTrainSubsystem driveTrainSubsystem, double clockwiseRotation){
         super();
-        this.distanceToTravel = distanceToTravel;
         this.driveTrainSubsystem = driveTrainSubsystem;
+        this.degrees = clockwiseRotation;
         addRequirements(driveTrainSubsystem);
     }
+
     @Override
     public void initialize() {
-        driveTrainSubsystem.reset();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        driveTrainSubsystem.doArcadeDrive(1,0);
-
     }
 
     // Called once the command ends or is interrupted.
@@ -32,6 +31,6 @@ public class DriveForwardsCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return this.driveTrainSubsystem.getDistance() > distanceToTravel;
+        return false;
     }
 }

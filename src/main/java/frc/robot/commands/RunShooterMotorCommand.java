@@ -10,8 +10,8 @@ public class RunShooterMotorCommand extends CommandBase {
     public RunShooterMotorCommand(ShooterSubsystem shooterSubsystem, double velocity) {
         super();
         this.shooterSubsystem = shooterSubsystem;
-        addRequirements(shooterSubsystem);
         this.power = velocity;
+        addRequirements(shooterSubsystem);
     }
 
     @Override

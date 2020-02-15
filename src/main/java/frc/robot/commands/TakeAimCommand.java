@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.util.AccelerationCurve;
 import frc.robot.util.TargetCoordinate;
 import frc.robot.subsystems.DriveTrainSubsystem;
 
@@ -11,6 +12,8 @@ public class TakeAimCommand extends CommandBase {
     private final double rotationalDelta = .25;
     private final double desiredDistance = 8;
     private final double desiredDistanceDelta = 1;
+    private AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);
+    private AccelerationCurve turnCurve = new AccelerationCurve(4, .375, .8);
 
     public TakeAimCommand(VisionSubsystem visionSubsystem, DriveTrainSubsystem driveTrainSubsystem) {
         super();
@@ -40,10 +43,12 @@ public class TakeAimCommand extends CommandBase {
     public double getTurn(TargetCoordinate targetCoordinate) {
         var X = targetCoordinate.getX();
         if (X < -rotationalDelta) {
-            return 1;
+            turnCurve.set(1);
+            return turnCurve.getCurrentSpeed();
         }
         if (X > rotationalDelta) {
-            return -1;
+            turnCurve.set(-1);
+            return turnCurve.getCurrentSpeed();
         }
         return 0;
     }
@@ -70,17 +75,20 @@ public class TakeAimCommand extends CommandBase {
     }
 
     public double getMove() {
-//1 calculate distance between desierd position and robot
+        //1 calculate distance between desierd position and robot
         var distance = visionSubsystem.getDistanceToTarget();
         var desiredTravel = distance - desiredDistance;
         //2 if to far away move forward
         if (desiredTravel > desiredDistanceDelta) {
-            return -1;
+            speedCurve.set(-1);
+            return speedCurve.getCurrentSpeed();
         }
         //3 if to close move backward
         if (desiredTravel < -desiredDistanceDelta) {
-            return 1;
+            speedCurve.set(1);
+            return speedCurve.getCurrentSpeed();
         }
+
         return 0.0;
     }
 
@@ -95,5 +103,4 @@ public class TakeAimCommand extends CommandBase {
     public boolean isFinished() {
         return targetCloseEnough();
     }
-
 }
