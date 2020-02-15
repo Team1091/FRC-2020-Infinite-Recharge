@@ -11,15 +11,7 @@ public class HangerSubsystem extends SubsystemBase {
         super();
     }
 
-    public void up(){
-        liftMotor.set(1);
-    }
-
-    public void down(){
-        liftMotor.set(-1);
-    }
-
-    public void stop() {
-        liftMotor.set(0);
+    public void runLiftMotor(double speed){
+        liftMotor.set(speed);
     }
 }

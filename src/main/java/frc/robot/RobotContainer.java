@@ -47,7 +47,7 @@ public class RobotContainer {
                 () -> (xbox.getY(GenericHID.Hand.kLeft)),
                 () -> (xbox.getX(GenericHID.Hand.kLeft)),
                 drivetrain));
-
+        hangerSubsystem.setDefaultCommand(new ControlHangerCommand(hangerSubsystem, ()-> xbox.getY(GenericHID.Hand.kRight)));
     }
 
     /**
