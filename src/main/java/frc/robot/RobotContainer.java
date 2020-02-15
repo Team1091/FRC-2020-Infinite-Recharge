@@ -74,6 +74,11 @@ public class RobotContainer {
         var yButton = new JoystickButton(xbox, XboxController.Button.kY.value);
         yButton.whileActiveOnce(new RunPickUpMotorCommand(pickUpSubsystem, -5));
 
+        var bButton = new JoystickButton(xbox, XboxController.Button.kB.value);
+        bButton.whileActiveOnce(new BoostedArcadeDriveCommand(
+                () -> (xbox.getY(GenericHID.Hand.kLeft)),
+                () -> (xbox.getX(GenericHID.Hand.kLeft)),
+                drivetrain));
     }
 
 

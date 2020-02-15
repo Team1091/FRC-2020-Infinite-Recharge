@@ -12,14 +12,12 @@ import frc.robot.util.AccelerationCurve;
 public class DriveTrainSubsystem extends SubsystemBase {
 
 
-    private CANSparkMax leftMotor =  new CANSparkMax(Constants.CAN.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax leftMotor = new CANSparkMax(Constants.CAN.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax rightMotor = new CANSparkMax(Constants.CAN.rightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANEncoder leftEncoder = new CANEncoder(leftMotor);
     private CANEncoder rightEncoder = new CANEncoder(rightMotor);
 
     private final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
-    private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);
-    private final AccelerationCurve rotationCurve = new AccelerationCurve(4, .375, .8);
 
     public DriveTrainSubsystem() {
         super();
@@ -29,9 +27,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     public void doArcadeDrive(double speed, double rotation) {
-        speedCurve.set(speed);
-        rotationCurve.set(rotation);
-        drive.arcadeDrive(speedCurve.getCurrentSpeed(), rotationCurve.getCurrentSpeed());
+        drive.arcadeDrive(speed, rotation);
     }
 
     public void reset() {
@@ -44,7 +40,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     @Override
-    public void periodic(){
+    public void periodic() {
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
         SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
     }

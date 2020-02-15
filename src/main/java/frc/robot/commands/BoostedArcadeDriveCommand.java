@@ -6,15 +6,15 @@ import frc.robot.util.AccelerationCurve;
 
 import java.util.function.DoubleSupplier;
 
-public class ArcadeDriveCommand extends CommandBase {
+public class BoostedArcadeDriveCommand extends CommandBase {
 
     private DriveTrainSubsystem drivetrain;
     private DoubleSupplier speed;
     private DoubleSupplier turn;
-    private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);
-    private final AccelerationCurve rotationCurve = new AccelerationCurve(4, .375, .8);
+    private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, 1.0);
+    private final AccelerationCurve rotationCurve = new AccelerationCurve(4, .375, 1.0);
 
-    public ArcadeDriveCommand(DoubleSupplier speed, DoubleSupplier turn, DriveTrainSubsystem drivetrain){
+    public BoostedArcadeDriveCommand(DoubleSupplier speed, DoubleSupplier turn, DriveTrainSubsystem drivetrain){
         this.speed = speed;
         this.turn = turn;
         this.drivetrain = drivetrain;
