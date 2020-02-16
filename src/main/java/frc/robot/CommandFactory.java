@@ -14,7 +14,7 @@ public class CommandFactory {
                                                       AmmoCounterSubsystem ammoCounterSubsystem,
                                                       BooleanSupplier booleanSupplier) {
         return new SequentialCommandGroup(
-                new SetShooterPositionCommand(aimSubsystem, 0),
+                new SetShooterPositionCommand(aimSubsystem, Constants.ShooterPositions.Pickup),
                 new ParallelRaceGroup(
                         new RunShooterMotorCommand(shooterSubsystem, -0.5),
                         new RunHopperMotorCommand(hopperSubsystem, 0.5),
@@ -34,7 +34,7 @@ public class CommandFactory {
                                                     BooleanSupplier booleanSupplier) {
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
-                        new SetShooterPositionCommand(aimSubsystem, 45),
+                        new SetShooterPositionCommand(aimSubsystem, Constants.ShooterPositions.Shoot),
                         new RunShooterMotorCommand(shooterSubsystem, 1.0),
                         new DoWhileTrueCommand(booleanSupplier),
                         new TrackAmmoCommand(ammoCounterSubsystem, true)
@@ -48,7 +48,7 @@ public class CommandFactory {
                 new ParallelRaceGroup(
                         new RunShooterMotorCommand(shooterSubsystem, 1.0),
                         new RunHopperMotorCommand(hopperSubsystem, 1.0),
-                        new ReleaseAmmoCommand(electroMagSubsystem, 1.0),
+                        new ReleaseAmmoCommand(electroMagSubsystem, 0.6),
                         new DoWhileTrueCommand(booleanSupplier),
                         new TrackAmmoCommand(ammoCounterSubsystem, true)
                 )

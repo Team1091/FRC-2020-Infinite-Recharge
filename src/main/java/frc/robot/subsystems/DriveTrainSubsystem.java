@@ -3,26 +3,30 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.util.AccelerationCurve;
 
-public class DriveTrainSubsystem extends SubsystemBase {
+public class DriveTrainSubsystem extends TunablePidSubsystem {
 
+    private CANSparkMax firstLeftMotor = new CANSparkMax(Constants.CAN.firstLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax secondLeftMotor = new CANSparkMax(Constants.CAN.secondLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax firstRightMotor = new CANSparkMax(Constants.CAN.firstRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax secondRightMotor = new CANSparkMax(Constants.CAN.secondRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    //TODO: finish more than basic implementation for two motors on both sides
+    private CANEncoder leftEncoder = new CANEncoder(firstLeftMotor);
+    private CANEncoder rightEncoder = new CANEncoder(firstRightMotor);
 
-    private CANSparkMax leftMotor = new CANSparkMax(Constants.CAN.leftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax rightMotor = new CANSparkMax(Constants.CAN.rightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANEncoder leftEncoder = new CANEncoder(leftMotor);
-    private CANEncoder rightEncoder = new CANEncoder(rightMotor);
+    private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor,secondLeftMotor);
+    private SpeedControllerGroup rightMotorGearbox = new SpeedControllerGroup(firstRightMotor, secondRightMotor);
 
-    private final DifferentialDrive drive = new DifferentialDrive(leftMotor, rightMotor);
+    private final DifferentialDrive drive = new DifferentialDrive(leftMotorGearbox,rightMotorGearbox);
 
     public DriveTrainSubsystem() {
         super();
-        SmartDashboard.putNumber("Left motor", leftMotor.get());
-        SmartDashboard.putNumber("Right Motor", rightMotor.get());
+        SmartDashboard.putNumber("Left motor", firstLeftMotor.get());
+        SmartDashboard.putNumber("Right Motor", firstRightMotor.get());
 
     }
 

@@ -4,6 +4,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -88,6 +89,8 @@ public class AimSubsystem extends SubsystemBase {
     }
     @Override
     public void periodic(){
-
+        SmartDashboard.putBoolean("Shooter limit switch",shooterLimitSwitch.get());
+        SmartDashboard.putBoolean("Pickup limit switch",pickUpLimitSwitch.get());
+        SmartDashboard.putNumber("Aim Encoder", aimMotorEncoder.getPosition());
     }
 }

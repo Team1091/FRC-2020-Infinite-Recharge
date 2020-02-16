@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class ShooterSubsystem extends TunablePidSubsystem {
     private CANSparkMax firstShooterMotor = new CANSparkMax(Constants.CAN.firstShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax secondShooterMotor = new CANSparkMax(Constants.CAN.secondShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANEncoder firstShooterEncoder = new CANEncoder(firstShooterMotor);
@@ -20,41 +20,9 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANPIDController firstShooterPIDControl = firstShooterMotor.getPIDController();
     private CANPIDController secondShooterPIDControl = firstShooterMotor.getPIDController();
 
-    //PID Coefficients
-    private double kP = 6e-5;
-    private double kI = 0;
-    private double kD = 0;
-    private double kIz = 0;
-    private double kFF = 0.000015;
-    private double kMaxOutput = 1;
-    private double kMinOutput = -1;
-    private double maxRPM = 5700; //Possibly need to change?
-
 
     public ShooterSubsystem() {
         super();
-        //These need to be set only once
-        SmartDashboard.putNumber("P Gain", kP);
-        SmartDashboard.putNumber("I Gain", kI);
-        SmartDashboard.putNumber("D Gain", kD);
-        SmartDashboard.putNumber("I Zone", kIz);
-        SmartDashboard.putNumber("Feed Forward", kFF);
-        SmartDashboard.putNumber("Max Output", kMaxOutput);
-        SmartDashboard.putNumber("Min Output", kMinOutput);
-
-        firstShooterPIDControl.setP(kP);
-        firstShooterPIDControl.setI(kI);
-        firstShooterPIDControl.setD(kD);
-        firstShooterPIDControl.setIZone(kIz);
-        firstShooterPIDControl.setFF(kFF);
-        firstShooterPIDControl.setOutputRange(kMinOutput, kMaxOutput);
-
-        secondShooterPIDControl.setP(kP);
-        secondShooterPIDControl.setI(kI);
-        secondShooterPIDControl.setD(kD);
-        secondShooterPIDControl.setIZone(kIz);
-        secondShooterPIDControl.setFF(kFF);
-        secondShooterPIDControl.setOutputRange(kMinOutput, kMaxOutput);
     }
 
     public void runShooter(double speed) {
@@ -72,8 +40,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
     @Override
     public void periodic(){
-        SmartDashboard.putNumber("First Shooter Encoder", firstShooterEncoder.getVelocity());
-        SmartDashboard.putNumber("Second Shooter Encoder", secondShooterEncoder.getVelocity());
+        SmartDashboard.putNumber("First Shooter Speed Encoder", firstShooterEncoder.getVelocity());
+        SmartDashboard.putNumber("Second Shooter Speed Encoder", secondShooterEncoder.getVelocity());
 
     }
 }

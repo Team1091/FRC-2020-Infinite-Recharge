@@ -18,24 +18,31 @@ package frc.robot;
 public final class Constants {
     public final class PWM {
         public static final int intakeMotor = 1;
-        public static final int HopperMotor = 2;
-        public static final int liftMotor = 3;
-        public static final int hopperReleaseMotor = 4;
+        public static final int HopperMotor = 3;
+        public static final int liftMotor = 0;
+        public static final int hopperReleaseMotor = 2;
     }
 
     public final class CAN {
-        public static final int leftDriveMotor = 1;
-        public static final int rightDriveMotor = 2;
-        public static final int firstShooterMotor = 3;
-        public static final int secondShooterMotor = 4;
+        public static final int firstLeftDriveMotor = 3;
+        public static final int secondLeftDriveMotor = 4;
+        public static final int firstRightDriveMotor = 1;
+        public static final int secondRightDriveMotor = 2;
+        public static final int firstShooterMotor = 6;
+        public static final int secondShooterMotor = 7;
         public static final int aimMotor = 5;
     }
 
     public final class DIO {
-        public static final int shooterLimitSwitch = 1;
-        public static final int pickUpLimitSwitch = 2;
+        public static final int shooterLimitSwitch = 0;
+        public static final int pickUpLimitSwitch = 1;
     }
     public final class RELAY {
-        public static final int electroMag = 1;
+        public static final int electroMag = 0;
+    }
+
+    public final class ShooterPositions{
+        public static final int Pickup = 1;
+        public static final int Shoot = 2;
     }
 }
