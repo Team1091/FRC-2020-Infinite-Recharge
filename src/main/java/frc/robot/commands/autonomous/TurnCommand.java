@@ -2,11 +2,12 @@ package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.util.AccelerationCurve;
 
 public class TurnCommand extends CommandBase {
     private final DriveTrainSubsystem driveTrainSubsystem;
     private final double degrees;
-
+    private AccelerationCurve turnCurve = new AccelerationCurve(4,.375,.8);
     public TurnCommand(DriveTrainSubsystem driveTrainSubsystem, double clockwiseRotation){
         super();
         this.driveTrainSubsystem = driveTrainSubsystem;

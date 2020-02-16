@@ -26,9 +26,9 @@ public final class Constants {
     public final class CAN {
         public static final int leftDriveMotor = 1;
         public static final int rightDriveMotor = 2;
-        public static final int aimMotor = 5;
         public static final int firstShooterMotor = 3;
         public static final int secondShooterMotor = 4;
+        public static final int aimMotor = 5;
     }
 
     public final class DIO {

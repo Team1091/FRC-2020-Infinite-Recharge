@@ -38,7 +38,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     public double getDistance() {
         return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
     }
-
+    public double getRotation(){
+        return leftEncoder.getPosition()-rightEncoder.getPosition();
+    }
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
