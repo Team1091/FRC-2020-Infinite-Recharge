@@ -94,8 +94,10 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
        // return new ExampleCommand(new ExampleSubsystem());
         return new SequentialCommandGroup(
+                new DriveForwardsCommand(drivetrain, 2.5),
+                new TurnCommand(drivetrain, -90.0),
                 new DriveForwardsCommand(drivetrain, 5.0),
-                new TurnCommand(drivetrain, 180.0),
+                new TurnCommand(drivetrain, -90.0),
                 CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, ()->true)
                 //todo CHANGE THIS
 

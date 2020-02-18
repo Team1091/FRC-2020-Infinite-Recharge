@@ -41,7 +41,7 @@ public class CommandFactory {
                 ),
                 new ParallelRaceGroup(
                         new RunShooterMotorCommand(shooterSubsystem, 1.0),
-                        new DoWhileTrueCommand(() -> shooterSubsystem.getSpeed() < 10.0),
+                        new DoWhileTrueCommand(() -> shooterSubsystem.getSpeed() < 1000.0), //Velocity is measure in RPM
                         new DoWhileTrueCommand(booleanSupplier),
                         new TrackAmmoCommand(ammoCounterSubsystem, true)
                 ),
