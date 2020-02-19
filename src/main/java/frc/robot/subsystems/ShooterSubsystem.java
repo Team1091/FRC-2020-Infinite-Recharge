@@ -23,6 +23,7 @@ public class ShooterSubsystem extends TunablePidSubsystem {
 
     public ShooterSubsystem() {
         super();
+        secondShooterMotor.setInverted(true);
     }
 
     public void runShooter(double speed) {

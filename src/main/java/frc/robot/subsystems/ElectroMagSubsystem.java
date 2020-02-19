@@ -9,16 +9,20 @@ public class ElectroMagSubsystem extends SubsystemBase {
     private Victor hopperReleaseMotor = new Victor(Constants.PWM.hopperReleaseMotor);
     private Relay electroMagnetRelay = new Relay(Constants.RELAY.electroMag);
 
-    public ElectroMagSubsystem(){
+    public ElectroMagSubsystem() {
         super();
+        hopperReleaseMotor.setInverted(true);
     }
-    public void runHopperReleaseMotor(double speed){
+
+    public void runHopperReleaseMotor(double speed) {
         hopperReleaseMotor.set(speed);
     }
-    public void turnOnElectroMagnet(){
+
+    public void turnOnElectroMagnet() {
         electroMagnetRelay.set(Relay.Value.kOn);
     }
-    public void turnOffElectroMagnet(){
+
+    public void turnOffElectroMagnet() {
         electroMagnetRelay.set(Relay.Value.kOff);
     }
 }
