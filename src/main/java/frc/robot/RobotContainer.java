@@ -29,7 +29,29 @@ public class RobotContainer {
 
     private final VisionSubsystem visionSystem = new VisionSubsystem();
     private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
+
+    private double kP = 6e-5;
+    private double kI = 0;
+    private double kD = 0;
+    private double kIz = 0;
+    private double kFF = 0.000015;
+    private double kMaxOutput = 1;
+    private double kMinOutput = -1;
+    private double maxRPM = 5700;
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+//    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(
+//            Constants.CAN.firstShooterMotor,
+//            Constants.CAN.firstShooterMotor,
+//            0.5,
+//            kP, //how far away you are from the thing its multiplied into yo
+//            kI, //integral, how fast are you going
+//            kD, //derivative
+//            kIz, //idk what this is, tuning to correct frequency
+//            kFF, //kentucky fried fingers, also could be something with frequency
+//            kMaxOutput,
+//            kMinOutput,
+//            maxRPM
+//    );
     private final AimSubsystem aimSubsystem = new AimSubsystem();
     private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();

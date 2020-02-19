@@ -16,9 +16,9 @@ public class CommandFactory {
         return new SequentialCommandGroup(
                 new SetShooterPositionCommand(aimSubsystem, Constants.ShooterPositions.Pickup),
                 new ParallelRaceGroup(
-                        new RunShooterMotorCommand(shooterSubsystem, -0.5),
+                        new RunShooterMotorCommand(shooterSubsystem, 0.5),
                         new RunHopperMotorCommand(hopperSubsystem, 0.5),
-                        new RunPickUpMotorCommand(pickUpSubsystem, -0.5),
+                        new RunPickUpMotorCommand(pickUpSubsystem, 0.5),
                         new DoWhileTrueCommand(booleanSupplier),
                         new TrackAmmoCommand(ammoCounterSubsystem, false)
                 )
@@ -35,18 +35,18 @@ public class CommandFactory {
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
                         new SetShooterPositionCommand(aimSubsystem, Constants.ShooterPositions.Shoot),
-                        new RunShooterMotorCommand(shooterSubsystem, 1.0),
+                        new RunShooterMotorCommand(shooterSubsystem, -1.0),
                         new DoWhileTrueCommand(booleanSupplier),
                         new TrackAmmoCommand(ammoCounterSubsystem, true)
                 ),
                 new ParallelRaceGroup(
-                        new RunShooterMotorCommand(shooterSubsystem, 1.0),
+                        new RunShooterMotorCommand(shooterSubsystem, -1.0),
                         new DoWhileTrueCommand(() -> shooterSubsystem.getSpeed() < 1000.0), //Velocity is measure in RPM
                         new DoWhileTrueCommand(booleanSupplier),
                         new TrackAmmoCommand(ammoCounterSubsystem, true)
                 ),
                 new ParallelRaceGroup(
-                        new RunShooterMotorCommand(shooterSubsystem, 1.0),
+                        new RunShooterMotorCommand(shooterSubsystem, -1.0),
                         new RunHopperMotorCommand(hopperSubsystem, 1.0),
                         new ReleaseAmmoCommand(electroMagSubsystem, 0.6),
                         new DoWhileTrueCommand(booleanSupplier),

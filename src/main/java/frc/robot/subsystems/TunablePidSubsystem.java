@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TunablePidSubsystem extends SubsystemBase {
+    private CANSparkMax motor;
     private CANPIDController pidController;
     private CANEncoder encoder;
     private int canID;
@@ -22,15 +23,16 @@ public class TunablePidSubsystem extends SubsystemBase {
     private double kMinOutput;
     private double maxRPM;
 
-    public TunablePidSubsystem(){
+    protected boolean enableTune = false;
 
-        //TODO: Make a new tab for SmartDashboard
-//        SmartDashboard.
+    public TunablePidSubsystem(){
     }
 
     public void enableTune(CANSparkMax motor, int canID, double speed, double kP, double kI, double kD,
                             double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM) {
-        this.pidController = motor.getPIDController();
+        enableTune = true;
+        this.motor = motor;
+        this.pidController = this.motor.getPIDController();
         this.encoder = motor.getEncoder();
         this.canID = canID;
         this.speed = speed;
@@ -52,7 +54,9 @@ public class TunablePidSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Max Output " + canID, kMaxOutput);
         SmartDashboard.putNumber("Min Output " + canID, kMinOutput);
     }
+
     public void tunePeriodic(){
+        SmartDashboard.putNumber("Test", Math.random());
         // read PID coefficients from SmartDashboard
         double p = SmartDashboard.getNumber("P Gain "+canID, 0);
         double i = SmartDashboard.getNumber("I Gain "+canID, 0);

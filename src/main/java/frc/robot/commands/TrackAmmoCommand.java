@@ -7,7 +7,7 @@ import frc.robot.subsystems.AmmoCounterSubsystem;
 
 
 public class TrackAmmoCommand extends CommandBase {
-    private final double finalBallTravelTimeRequired = 2;
+    private final double finalBallTravelTimeRequired = .5;
 
     private AmmoCounterSubsystem ammoCounterSubsystem;
     private boolean seenPreviously = false;

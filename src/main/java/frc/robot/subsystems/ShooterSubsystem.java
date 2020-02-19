@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import static java.lang.StrictMath.abs;
+
 public class ShooterSubsystem extends TunablePidSubsystem {
     private CANSparkMax firstShooterMotor = new CANSparkMax(Constants.CAN.firstShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax secondShooterMotor = new CANSparkMax(Constants.CAN.secondShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -20,9 +22,26 @@ public class ShooterSubsystem extends TunablePidSubsystem {
     private CANPIDController firstShooterPIDControl = firstShooterMotor.getPIDController();
     private CANPIDController secondShooterPIDControl = firstShooterMotor.getPIDController();
 
-
     public ShooterSubsystem() {
         super();
+        init();
+    }
+
+    public ShooterSubsystem(int motor, int canID, double speed, double kP, double kI, double kD,
+                            double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM)  {
+        super();
+        init();
+
+        if(motor == Constants.CAN.firstShooterMotor){
+            enableTune(firstShooterMotor, canID, speed, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        }
+
+        if(motor == Constants.CAN.secondShooterMotor){
+            enableTune(secondShooterMotor, canID, speed, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        }
+    }
+
+    private void init(){
         secondShooterMotor.setInverted(true);
     }
 
@@ -31,18 +50,23 @@ public class ShooterSubsystem extends TunablePidSubsystem {
         secondShooterMotor.set(speed);
     }
     public double getSpeed() {
-        double percentOff = (secondShooterEncoder.getVelocity() / firstShooterEncoder.getVelocity());
+        var shooterSpeed = 0.0;
+        double percentOff = (abs(secondShooterEncoder.getVelocity()) / abs(firstShooterEncoder.getVelocity()));
         if(percentOff < 1.10 || percentOff > 0.90){
-            return firstShooterEncoder.getVelocity();
+            shooterSpeed = abs(firstShooterEncoder.getVelocity());
         }
         else{
-            return 0.0; //TODO: Replace this check system with a PID loop
+            shooterSpeed = 0.0; //TODO: Replace this check system with a PID loop
         }
+        SmartDashboard.putNumber("Shooter Speed", shooterSpeed);
+        return shooterSpeed;
     }
     @Override
     public void periodic(){
         SmartDashboard.putNumber("First Shooter Speed Encoder", firstShooterEncoder.getVelocity());
         SmartDashboard.putNumber("Second Shooter Speed Encoder", secondShooterEncoder.getVelocity());
-
+        if(super.enableTune){
+            super.tunePeriodic();
+        }
     }
 }
