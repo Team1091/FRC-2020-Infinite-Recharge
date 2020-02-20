@@ -18,6 +18,7 @@ public class AimSubsystem extends SubsystemBase {
 
     public AimSubsystem() {
         super();
+        aimMotor.setInverted(Constants.aimMotorInverted);
     }
 
 

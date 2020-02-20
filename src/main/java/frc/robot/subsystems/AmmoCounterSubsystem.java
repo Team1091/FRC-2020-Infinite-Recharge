@@ -4,6 +4,7 @@ import com.revrobotics.Rev2mDistanceSensor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 
 
 public class AmmoCounterSubsystem extends SubsystemBase {
@@ -36,9 +37,11 @@ public class AmmoCounterSubsystem extends SubsystemBase {
         return ammoCount == 0;
     }
 
-    public void reset() {
-        ammoCount = 0;
-    }
+    public void setAmmo(int ammo){ ammoCount = MathUtil.clamp(ammo, 0, maxCapacity); }
+
+    public int getAmmo() { return ammoCount; }
+
+    public void reset() { ammoCount = 0; }
 
     @Override
     public void periodic() {

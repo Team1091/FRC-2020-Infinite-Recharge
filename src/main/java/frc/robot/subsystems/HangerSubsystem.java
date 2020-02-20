@@ -9,6 +9,7 @@ public class HangerSubsystem extends SubsystemBase {
 
     public HangerSubsystem(){
         super();
+        liftMotor.setInverted(Constants.liftMotorInverted);
     }
 
     public void runLiftMotor(double speed){

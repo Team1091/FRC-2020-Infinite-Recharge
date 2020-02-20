@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.commands.autonomous.DriveForwardsCommand;
+import frc.robot.commands.PidTuning.PidTuningCommand;
 import frc.robot.commands.autonomous.TurnCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,40 +30,7 @@ public class RobotContainer {
     private final VisionSubsystem visionSystem = new VisionSubsystem();
     private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
 
-    private double kP = 6e-5;
-    private double kI = 0;
-    private double kD = 0;
-    private double kIz = 0;
-    private double kFF = 0.000015;
-    private double kMaxOutput = 1;
-    private double kMinOutput = -1;
-    private double maxRPM = 5500;
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-//    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(
-//            Constants.CAN.firstShooterMotor,
-//            Constants.CAN.firstShooterMotor,
-//            kP, //how far away you are from the thing its multiplied into yo
-//            kI, //integral, how fast are you going
-//            kD, //derivative
-//            kIz, //idk what this is, tuning to correct frequency
-//            kFF, //kentucky fried fingers, also could be something with frequency
-//            kMaxOutput,
-//            kMinOutput,
-//            maxRPM
-//    );
-//    private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(
-//            Constants.CAN.firstLeftDriveMotor,
-//            Constants.CAN.firstLeftDriveMotor,
-//            0.5,
-//            kP, //how far away you are from the thing its multiplied into yo
-//            kI, //integral, how fast are you going
-//            kD, //derivative
-//            kIz, //idk what this is, tuning to correct frequency
-//            kFF, //kentucky fried fingers, also could be something with frequency
-//            kMaxOutput,
-//            kMinOutput,
-//            maxRPM
-//    );
     private final AimSubsystem aimSubsystem = new AimSubsystem();
     private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
@@ -96,7 +63,13 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncodersCommand(drivetrain));
-        SmartDashboard.putData("Reset Ammo", new ResetAmmoCommand(ammoCounterSubsystem));
+        SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
+        SmartDashboard.putData("Increment Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() + 1));
+        SmartDashboard.putData("Decrement Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() - 1));
+        SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
+        SmartDashboard.putData("Run Drive Pid Tuning", new PidTuningCommand(drivetrain));
+        SmartDashboard.putData("Run Shooter Pid Tuning", new PidTuningCommand(shooterSubsystem));
+
         var leftbumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftbumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,

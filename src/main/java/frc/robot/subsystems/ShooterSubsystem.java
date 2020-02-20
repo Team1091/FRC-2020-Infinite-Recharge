@@ -4,57 +4,50 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.util.PIDTuner;
 
 import static java.lang.StrictMath.abs;
 
-public class ShooterSubsystem extends TunablePidSubsystem {
-    private CANSparkMax firstShooterMotor = new CANSparkMax(Constants.CAN.firstShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANSparkMax secondShooterMotor = new CANSparkMax(Constants.CAN.secondShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANEncoder firstShooterEncoder = new CANEncoder(firstShooterMotor);
-    private CANEncoder secondShooterEncoder = new CANEncoder(secondShooterMotor);
-
-    private CANPIDController firstShooterPIDControl = firstShooterMotor.getPIDController();
-    private CANPIDController secondShooterPIDControl = firstShooterMotor.getPIDController();
+public class ShooterSubsystem extends PIDTunableSubsystem {
+    private CANSparkMax leftShooterMotor = new CANSparkMax(Constants.CAN.leftShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANSparkMax rightShooterMotor = new CANSparkMax(Constants.CAN.rightShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private CANEncoder leftShooterEncoder = new CANEncoder(leftShooterMotor);
+    private CANEncoder rightShooterEncoder = new CANEncoder(rightShooterMotor);
 
     public ShooterSubsystem() {
         super();
-        init();
+        rightShooterMotor.setInverted(Constants.rightShooterMotorInverted);
+        leftShooterMotor.setInverted(Constants.leftShooterMotorInverted);
     }
 
-    public ShooterSubsystem(int motor, int canID, double kP, double kI, double kD,
-                            double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM) {
-        super();
-        init();
-
-        if (motor == Constants.CAN.firstShooterMotor) {
-            enableTune(firstShooterMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
-        }
-
-        if (motor == Constants.CAN.secondShooterMotor) {
-            enableTune(secondShooterMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
-        }
-    }
-
-    private void init() {
-        secondShooterMotor.setInverted(true);
+    @Override
+    public PIDTuner[] getPidTuners() {
+        var pidTuners = new PIDTuner[2];
+        pidTuners[0] = new PIDTuner(leftShooterMotor, "Shooter1");
+        pidTuners[1] = new PIDTuner(rightShooterMotor, "Shooter2");
+        return pidTuners;
     }
 
     public void runShooter(double speed) {
-        firstShooterMotor.set(speed);
-        secondShooterMotor.set(speed);
+        leftShooterMotor.set(speed);
+        rightShooterMotor.set(speed);
+    }
+
+    public CANPIDController getPIDRightController() {
+        return rightShooterMotor.getPIDController();
+    }
+
+    public CANPIDController getPIDLeftController() {
+        return leftShooterMotor.getPIDController();
     }
 
     public double getSpeed() {
         var shooterSpeed = 0.0;
-        double percentOff = (abs(secondShooterEncoder.getVelocity()) / abs(firstShooterEncoder.getVelocity()));
+        double percentOff = (abs(rightShooterEncoder.getVelocity()) / abs(leftShooterEncoder.getVelocity()));
         if (percentOff < 1.10 || percentOff > 0.90) {
-            shooterSpeed = abs(firstShooterEncoder.getVelocity());
+            shooterSpeed = abs(leftShooterEncoder.getVelocity());
         } else {
             shooterSpeed = 0.0; //TODO: Replace this check system with a PID loop
         }
@@ -64,10 +57,7 @@ public class ShooterSubsystem extends TunablePidSubsystem {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("First Shooter Speed Encoder", firstShooterEncoder.getVelocity());
-        SmartDashboard.putNumber("Second Shooter Speed Encoder", secondShooterEncoder.getVelocity());
-        if (super.enableTune) {
-            super.tunePeriodic();
-        }
+        SmartDashboard.putNumber("First Shooter Speed Encoder", leftShooterEncoder.getVelocity());
+        SmartDashboard.putNumber("Second Shooter Speed Encoder", rightShooterEncoder.getVelocity());
     }
 }

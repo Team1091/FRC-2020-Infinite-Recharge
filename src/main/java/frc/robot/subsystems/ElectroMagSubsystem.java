@@ -11,7 +11,7 @@ public class ElectroMagSubsystem extends SubsystemBase {
 
     public ElectroMagSubsystem() {
         super();
-        hopperReleaseMotor.setInverted(true);
+        hopperReleaseMotor.setInverted(Constants.hopperReleaseMotorInverted);
     }
 
     public void runHopperReleaseMotor(double speed) {

@@ -7,8 +7,9 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.util.PIDTuner;
 
-public class DriveTrainSubsystem extends TunablePidSubsystem {
+public class DriveTrainSubsystem extends PIDTunableSubsystem {
 
     private CANSparkMax firstLeftMotor = new CANSparkMax(Constants.CAN.firstLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax secondLeftMotor = new CANSparkMax(Constants.CAN.secondLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -25,33 +26,24 @@ public class DriveTrainSubsystem extends TunablePidSubsystem {
 
     public DriveTrainSubsystem() {
         super();
-//        leftMotorGearbox.setInverted(true);
-//        rightMotorGearbox.setInverted(true);
+        firstRightMotor.setInverted(Constants.rightDriveMotorInverted);
+        secondRightMotor.setInverted(Constants.rightDriveMotorInverted);
+        firstLeftMotor.setInverted(Constants.leftDriveMotorInverted);
+        secondLeftMotor.setInverted(Constants.leftDriveMotorInverted);
+
         SmartDashboard.putNumber("Left motor", firstLeftMotor.get());
         SmartDashboard.putNumber("Right Motor", firstRightMotor.get());
     }
 
-    public DriveTrainSubsystem(int motor, int canID, double speed, double kP, double kI, double kD,
-                               double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM) {
-        super();
-        SmartDashboard.putNumber("Left motor", firstLeftMotor.get());
-        SmartDashboard.putNumber("Right Motor", firstRightMotor.get());
-
-        if (motor == Constants.CAN.firstLeftDriveMotor) {
-            enableTune(firstLeftMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
-        }
-        if (motor == Constants.CAN.firstRightDriveMotor) {
-            enableTune(firstRightMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
-        }
-        if (motor == Constants.CAN.secondLeftDriveMotor) {
-            enableTune(secondLeftMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
-        }
-        if (motor == Constants.CAN.secondRightDriveMotor) {
-            enableTune(secondRightMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
-        }
-
+    @Override
+    public PIDTuner[] getPidTuners() {
+        var tuners = new PIDTuner[4];
+        tuners[1] = new PIDTuner(firstLeftMotor, "DriveL1");
+        tuners[2] = new PIDTuner(secondLeftMotor, "DriveL2");
+        tuners[1] = new PIDTuner(firstRightMotor, "DriveR1");
+        tuners[1] = new PIDTuner(secondRightMotor, "DriveR2");
+        return tuners;
     }
-
 
     public void doArcadeDrive(double speed, double rotation) {
         drive.arcadeDrive(speed, rotation);
