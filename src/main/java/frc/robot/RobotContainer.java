@@ -37,11 +37,23 @@ public class RobotContainer {
     private double kFF = 0.000015;
     private double kMaxOutput = 1;
     private double kMinOutput = -1;
-    private double maxRPM = 5700;
+    private double maxRPM = 5500;
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 //    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem(
 //            Constants.CAN.firstShooterMotor,
 //            Constants.CAN.firstShooterMotor,
+//            kP, //how far away you are from the thing its multiplied into yo
+//            kI, //integral, how fast are you going
+//            kD, //derivative
+//            kIz, //idk what this is, tuning to correct frequency
+//            kFF, //kentucky fried fingers, also could be something with frequency
+//            kMaxOutput,
+//            kMinOutput,
+//            maxRPM
+//    );
+//    private final DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(
+//            Constants.CAN.firstLeftDriveMotor,
+//            Constants.CAN.firstLeftDriveMotor,
 //            0.5,
 //            kP, //how far away you are from the thing its multiplied into yo
 //            kI, //integral, how fast are you going
@@ -73,7 +85,7 @@ public class RobotContainer {
 
         hangerSubsystem.setDefaultCommand(new ControlHangerCommand(
                 hangerSubsystem,
-                ()-> xbox.getY(GenericHID.Hand.kRight)));
+                () -> xbox.getY(GenericHID.Hand.kRight)));
     }
 
     /**
@@ -114,13 +126,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-       // return new ExampleCommand(new ExampleSubsystem());
+        // return new ExampleCommand(new ExampleSubsystem());
         return new SequentialCommandGroup(
-                new DriveForwardsCommand(drivetrain, 2.5),
-                new TurnCommand(drivetrain, -90.0),
-                new DriveForwardsCommand(drivetrain, 5.0),
-                new TurnCommand(drivetrain, -90.0),
-                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, ()->true)
+                //new DriveForwardsCommand(drivetrain, 2.5),
+                new TurnCommand(drivetrain, -180.0)
+                //new DriveForwardsCommand(drivetrain, 5.0),
+                //new TurnCommand(drivetrain, -90.0),
+                //CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, () -> true)
                 //todo CHANGE THIS
 
         );

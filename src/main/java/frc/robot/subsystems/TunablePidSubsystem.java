@@ -28,14 +28,14 @@ public class TunablePidSubsystem extends SubsystemBase {
     public TunablePidSubsystem(){
     }
 
-    public void enableTune(CANSparkMax motor, int canID, double speed, double kP, double kI, double kD,
+    public void enableTune(CANSparkMax motor, int canID, double kP, double kI, double kD,
                             double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM) {
         enableTune = true;
+        motor.restoreFactoryDefaults();
         this.motor = motor;
         this.pidController = this.motor.getPIDController();
         this.encoder = motor.getEncoder();
         this.canID = canID;
-        this.speed = speed;
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
@@ -53,10 +53,10 @@ public class TunablePidSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Feed Forward " + canID, kFF);
         SmartDashboard.putNumber("Max Output " + canID, kMaxOutput);
         SmartDashboard.putNumber("Min Output " + canID, kMinOutput);
+        SmartDashboard.putNumber("speed " + canID, 0);
     }
 
     public void tunePeriodic(){
-        SmartDashboard.putNumber("Test", Math.random());
         // read PID coefficients from SmartDashboard
         double p = SmartDashboard.getNumber("P Gain "+canID, 0);
         double i = SmartDashboard.getNumber("I Gain "+canID, 0);
@@ -65,6 +65,7 @@ public class TunablePidSubsystem extends SubsystemBase {
         double ff = SmartDashboard.getNumber("Feed Forward "+canID, 0);
         double max = SmartDashboard.getNumber("Max Output "+canID, 0);
         double min = SmartDashboard.getNumber("Min Output "+canID, 0);
+        double speed = SmartDashboard.getNumber("Target Speed "+canID, .5);
 
         // if PID coefficients on SmartDashboard have changed, write new values to controller
         if((p != kP)) { pidController.setP(p); kP = p; }
@@ -94,7 +95,7 @@ public class TunablePidSubsystem extends SubsystemBase {
         double setPoint = speed*maxRPM; //TODO: possibly move this so that this command is not taking in the speed every time it's scheduled
         pidController.setReference(setPoint, ControlType.kVelocity);
 
-        SmartDashboard.putNumber("SetPoint", setPoint);
-        SmartDashboard.putNumber("ProcessVariable", encoder.getVelocity());
+        SmartDashboard.putNumber("SetPoint " + canID, setPoint);
+        SmartDashboard.putNumber("ProcessVariable " + canID, encoder.getVelocity());
     }
 }

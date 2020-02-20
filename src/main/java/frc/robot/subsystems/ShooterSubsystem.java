@@ -27,21 +27,21 @@ public class ShooterSubsystem extends TunablePidSubsystem {
         init();
     }
 
-    public ShooterSubsystem(int motor, int canID, double speed, double kP, double kI, double kD,
-                            double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM)  {
+    public ShooterSubsystem(int motor, int canID, double kP, double kI, double kD,
+                            double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM) {
         super();
         init();
 
-        if(motor == Constants.CAN.firstShooterMotor){
-            enableTune(firstShooterMotor, canID, speed, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        if (motor == Constants.CAN.firstShooterMotor) {
+            enableTune(firstShooterMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
         }
 
-        if(motor == Constants.CAN.secondShooterMotor){
-            enableTune(secondShooterMotor, canID, speed, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        if (motor == Constants.CAN.secondShooterMotor) {
+            enableTune(secondShooterMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
         }
     }
 
-    private void init(){
+    private void init() {
         secondShooterMotor.setInverted(true);
     }
 
@@ -49,23 +49,24 @@ public class ShooterSubsystem extends TunablePidSubsystem {
         firstShooterMotor.set(speed);
         secondShooterMotor.set(speed);
     }
+
     public double getSpeed() {
         var shooterSpeed = 0.0;
         double percentOff = (abs(secondShooterEncoder.getVelocity()) / abs(firstShooterEncoder.getVelocity()));
-        if(percentOff < 1.10 || percentOff > 0.90){
+        if (percentOff < 1.10 || percentOff > 0.90) {
             shooterSpeed = abs(firstShooterEncoder.getVelocity());
-        }
-        else{
+        } else {
             shooterSpeed = 0.0; //TODO: Replace this check system with a PID loop
         }
         SmartDashboard.putNumber("Shooter Speed", shooterSpeed);
         return shooterSpeed;
     }
+
     @Override
-    public void periodic(){
+    public void periodic() {
         SmartDashboard.putNumber("First Shooter Speed Encoder", firstShooterEncoder.getVelocity());
         SmartDashboard.putNumber("Second Shooter Speed Encoder", secondShooterEncoder.getVelocity());
-        if(super.enableTune){
+        if (super.enableTune) {
             super.tunePeriodic();
         }
     }

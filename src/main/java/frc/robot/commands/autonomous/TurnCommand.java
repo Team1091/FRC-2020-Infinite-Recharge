@@ -1,5 +1,6 @@
 package frc.robot.commands.autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.util.AccelerationCurve;
@@ -26,10 +27,10 @@ public class TurnCommand extends CommandBase {
     @Override
     public void execute() {
         if (turnDistance < 0){
-            driveTrainSubsystem.doArcadeDrive(0,-0.5); //add acceleration curve if time prevalent
+            driveTrainSubsystem.doArcadeDrive(0,-0.7); //add acceleration curve if time prevalent
         }
         if (turnDistance > 0){
-            driveTrainSubsystem.doArcadeDrive(0,0.5); //add acceleration curve if time prevalent
+            driveTrainSubsystem.doArcadeDrive(0,0.7); //add acceleration curve if time prevalent
         }
     }
 
@@ -42,6 +43,7 @@ public class TurnCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        SmartDashboard.putNumber("Rotation", driveTrainSubsystem.getRotation());
         if (turnDistance > 0) {
             if (driveTrainSubsystem.getRotation() >= turnDistance){
                 return true;

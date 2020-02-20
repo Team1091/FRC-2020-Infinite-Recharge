@@ -18,17 +18,40 @@ public class DriveTrainSubsystem extends TunablePidSubsystem {
     private CANEncoder leftEncoder = new CANEncoder(firstLeftMotor);
     private CANEncoder rightEncoder = new CANEncoder(firstRightMotor);
 
-    private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor,secondLeftMotor);
+    private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor, secondLeftMotor);
     private SpeedControllerGroup rightMotorGearbox = new SpeedControllerGroup(firstRightMotor, secondRightMotor);
 
-    private final DifferentialDrive drive = new DifferentialDrive(leftMotorGearbox,rightMotorGearbox);
+    private final DifferentialDrive drive = new DifferentialDrive(rightMotorGearbox, leftMotorGearbox);
 
     public DriveTrainSubsystem() {
+        super();
+//        leftMotorGearbox.setInverted(true);
+//        rightMotorGearbox.setInverted(true);
+        SmartDashboard.putNumber("Left motor", firstLeftMotor.get());
+        SmartDashboard.putNumber("Right Motor", firstRightMotor.get());
+    }
+
+    public DriveTrainSubsystem(int motor, int canID, double speed, double kP, double kI, double kD,
+                               double kIz, double kFF, double kMaxOutput, double kMinOutput, double maxRPM) {
         super();
         SmartDashboard.putNumber("Left motor", firstLeftMotor.get());
         SmartDashboard.putNumber("Right Motor", firstRightMotor.get());
 
+        if (motor == Constants.CAN.firstLeftDriveMotor) {
+            enableTune(firstLeftMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        }
+        if (motor == Constants.CAN.firstRightDriveMotor) {
+            enableTune(firstRightMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        }
+        if (motor == Constants.CAN.secondLeftDriveMotor) {
+            enableTune(secondLeftMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        }
+        if (motor == Constants.CAN.secondRightDriveMotor) {
+            enableTune(secondRightMotor, canID, kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM);
+        }
+
     }
+
 
     public void doArcadeDrive(double speed, double rotation) {
         drive.arcadeDrive(speed, rotation);
@@ -42,9 +65,15 @@ public class DriveTrainSubsystem extends TunablePidSubsystem {
     public double getDistance() {
         return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
     }
-    public double getRotation(){
-        return leftEncoder.getPosition()-rightEncoder.getPosition();
+
+    public double getRotation() {
+        double rotationTicks = leftEncoder.getPosition() - rightEncoder.getPosition();
+        final double fullRotate = 30;
+        final double rotationDeg = rotationTicks/fullRotate;
+        final double circle = 360;
+        return rotationDeg*circle;
     }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Left Encoder", leftEncoder.getPosition());
