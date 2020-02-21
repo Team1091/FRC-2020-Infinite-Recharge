@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.commands.PidTuning.PidTuningCommand;
+import frc.robot.commands.autonomous.DriveForwardsCommand;
 import frc.robot.commands.autonomous.TurnCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -102,8 +103,8 @@ public class RobotContainer {
         // return new ExampleCommand(new ExampleSubsystem());
         return new SequentialCommandGroup(
                 //new DriveForwardsCommand(drivetrain, 2.5),
-                new TurnCommand(drivetrain, -180.0)
-                //new DriveForwardsCommand(drivetrain, 5.0),
+                //new TurnCommand(drivetrain, 180.0)
+                new DriveForwardsCommand(drivetrain, 5.0)
                 //new TurnCommand(drivetrain, -90.0),
                 //CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, () -> true)
                 //todo CHANGE THIS

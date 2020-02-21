@@ -38,10 +38,10 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
     @Override
     public PIDTuner[] getPidTuners() {
         var tuners = new PIDTuner[4];
-        tuners[1] = new PIDTuner(firstLeftMotor, "DriveL1");
-        tuners[2] = new PIDTuner(secondLeftMotor, "DriveL2");
-        tuners[1] = new PIDTuner(firstRightMotor, "DriveR1");
-        tuners[1] = new PIDTuner(secondRightMotor, "DriveR2");
+        tuners[0] = new PIDTuner(firstLeftMotor, "DriveL1");
+        tuners[1] = new PIDTuner(secondLeftMotor, "DriveL2");
+        tuners[2] = new PIDTuner(firstRightMotor, "DriveR1");
+        tuners[3] = new PIDTuner(secondRightMotor, "DriveR2");
         return tuners;
     }
 
@@ -58,12 +58,23 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
         return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
     }
 
+    public double getDistancefeet(){
+        var distance = getDistance();
+        return distance/Constants.encoderToFooRatio;
+
+    }
+
     public double getRotation() {
         double rotationTicks = leftEncoder.getPosition() - rightEncoder.getPosition();
         final double fullRotate = 30;
         final double rotationDeg = rotationTicks/fullRotate;
         final double circle = 360;
         return rotationDeg*circle;
+    }
+
+    public void setMotorSpeed (double left, double right) {
+        leftMotorGearbox.set(left);
+        rightMotorGearbox.set(right);
     }
 
     @Override

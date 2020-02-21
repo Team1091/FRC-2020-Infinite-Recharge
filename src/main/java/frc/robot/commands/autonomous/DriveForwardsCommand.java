@@ -24,7 +24,7 @@ public class DriveForwardsCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        speedCurve.set(1);
+        speedCurve.set(-1);
         driveTrainSubsystem.doArcadeDrive(speedCurve.getCurrentSpeed(),0);
     }
 
@@ -37,6 +37,6 @@ public class DriveForwardsCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return this.driveTrainSubsystem.getDistance() > distanceToTravel;
+        return this.driveTrainSubsystem.getDistancefeet() > distanceToTravel;
     }
 }

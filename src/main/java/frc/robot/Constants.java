@@ -17,14 +17,16 @@ package frc.robot;
  */
 public final class Constants {
     public static final boolean intakeMotorInverted = false;
-    public static final boolean hopperMotorInverted = false;
+    public static final boolean hopperMotorInverted = true;
     public static final boolean liftMotorInverted = false;
-    public static final boolean hopperReleaseMotorInverted = false;
+    public static final boolean hopperReleaseMotorInverted = true;
     public static final boolean rightDriveMotorInverted = false;
     public static final boolean leftDriveMotorInverted = false;
     public static final boolean aimMotorInverted = false;
     public static final boolean rightShooterMotorInverted = true;
     public static final boolean leftShooterMotorInverted = false;
+
+    public static final double encoderToFooRatio = 4.16424275; //dis many encoodur toocks is rouflee 1 fut
 
     public final class PWM {
         public static final int intakeMotor = 1;

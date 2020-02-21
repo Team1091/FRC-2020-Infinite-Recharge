@@ -14,7 +14,7 @@ public class AimSubsystem extends SubsystemBase {
     private CANEncoder aimMotorEncoder = new CANEncoder(aimMotor);
     private DigitalInput pickUpLimitSwitch = new DigitalInput(Constants.DIO.pickUpLimitSwitch);
     private DigitalInput shooterLimitSwitch = new DigitalInput(Constants.DIO.shooterLimitSwitch);
-    private final double aimMotorSpeed = 0.5;
+    private final double aimMotorSpeed = 1.0;
 
     public AimSubsystem() {
         super();
@@ -27,7 +27,6 @@ public class AimSubsystem extends SubsystemBase {
     }
 
     public void goToShootPosition() {
-        runAimMotor(0);
         if (shooterLimitSwitch.get()) {
             return;
         }
@@ -35,7 +34,6 @@ public class AimSubsystem extends SubsystemBase {
     }
 
     public void goToPickupPosition() {
-        runAimMotor(0);
         if (pickUpLimitSwitch.get()) {
             aimMotorEncoder.setPosition(0);
             return;
