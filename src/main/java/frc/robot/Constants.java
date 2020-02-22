@@ -26,7 +26,7 @@ public final class Constants {
     public static final boolean rightShooterMotorInverted = true;
     public static final boolean leftShooterMotorInverted = false;
 
-    public static final double encoderToFooRatio = 4.16424275; //dis many encoodur toocks is rouflee 1 fut
+    public static final double encoderToFootRatio = 4.16424275; //dis many encoder ticks is 1 foot
 
     public final class PWM {
         public static final int intakeMotor = 1;

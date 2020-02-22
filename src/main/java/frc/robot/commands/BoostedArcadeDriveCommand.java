@@ -8,18 +8,18 @@ import java.util.function.DoubleSupplier;
 
 public class BoostedArcadeDriveCommand extends CommandBase {
 
-    private DriveTrainSubsystem drivetrain;
+    private DriveTrainSubsystem driveTrain;
     private DoubleSupplier speed;
     private DoubleSupplier turn;
     private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, 1.0);
     private final AccelerationCurve rotationCurve = new AccelerationCurve(4, .375, 1.0);
 
-    public BoostedArcadeDriveCommand(DoubleSupplier speed, DoubleSupplier turn, DriveTrainSubsystem drivetrain){
+    public BoostedArcadeDriveCommand(DoubleSupplier speed, DoubleSupplier turn, DriveTrainSubsystem driveTrain){
         this.speed = speed;
         this.turn = turn;
-        this.drivetrain = drivetrain;
+        this.driveTrain = driveTrain;
 
-        addRequirements(drivetrain);
+        addRequirements(driveTrain);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -27,13 +27,13 @@ public class BoostedArcadeDriveCommand extends CommandBase {
     public void execute() {
         speedCurve.set(speed.getAsDouble());
         rotationCurve.set(turn.getAsDouble());
-        drivetrain.doArcadeDrive(speedCurve.getCurrentSpeed(),rotationCurve.getCurrentSpeed());
+        driveTrain.doArcadeDrive(speedCurve.getCurrentSpeed(),rotationCurve.getCurrentSpeed());
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        drivetrain.doArcadeDrive(0,0);
+        driveTrain.doArcadeDrive(0,0);
     }
 
     // Returns true when the command should end.

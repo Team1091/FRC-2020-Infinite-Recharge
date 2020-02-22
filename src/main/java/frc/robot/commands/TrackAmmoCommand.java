@@ -63,7 +63,7 @@ public class TrackAmmoCommand extends CommandBase {
              return ammoCounterSubsystem.outOfAmmo();
          }
          //If picking up balls final ball needs to travel to top of hopper
-         if (ammoCounterSubsystem.atMaxCapcity() && !timerStarted){
+         if (ammoCounterSubsystem.atMaxCapacity() && !timerStarted){
              timerStarted = true;
              timer.start();
          }

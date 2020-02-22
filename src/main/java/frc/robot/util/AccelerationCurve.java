@@ -21,28 +21,28 @@ public class AccelerationCurve {
         set(input, minimumPower, maximumPower);
     }
 
-    public void set(double input, double minPowerOveride, double maxPowerOverride){
+    public void set(double input, double minPowerOverride, double maxPowerOverride){
         double seconds = timer.get();
         timer.reset();
 
-        double velocitychange = acceleration * seconds;
+        double velocityChange = acceleration * seconds;
         if (input == 0)
             currentSpeed = 0;
         else if (input > 0) {
             if (currentSpeed >= 0) {
-                currentSpeed = (input > currentSpeed) ? currentSpeed + velocitychange : input;
-                currentSpeed = MathUtil.clamp(currentSpeed, minPowerOveride, maxPowerOverride);
+                currentSpeed = (input > currentSpeed) ? currentSpeed + velocityChange : input;
+                currentSpeed = MathUtil.clamp(currentSpeed, minPowerOverride, maxPowerOverride);
             }
             else
-                currentSpeed = minPowerOveride;
+                currentSpeed = minPowerOverride;
 
         } else if (input < 0) {
             if (currentSpeed <= 0) {
-                currentSpeed = (input < currentSpeed) ? currentSpeed - velocitychange : input;
-                currentSpeed = MathUtil.clamp(currentSpeed, -maxPowerOverride, -minPowerOveride);
+                currentSpeed = (input < currentSpeed) ? currentSpeed - velocityChange : input;
+                currentSpeed = MathUtil.clamp(currentSpeed, -maxPowerOverride, -minPowerOverride);
             }
             else
-                currentSpeed = -minPowerOveride;
+                currentSpeed = -minPowerOverride;
         }
     }
 

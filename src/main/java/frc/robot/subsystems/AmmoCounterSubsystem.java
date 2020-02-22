@@ -29,7 +29,7 @@ public class AmmoCounterSubsystem extends SubsystemBase {
         ammoCount--;
     }
 
-    public boolean atMaxCapcity(){
+    public boolean atMaxCapacity(){
         return ammoCount >= maxCapacity;
     }
 
