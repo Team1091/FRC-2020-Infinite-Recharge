@@ -47,11 +47,6 @@ public class SetShooterPositionCommand extends CommandBase {
             return true;
         }
 
-        if(position == 2 && aimSubsystem.isInShootPosition()){
-            return true;
-        }
-
-
-        return false;
+        return position == 2 && aimSubsystem.isInShootPosition();
     }
 }

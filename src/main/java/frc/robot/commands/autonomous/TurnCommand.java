@@ -45,13 +45,9 @@ public class TurnCommand extends CommandBase {
     public boolean isFinished() {
         SmartDashboard.putNumber("Rotation", driveTrainSubsystem.getRotation());
         if (turnDistance > 0) {
-            if (driveTrainSubsystem.getRotation() >= turnDistance) {
-                return true;
-            }
+            return driveTrainSubsystem.getRotation() >= turnDistance;
         } else if (turnDistance < 0) {
-            if (driveTrainSubsystem.getRotation() <= turnDistance) {
-                return true;
-            }
+            return driveTrainSubsystem.getRotation() <= turnDistance;
         }
 
         return false;

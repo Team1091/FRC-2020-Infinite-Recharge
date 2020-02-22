@@ -70,11 +70,8 @@ public class AimSubsystem extends SubsystemBase {
         if (aimMotorEncoder.getPosition() == position) {
             return true;
         }
-        if (aimMotorEncoder.getPosition() <= position + delta &&
-                aimMotorEncoder.getPosition() >= position - delta) {
-            return true;
-        }
-        return false;
+        return aimMotorEncoder.getPosition() <= position + delta &&
+                aimMotorEncoder.getPosition() >= position - delta;
     }
 
     private int clampAimPosition(int position){

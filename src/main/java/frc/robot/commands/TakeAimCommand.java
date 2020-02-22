@@ -31,12 +31,9 @@ public class TakeAimCommand extends CommandBase {
     public boolean targetCloseEnough() {
         var distance = visionSubsystem.getDistanceToTarget();
         //1 are we within the DISTANCE ????
-        if (Math.abs(distance - desiredDistance) < desiredDistanceDelta) {
-            return true;
-        }
+        return Math.abs(distance - desiredDistance) < desiredDistanceDelta;
         //2 direction
-        return false;
-        //3 how far away :)
+//3 how far away :)
     }
 
 
