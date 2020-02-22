@@ -14,7 +14,7 @@ public class PidTuningCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        for(var tuner : tuners){
+        for (var tuner : tuners) {
             tuner.init();
         }
     }
@@ -22,7 +22,7 @@ public class PidTuningCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        for(var tuner : tuners){
+        for (var tuner : tuners) {
             tuner.run();
         }
     }

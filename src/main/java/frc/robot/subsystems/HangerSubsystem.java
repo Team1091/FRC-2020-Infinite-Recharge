@@ -7,12 +7,12 @@ import frc.robot.Constants;
 public class HangerSubsystem extends SubsystemBase {
     private Victor liftMotor = new Victor(Constants.PWM.liftMotor);
 
-    public HangerSubsystem(){
+    public HangerSubsystem() {
         super();
         liftMotor.setInverted(Constants.liftMotorInverted);
     }
 
-    public void runLiftMotor(double speed){
+    public void runLiftMotor(double speed) {
         liftMotor.set(speed);
     }
 }

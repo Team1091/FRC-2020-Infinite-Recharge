@@ -2,13 +2,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.AmmoCounterSubsystem;
-import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class SetAmmoCommand extends CommandBase {
     private AmmoCounterSubsystem ammoCounterSubsystem;
     private int ammo;
 
-    public SetAmmoCommand(AmmoCounterSubsystem ammoCounterSubsystem, int ammo){
+    public SetAmmoCommand(AmmoCounterSubsystem ammoCounterSubsystem, int ammo) {
         this.ammoCounterSubsystem = ammoCounterSubsystem;
         this.ammo = ammo;
         addRequirements(ammoCounterSubsystem);

@@ -6,7 +6,8 @@ import java.util.function.BooleanSupplier;
 
 public class DoWhileTrueCommand extends CommandBase {
     BooleanSupplier isNotDone;
-    public DoWhileTrueCommand(BooleanSupplier isNotDone){
+
+    public DoWhileTrueCommand(BooleanSupplier isNotDone) {
         this.isNotDone = isNotDone;
     }
 

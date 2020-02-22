@@ -39,34 +39,50 @@ public class PIDAdjustCommand extends CommandBase {
         this.maxRPM = maxRPM;
 
         //These need to run once
-        SmartDashboard.putNumber("P Gain "+canID, kP);
-        SmartDashboard.putNumber("I Gain "+canID, kI);
-        SmartDashboard.putNumber("D Gain "+canID, kD);
-        SmartDashboard.putNumber("I Zone "+canID, kIz);
-        SmartDashboard.putNumber("Feed Forward "+canID, kFF);
-        SmartDashboard.putNumber("Max Output "+canID, kMaxOutput);
-        SmartDashboard.putNumber("Min Output "+canID, kMinOutput);
+        SmartDashboard.putNumber("P Gain " + canID, kP);
+        SmartDashboard.putNumber("I Gain " + canID, kI);
+        SmartDashboard.putNumber("D Gain " + canID, kD);
+        SmartDashboard.putNumber("I Zone " + canID, kIz);
+        SmartDashboard.putNumber("Feed Forward " + canID, kFF);
+        SmartDashboard.putNumber("Max Output " + canID, kMaxOutput);
+        SmartDashboard.putNumber("Min Output " + canID, kMinOutput);
     }
 
-    public void execute(){
+    public void execute() {
         // read PID coefficients from SmartDashboard
-        double p = SmartDashboard.getNumber("P Gain "+canID, 0);
-        double i = SmartDashboard.getNumber("I Gain "+canID, 0);
-        double d = SmartDashboard.getNumber("D Gain "+canID, 0);
-        double iz = SmartDashboard.getNumber("I Zone "+canID, 0);
-        double ff = SmartDashboard.getNumber("Feed Forward "+canID, 0);
-        double max = SmartDashboard.getNumber("Max Output "+canID, 0);
-        double min = SmartDashboard.getNumber("Min Output "+canID, 0);
+        double p = SmartDashboard.getNumber("P Gain " + canID, 0);
+        double i = SmartDashboard.getNumber("I Gain " + canID, 0);
+        double d = SmartDashboard.getNumber("D Gain " + canID, 0);
+        double iz = SmartDashboard.getNumber("I Zone " + canID, 0);
+        double ff = SmartDashboard.getNumber("Feed Forward " + canID, 0);
+        double max = SmartDashboard.getNumber("Max Output " + canID, 0);
+        double min = SmartDashboard.getNumber("Min Output " + canID, 0);
 
         // if PID coefficients on SmartDashboard have changed, write new values to controller
-        if((p != kP)) { pidController.setP(p); kP = p; }
-        if((i != kI)) { pidController.setI(i); kI = i; }
-        if((d != kD)) { pidController.setD(d); kD = d; }
-        if((iz != kIz)) { pidController.setIZone(iz); kIz = iz; }
-        if((ff != kFF)) { pidController.setFF(ff); kFF = ff; }
-        if((max != kMaxOutput) || (min != kMinOutput)) {
+        if ((p != kP)) {
+            pidController.setP(p);
+            kP = p;
+        }
+        if ((i != kI)) {
+            pidController.setI(i);
+            kI = i;
+        }
+        if ((d != kD)) {
+            pidController.setD(d);
+            kD = d;
+        }
+        if ((iz != kIz)) {
+            pidController.setIZone(iz);
+            kIz = iz;
+        }
+        if ((ff != kFF)) {
+            pidController.setFF(ff);
+            kFF = ff;
+        }
+        if ((max != kMaxOutput) || (min != kMinOutput)) {
             pidController.setOutputRange(min, max);
-            kMinOutput = min; kMaxOutput = max;
+            kMinOutput = min;
+            kMaxOutput = max;
         }
 
         /**
@@ -83,7 +99,7 @@ public class PIDAdjustCommand extends CommandBase {
          *  com.revrobotics.ControlType.kVelocity
          *  com.revrobotics.ControlType.kVoltage
          */
-        double setPoint = speed*maxRPM; //TODO: possibly move this so that this command is not taking in the speed every time it's scheduled
+        double setPoint = speed * maxRPM; //TODO: possibly move this so that this command is not taking in the speed every time it's scheduled
         pidController.setReference(setPoint, ControlType.kVelocity);
 
         SmartDashboard.putNumber("SetPoint", setPoint);

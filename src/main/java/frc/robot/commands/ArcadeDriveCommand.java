@@ -14,7 +14,7 @@ public class ArcadeDriveCommand extends CommandBase {
     private final AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);
     private final AccelerationCurve rotationCurve = new AccelerationCurve(4, .375, .8);
 
-    public ArcadeDriveCommand(DriveTrainSubsystem driveTrain, DoubleSupplier speed, DoubleSupplier turn){
+    public ArcadeDriveCommand(DriveTrainSubsystem driveTrain, DoubleSupplier speed, DoubleSupplier turn) {
         this.driveTrain = driveTrain;
         this.speed = speed;
         this.turn = turn;
@@ -28,13 +28,13 @@ public class ArcadeDriveCommand extends CommandBase {
     public void execute() {
         speedCurve.set(speed.getAsDouble());
         rotationCurve.set(turn.getAsDouble());
-        driveTrain.doArcadeDrive(speedCurve.getCurrentSpeed(),rotationCurve.getCurrentSpeed());
+        driveTrain.doArcadeDrive(speedCurve.getCurrentSpeed(), rotationCurve.getCurrentSpeed());
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        driveTrain.doArcadeDrive(0,0);
+        driveTrain.doArcadeDrive(0, 0);
     }
 
     // Returns true when the command should end.

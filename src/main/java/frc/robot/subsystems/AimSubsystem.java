@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -74,19 +74,20 @@ public class AimSubsystem extends SubsystemBase {
                 aimMotorEncoder.getPosition() >= position - delta;
     }
 
-    private int clampAimPosition(int position){
+    private int clampAimPosition(int position) {
         if (pickUpLimitSwitch.get()) {
-           return  0;
+            return 0;
         }
         if (shooterLimitSwitch.get()) {
-            return (int)aimMotorEncoder.getPosition();
+            return (int) aimMotorEncoder.getPosition();
         }
         return position;
     }
+
     @Override
-    public void periodic(){
-        SmartDashboard.putBoolean("Shooter limit switch",shooterLimitSwitch.get());
-        SmartDashboard.putBoolean("Pickup limit switch",pickUpLimitSwitch.get());
+    public void periodic() {
+        SmartDashboard.putBoolean("Shooter limit switch", shooterLimitSwitch.get());
+        SmartDashboard.putBoolean("Pickup limit switch", pickUpLimitSwitch.get());
         SmartDashboard.putNumber("Aim Encoder", aimMotorEncoder.getPosition());
     }
 }

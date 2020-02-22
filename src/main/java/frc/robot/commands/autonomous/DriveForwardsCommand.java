@@ -25,13 +25,13 @@ public class DriveForwardsCommand extends CommandBase {
     @Override
     public void execute() {
         speedCurve.set(-1);
-        driveTrainSubsystem.doArcadeDrive(speedCurve.getCurrentSpeed(),0);
+        driveTrainSubsystem.doArcadeDrive(speedCurve.getCurrentSpeed(), 0);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        driveTrainSubsystem.doArcadeDrive(0,0);
+        driveTrainSubsystem.doArcadeDrive(0, 0);
     }
 
     // Returns true when the command should end.

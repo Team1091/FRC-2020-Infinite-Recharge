@@ -7,24 +7,28 @@ public class ReleaseAmmoCommand extends CommandBase {
     private ElectroMagSubsystem electroMagSubsystem;
     private double speed;
 
-    public ReleaseAmmoCommand(ElectroMagSubsystem electroMagSubsystem, double speed){
+    public ReleaseAmmoCommand(ElectroMagSubsystem electroMagSubsystem, double speed) {
         this.electroMagSubsystem = electroMagSubsystem;
         this.speed = speed;
         addRequirements(electroMagSubsystem);
     }
+
     @Override
     public void initialize() {
         electroMagSubsystem.turnOnElectroMagnet();
     }
+
     @Override
     public void execute() {
         electroMagSubsystem.runHopperReleaseMotor(speed);
     }
+
     @Override
-    public void end(boolean interrupted){
+    public void end(boolean interrupted) {
         electroMagSubsystem.runHopperReleaseMotor(0);
         electroMagSubsystem.turnOffElectroMagnet();
     }
+
     @Override
     public boolean isFinished() {
         return false;

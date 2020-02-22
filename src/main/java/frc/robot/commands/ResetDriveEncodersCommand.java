@@ -7,7 +7,7 @@ public class ResetDriveEncodersCommand extends CommandBase {
 
     private DriveTrainSubsystem driveTrainSubsystem;
 
-    public ResetDriveEncodersCommand(DriveTrainSubsystem driveTrainSubsystem){
+    public ResetDriveEncodersCommand(DriveTrainSubsystem driveTrainSubsystem) {
         this.driveTrainSubsystem = driveTrainSubsystem;
         addRequirements(driveTrainSubsystem);
     }

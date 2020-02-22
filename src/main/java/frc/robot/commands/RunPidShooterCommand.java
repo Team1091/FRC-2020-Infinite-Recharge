@@ -24,13 +24,13 @@ public class RunPidShooterCommand extends CommandBase {
         this.rightSpeed = rightSpeed;
     }
 
-    public RunPidShooterCommand(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem){
+    public RunPidShooterCommand(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem) {
         this();
         this.shooterSubsystem = shooterSubsystem;
         this.visionSubsystem = visionSubsystem;
     }
 
-    private RunPidShooterCommand(){
+    private RunPidShooterCommand() {
         super();
         addRequirements(shooterSubsystem);
 
@@ -59,7 +59,7 @@ public class RunPidShooterCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(visionSubsystem != null) {
+        if (visionSubsystem != null) {
             //Re-calculate Speed Based on vision data to sick curves. 
         }
 

@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.subsystems.PickUpSubsystem;
 
 public class RunHopperMotorCommand extends CommandBase {
     private HopperSubsystem hopperSubsystem;

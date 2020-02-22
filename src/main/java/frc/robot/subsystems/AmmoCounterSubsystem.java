@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.Rev2mDistanceSensor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
@@ -13,35 +12,41 @@ public class AmmoCounterSubsystem extends SubsystemBase {
     private final int maxCapacity = 5;
     private int ammoCount = 3;
 
-    public AmmoCounterSubsystem(){
+    public AmmoCounterSubsystem() {
         shotCounter.setAutomaticMode(true);
     }
 
-    public boolean ballSeen(){
+    public boolean ballSeen() {
         return shotCounter.getRange() < notSeenDistance;
     }
 
-    public void addAmmo(){
+    public void addAmmo() {
         ammoCount++;
     }
 
-    public void subtractAmmo(){
+    public void subtractAmmo() {
         ammoCount--;
     }
 
-    public boolean atMaxCapacity(){
+    public boolean atMaxCapacity() {
         return ammoCount >= maxCapacity;
     }
 
-    public boolean outOfAmmo(){
+    public boolean outOfAmmo() {
         return ammoCount == 0;
     }
 
-    public void setAmmo(int ammo){ ammoCount = MathUtil.clamp(ammo, 0, maxCapacity); }
+    public void setAmmo(int ammo) {
+        ammoCount = MathUtil.clamp(ammo, 0, maxCapacity);
+    }
 
-    public int getAmmo() { return ammoCount; }
+    public int getAmmo() {
+        return ammoCount;
+    }
 
-    public void reset() { ammoCount = 0; }
+    public void reset() {
+        ammoCount = 0;
+    }
 
     @Override
     public void periodic() {

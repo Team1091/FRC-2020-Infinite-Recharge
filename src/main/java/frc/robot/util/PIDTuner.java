@@ -53,14 +53,14 @@ public class PIDTuner {
 
     public void init() {
         init(
-            Constants.SparkMaxNeoTurningDefaults.kP,
-            Constants.SparkMaxNeoTurningDefaults.kI,
-            Constants.SparkMaxNeoTurningDefaults.kD,
-            Constants.SparkMaxNeoTurningDefaults.kIz,
-            Constants.SparkMaxNeoTurningDefaults.kFF,
-            Constants.SparkMaxNeoTurningDefaults.kMaxOutput,
-            Constants.SparkMaxNeoTurningDefaults.kMinOutput,
-            Constants.SparkMaxNeoTurningDefaults.maxRPM
+                Constants.SparkMaxNeoTurningDefaults.kP,
+                Constants.SparkMaxNeoTurningDefaults.kI,
+                Constants.SparkMaxNeoTurningDefaults.kD,
+                Constants.SparkMaxNeoTurningDefaults.kIz,
+                Constants.SparkMaxNeoTurningDefaults.kFF,
+                Constants.SparkMaxNeoTurningDefaults.kMaxOutput,
+                Constants.SparkMaxNeoTurningDefaults.kMinOutput,
+                Constants.SparkMaxNeoTurningDefaults.maxRPM
         );
     }
 

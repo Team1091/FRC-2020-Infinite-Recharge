@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.util.AccelerationCurve;
 import frc.robot.util.TargetCoordinate;
-import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class TakeAimCommand extends CommandBase {
     private VisionSubsystem visionSubsystem;

@@ -16,7 +16,7 @@ public class TrackAmmoCommand extends CommandBase {
     private boolean timerStarted = false;
 
 
-    public TrackAmmoCommand(AmmoCounterSubsystem ammoCounterSubsystem, boolean isShooting){
+    public TrackAmmoCommand(AmmoCounterSubsystem ammoCounterSubsystem, boolean isShooting) {
         this.ammoCounterSubsystem = ammoCounterSubsystem;
         this.isShooting = isShooting;
         timer = new Timer();
@@ -31,17 +31,17 @@ public class TrackAmmoCommand extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putString("Track Ammo", isShooting ? "Shooting" : "Loading");
-        if (timerStarted){
+        if (timerStarted) {
             return;
         }
 
-        if (ammoCounterSubsystem.ballSeen()){
+        if (ammoCounterSubsystem.ballSeen()) {
             seenPreviously = true;
             return;
         }
-        if (seenPreviously){
+        if (seenPreviously) {
             seenPreviously = false;
-            if (isShooting){
+            if (isShooting) {
                 ammoCounterSubsystem.subtractAmmo();
                 return;
             }
@@ -59,14 +59,14 @@ public class TrackAmmoCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-         if (isShooting){
-             return ammoCounterSubsystem.outOfAmmo();
-         }
-         //If picking up balls final ball needs to travel to top of hopper
-         if (ammoCounterSubsystem.atMaxCapacity() && !timerStarted){
-             timerStarted = true;
-             timer.start();
-         }
-         return timer.hasPeriodPassed(finalBallTravelTimeRequired);
+        if (isShooting) {
+            return ammoCounterSubsystem.outOfAmmo();
+        }
+        //If picking up balls final ball needs to travel to top of hopper
+        if (ammoCounterSubsystem.atMaxCapacity() && !timerStarted) {
+            timerStarted = true;
+            timer.start();
+        }
+        return timer.hasPeriodPassed(finalBallTravelTimeRequired);
     }
 }

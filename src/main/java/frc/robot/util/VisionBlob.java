@@ -5,21 +5,21 @@ public class VisionBlob {
     private double y;
     private double size;
 
-    public VisionBlob (double x, double y, double size) {
+    public VisionBlob(double x, double y, double size) {
         this.x = x;
         this.y = y;
         this.size = size;
     }
 
-    public double getSize () {
+    public double getSize() {
         return size;
     }
 
-    public double getX () {
+    public double getX() {
         return x;
     }
 
-    public double getY () {
+    public double getY() {
         return y;
     }
 }

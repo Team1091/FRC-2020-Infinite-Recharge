@@ -67,7 +67,7 @@ public class VisionSubsystem extends SubsystemBase {
                 largestContour = contour;
                 continue;
             }
-            if (largestContour.getArea() < contour.getArea()){
+            if (largestContour.getArea() < contour.getArea()) {
                 largestContour = contour;
             }
         }
