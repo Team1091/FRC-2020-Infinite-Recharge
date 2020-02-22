@@ -13,9 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.commands.PidTuning.PidTuningCommand;
+import frc.robot.commands.pidTuning.PidTuningCommand;
 import frc.robot.commands.autonomous.DriveForwardsCommand;
-import frc.robot.commands.autonomous.TurnCommand;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 

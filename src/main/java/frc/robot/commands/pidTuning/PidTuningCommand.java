@@ -1,4 +1,4 @@
-package frc.robot.commands.PidTuning;
+package frc.robot.commands.pidTuning;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.PIDTunableSubsystem;

@@ -30,7 +30,7 @@ public class TakeAimCommand extends CommandBase {
 
     public boolean targetCloseEnough() {
         var distance = visionSubsystem.getDistanceToTarget();
-        //1 are we within the DISTA NCE ????
+        //1 are we within the DISTANCE ????
         if (Math.abs(distance - desiredDistance) < desiredDistanceDelta) {
             return true;
         }
@@ -83,7 +83,7 @@ public class TakeAimCommand extends CommandBase {
             speedCurve.set(-1);
             return speedCurve.getCurrentSpeed();
         }
-        //3 if to close move backward
+        //3 if too close move backward
         if (desiredTravel < -desiredDistanceDelta) {
             speedCurve.set(1);
             return speedCurve.getCurrentSpeed();
