@@ -34,7 +34,7 @@ public class TakeAimCommand extends CommandBase {
         if (Math.abs(distance - desiredDistance) < desiredDistanceDelta) {
             return true;
         }
-        //2 diRECtion
+        //2 direction
         return false;
         //3 how far away :)
     }

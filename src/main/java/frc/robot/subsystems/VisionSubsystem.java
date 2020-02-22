@@ -38,8 +38,10 @@ public class VisionSubsystem extends SubsystemBase {
         VisionContour[] contours = getContours();
         boolean seen = false;
         for (VisionContour contour : contours) {
-            if (contour != null && contour.getArea() > 5)
+            if (contour != null && contour.getArea() > 5) {
                 seen = true;
+                break;
+            }
         }
         return seen;
     }
@@ -81,8 +83,8 @@ public class VisionSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("CenterY", largestContour.getCenterY());
         double cameraWidthCenter = (double) cameraWidth / 2;
         double cameraHeightCenter = (double) cameraHeight / 2;
-        double contourX = (double) largestContour.getCenterX() / cameraWidthCenter - 1;
-        double contourY = (double) -largestContour.getCenterY() / cameraHeightCenter + 1;
+        double contourX = largestContour.getCenterX() / cameraWidthCenter - 1;
+        double contourY = -largestContour.getCenterY() / cameraHeightCenter + 1;
         return new TargetCoordinate(contourX, contourY);
     }
 
@@ -92,7 +94,7 @@ public class VisionSubsystem extends SubsystemBase {
         double[] widths = contoursNetworkTable.getEntry("width").getDoubleArray(new double[0]);
         double[] areas = contoursNetworkTable.getEntry("area").getDoubleArray(new double[0]);
         double[] heights = contoursNetworkTable.getEntry("height").getDoubleArray(new double[0]);
-        //double[] soliditys = contoursNetworkTable.getEntry("solidity").getDoubleArray(new double[0]);
+
         VisionContour[] contours = new VisionContour[centerXs.length];
 
         for (int i = 0; centerXs.length > i; i++) {

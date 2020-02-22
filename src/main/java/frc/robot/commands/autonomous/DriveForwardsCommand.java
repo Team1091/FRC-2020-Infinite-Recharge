@@ -37,6 +37,6 @@ public class DriveForwardsCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return this.driveTrainSubsystem.getDistancefeet() > distanceToTravel;
+        return this.driveTrainSubsystem.getDistanceFeet() > distanceToTravel;
     }
 }

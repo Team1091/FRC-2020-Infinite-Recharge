@@ -28,7 +28,7 @@ public class RobotContainer {
     private final XboxController xbox = new XboxController(0);
 
     private final VisionSubsystem visionSystem = new VisionSubsystem();
-    private final DriveTrainSubsystem drivetrain = new DriveTrainSubsystem();
+    private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
 
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final AimSubsystem aimSubsystem = new AimSubsystem();
@@ -45,8 +45,8 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
 
-        drivetrain.setDefaultCommand(new ArcadeDriveCommand(
-                drivetrain,
+        driveTrain.setDefaultCommand(new ArcadeDriveCommand(
+                driveTrain,
                 () -> (xbox.getY(GenericHID.Hand.kLeft)),
                 () -> (xbox.getX(GenericHID.Hand.kLeft))));
 
@@ -62,22 +62,22 @@ public class RobotContainer {
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncodersCommand(drivetrain));
+        SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncodersCommand(driveTrain));
         SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
         SmartDashboard.putData("Increment Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() + 1));
         SmartDashboard.putData("Decrement Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() - 1));
         SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
-        SmartDashboard.putData("Run Drive Pid Tuning", new PidTuningCommand(drivetrain));
+        SmartDashboard.putData("Run Drive Pid Tuning", new PidTuningCommand(driveTrain));
         SmartDashboard.putData("Run Shooter Pid Tuning", new PidTuningCommand(shooterSubsystem));
 
-        var leftbumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
-        leftbumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
+        var leftBumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
+        leftBumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kLeft)
         ));
 
-        var rightbumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
-        rightbumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
+        var rightBumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
+        rightBumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
@@ -89,7 +89,7 @@ public class RobotContainer {
         bButton.whileActiveOnce(new BoostedArcadeDriveCommand(
                 () -> (xbox.getY(GenericHID.Hand.kLeft)),
                 () -> (xbox.getX(GenericHID.Hand.kLeft)),
-                drivetrain));
+                driveTrain));
     }
 
     /**
@@ -103,7 +103,7 @@ public class RobotContainer {
         return new SequentialCommandGroup(
                 //new DriveForwardsCommand(drivetrain, 2.5),
                 //new TurnCommand(drivetrain, 180.0)
-                new DriveForwardsCommand(drivetrain, 5.0)
+                new DriveForwardsCommand(driveTrain, 5.0)
                 //new TurnCommand(drivetrain, -90.0),
                 //CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, () -> true)
                 //todo CHANGE THIS

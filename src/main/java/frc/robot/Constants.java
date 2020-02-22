@@ -26,16 +26,16 @@ public final class Constants {
     public static final boolean rightShooterMotorInverted = true;
     public static final boolean leftShooterMotorInverted = false;
 
-    public static final double encoderToFootRatio = 4.16424275; //dis many encoder ticks is 1 foot
+    public static final double encoderToFootRatio = 4.16424275; // this many encoder ticks is 1 foot
 
-    public final class PWM {
+    public static final class PWM {
         public static final int intakeMotor = 1;
         public static final int HopperMotor = 3;
         public static final int liftMotor = 0;
         public static final int hopperReleaseMotor = 2;
     }
 
-    public final class CAN {
+    public static final class CAN {
         public static final int firstRightDriveMotor = 1;
         public static final int secondRightDriveMotor = 2;
         public static final int firstLeftDriveMotor = 3;
@@ -45,21 +45,21 @@ public final class Constants {
         public static final int rightShooterMotor = 7;
     }
 
-    public final class DIO {
+    public static final class DIO {
         public static final int shooterLimitSwitch = 0;
         public static final int pickUpLimitSwitch = 1;
     }
 
-    public final class RELAY {
+    public static final class RELAY {
         public static final int electroMag = 0;
     }
 
-    public final class ShooterPositions {
+    public static final class ShooterPositions {
         public static final int Pickup = 1;
         public static final int Shoot = 2;
     }
 
-    public final class SparkMaxNeoTurningDefaults {
+    public static final class SparkMaxNeoTurningDefaults {
         public static final double kP = 6e-5;
         public static final double kI = 0;
         public static final double kD = 0;
