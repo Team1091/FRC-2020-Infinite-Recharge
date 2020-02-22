@@ -18,20 +18,19 @@ public class RunPidShooterCommand extends CommandBase {
     private CANPIDController rightPidController;
 
     public RunPidShooterCommand(ShooterSubsystem shooterSubsystem, double leftSpeed, double rightSpeed) {
-        this();
-        this.shooterSubsystem = shooterSubsystem;
+        this(shooterSubsystem);
         this.leftSpeed = leftSpeed;
         this.rightSpeed = rightSpeed;
     }
 
     public RunPidShooterCommand(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem) {
-        this();
-        this.shooterSubsystem = shooterSubsystem;
+        this(shooterSubsystem);
         this.visionSubsystem = visionSubsystem;
     }
 
-    private RunPidShooterCommand() {
+    private RunPidShooterCommand(ShooterSubsystem shooterSubsystem) {
         super();
+        this.shooterSubsystem = shooterSubsystem;
         addRequirements(shooterSubsystem);
 
         leftPidController = shooterSubsystem.getPIDLeftController();

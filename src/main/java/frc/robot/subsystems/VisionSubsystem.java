@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.TargetCoordinate;
 import frc.robot.util.VisionContour;
 
+import java.text.DecimalFormat;
+
 public class VisionSubsystem extends SubsystemBase {
     private UsbCamera visionFeed = new UsbCamera("Camera1", 0);
     private Timer timer = new Timer();
@@ -17,12 +19,12 @@ public class VisionSubsystem extends SubsystemBase {
     private NetworkTable blobNetworkTable = null;
     private NetworkTable contoursNetworkTable = null;
 
-    private final int cameraWidth = 480;
-    private final int cameraHeight = 270;
+    private final int cameraWidth = 160;
+    private final int cameraHeight = 120;
     private final double targetPhysWidth = 35;
     private final double targetPhysHeight = 17.5;
-    private final double contourRatio = targetPhysHeight / targetPhysHeight;
-    private final double contourRatioTolerance = .5;
+    private final double contourRatio = 2.0; //targetPhysHeight / targetPhysHeight;
+    private final double contourRatioTolerance = .25;
 
     public VisionSubsystem() {
         timer.start();
@@ -71,6 +73,8 @@ public class VisionSubsystem extends SubsystemBase {
                 largestContour = contour;
             }
         }
+        if (largestContour != null)
+            SmartDashboard.putString("Target Ratio", "Ratio: " + (largestContour.getWidth() / largestContour.getHeight()) + " - Should Be:" + contourRatio);
         return largestContour;
     }
 
@@ -81,8 +85,9 @@ public class VisionSubsystem extends SubsystemBase {
 
         SmartDashboard.putNumber("CenterX", largestContour.getCenterX());
         SmartDashboard.putNumber("CenterY", largestContour.getCenterY());
-        double cameraWidthCenter = (double) cameraWidth / 2;
-        double cameraHeightCenter = (double) cameraHeight / 2;
+        SmartDashboard.putNumber("Target Width", largestContour.getWidth());
+        double cameraWidthCenter = (double) cameraWidth / 2.0;
+        double cameraHeightCenter = (double) cameraHeight / 2.0;
         double contourX = largestContour.getCenterX() / cameraWidthCenter - 1;
         double contourY = -largestContour.getCenterY() / cameraHeightCenter + 1;
         return new TargetCoordinate(contourX, contourY);
@@ -98,11 +103,29 @@ public class VisionSubsystem extends SubsystemBase {
         VisionContour[] contours = new VisionContour[centerXs.length];
 
         for (int i = 0; centerXs.length > i; i++) {
-            contours[i] = new VisionContour(centerXs[i], centerYs[i], widths[i], areas[i], heights[i], 0.0);
+            var width = getIForIndexOr0(widths, i);
+            var height = getIForIndexOr0(heights, i);
+
+            contours[i] = new VisionContour(
+                    getIForIndexOr0(centerXs, i) + width / 2.0,
+                    getIForIndexOr0(centerYs, i) + height / 2.0,
+                    getIForIndexOr0(widths, i),
+                    getIForIndexOr0(areas, i),
+                    getIForIndexOr0(heights, i)
+            );
         }
 
         return contours;
     }
+
+    private double getIForIndexOr0(double[] arr, int idx) {
+        if (idx < arr.length) {
+            return arr[idx];
+        }
+        return 0.0;
+    }
+
+    DecimalFormat df = new DecimalFormat("0.0000");
 
     @Override
     public void periodic() {
@@ -113,7 +136,7 @@ public class VisionSubsystem extends SubsystemBase {
             SmartDashboard.putNumber("Total Contours", contours.length);
             TargetCoordinate coordinate = getTargetCoordinates();
             if (coordinate != null) {
-                SmartDashboard.putString("coordinate", "X: " + coordinate.getX() + " Y: " + coordinate.getY());
+                SmartDashboard.putString("coordinate", "X: " + df.format(coordinate.getX()) + " Y: " + df.format(coordinate.getY()));
             } else {
                 SmartDashboard.putString("coordinate", "not found");
             }

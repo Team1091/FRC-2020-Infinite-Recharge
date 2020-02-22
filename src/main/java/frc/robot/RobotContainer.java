@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
 import frc.robot.commands.autonomous.DriveForwardsCommand;
+import frc.robot.commands.autonomous.TurnCommand;
 import frc.robot.commands.pidTuning.PidTuningCommand;
 import frc.robot.subsystems.*;
 
@@ -70,6 +71,9 @@ public class RobotContainer {
         SmartDashboard.putData("Run Drive Pid Tuning", new PidTuningCommand(driveTrain));
         SmartDashboard.putData("Run Shooter Pid Tuning", new PidTuningCommand(shooterSubsystem));
 
+        var testButton = new JoystickButton(xbox, XboxController.Button.kStart.value);
+        testButton.whileActiveOnce(new TakeAimCommand(visionSystem, driveTrain));
+
         var leftBumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftBumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,
@@ -101,11 +105,12 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         // return new ExampleCommand(new ExampleSubsystem());
         return new SequentialCommandGroup(
-                //new DriveForwardsCommand(drivetrain, 2.5),
-                //new TurnCommand(drivetrain, 180.0)
-                new DriveForwardsCommand(driveTrain, 5.0)
+                //new DriveForwardsCommand(driveTrain, 2.5),
+                //new TurnCommand(driveTrain, 180.0)
+                //new DriveForwardsCommand(driveTrain, 5.0)
                 //new TurnCommand(drivetrain, -90.0),
-                //CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, () -> true)
+                new TakeAimCommand(visionSystem, driveTrain),
+                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, () -> true)
                 //todo CHANGE THIS
 
         );

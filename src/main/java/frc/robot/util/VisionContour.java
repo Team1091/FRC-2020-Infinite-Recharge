@@ -6,16 +6,13 @@ public class VisionContour {
     private double width;
     private double area;
     private double height;
-    private double solidity;
 
-    public VisionContour(double centerX, double centerY, double width, double area, double height, double solidity) {
+    public VisionContour(double centerX, double centerY, double width, double area, double height) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.area = area;
         this.width = width;
         this.height = height;
-        this.solidity = solidity;
-
     }
 
     public double getCenterX() {
@@ -38,7 +35,4 @@ public class VisionContour {
         return height;
     }
 
-    public double getSolidity() {
-        return solidity;
-    }
 }

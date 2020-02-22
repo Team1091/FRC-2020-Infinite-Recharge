@@ -61,8 +61,8 @@ public final class Constants {
 
     public static final class SparkMaxNeoTurningDefaults {
         public static final double kP = 6e-5;
-        public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kI = .000001;
+        public static final double kD = .000001;
         public static final double kIz = 0;
         public static final double kFF = 0.000015;
         public static final double kMaxOutput = 1;

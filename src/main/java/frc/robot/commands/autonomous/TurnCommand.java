@@ -27,17 +27,22 @@ public class TurnCommand extends CommandBase {
     @Override
     public void execute() {
         if (turnDistance < 0) {
-            driveTrainSubsystem.setMotorSpeed(-0.7, 0.7); //add acceleration curve if time prevalent
+            //driveTrainSubsystem.setMotorSpeed(-0.7, 0.7); //add acceleration curve if time prevalent
+            driveTrainSubsystem.doArcadeDrive(0, 1);
+            return;
         }
         if (turnDistance > 0) {
-            driveTrainSubsystem.setMotorSpeed(0.7, -0.7); //add acceleration curve if time prevalent
+            //driveTrainSubsystem.setMotorSpeed(0.7, -0.7); //add acceleration curve if time prevalent
+            driveTrainSubsystem.doArcadeDrive(0,-1);
+            return;
         }
+        driveTrainSubsystem.doArcadeDrive(0, 0);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        driveTrainSubsystem.setMotorSpeed(0, 0);
+        driveTrainSubsystem.doArcadeDrive(0, 0);
     }
 
     // Returns true when the command should end.

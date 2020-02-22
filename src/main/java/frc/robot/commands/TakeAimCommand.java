@@ -10,9 +10,9 @@ public class TakeAimCommand extends CommandBase {
     private VisionSubsystem visionSubsystem;
     private DriveTrainSubsystem driveTrainSubsystem;
     private final double rotationalDelta = .25;
-    private final double desiredDistance = 8;
-    private final double desiredDistanceDelta = 1;
-    private AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .8);
+    private final double desiredDistance = 8.5;
+    private final double desiredDistanceDelta = .3;
+    private AccelerationCurve speedCurve = new AccelerationCurve(4, .375, .6);
     private AccelerationCurve turnCurve = new AccelerationCurve(4, .375, .8);
 
     public TakeAimCommand(VisionSubsystem visionSubsystem, DriveTrainSubsystem driveTrainSubsystem) {
@@ -38,13 +38,16 @@ public class TakeAimCommand extends CommandBase {
 
 
     public double getTurn(TargetCoordinate targetCoordinate) {
+        if(targetCoordinate == null){
+            return 0;
+        }
         var X = targetCoordinate.getX();
         if (X < -rotationalDelta) {
-            turnCurve.set(1);
+            turnCurve.set(-1);
             return turnCurve.getCurrentSpeed();
         }
         if (X > rotationalDelta) {
-            turnCurve.set(-1);
+            turnCurve.set(1);
             return turnCurve.getCurrentSpeed();
         }
         return 0;
