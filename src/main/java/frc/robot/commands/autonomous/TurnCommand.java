@@ -20,7 +20,7 @@ public class TurnCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        driveTrainSubsystem.reset();
+        driveTrainSubsystem.resetEncoders();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

@@ -28,16 +28,14 @@ public class TakeAimCommand extends CommandBase {
     public void initialize() {
     }
 
-    public boolean targetCloseEnough() {
+    private boolean targetCloseEnough() {
         var distance = visionSubsystem.getDistanceToTarget();
-        //1 are we within the DISTANCE ????
+        if (distance == null ) return false;
         return Math.abs(distance - desiredDistance) < desiredDistanceDelta;
-        //2 direction
-//3 how far away :)
     }
 
 
-    public double getTurn(TargetCoordinate targetCoordinate) {
+    private double getTurn(TargetCoordinate targetCoordinate) {
         if(targetCoordinate == null){
             return 0;
         }
@@ -58,14 +56,13 @@ public class TakeAimCommand extends CommandBase {
     public void execute() {
         var targetCoordinate = visionSubsystem.getTargetCoordinates();
         //1 can we see the target?
-        if (!visionSubsystem.targetInSight()) {
+        if (targetCoordinate == null) {
             return;
         }
         //2 find out if we can shoot
         if (targetCloseEnough()) {
             return;
         }
-
         //3 if we can see it then do we need to turn
         var turn = getTurn(targetCoordinate);
         //4 if we don't need to turn then how far forwards do we go
@@ -77,6 +74,9 @@ public class TakeAimCommand extends CommandBase {
     public double getMove() {
         //1 calculate distance between desierd position and robot
         var distance = visionSubsystem.getDistanceToTarget();
+        if (distance == null){
+            return 0;
+        }
         var desiredTravel = distance - desiredDistance;
         //2 if to far away move forward
         if (desiredTravel > desiredDistanceDelta) {

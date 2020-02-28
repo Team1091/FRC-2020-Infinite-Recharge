@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
-import frc.robot.commands.autonomous.DriveForwardsCommand;
 import frc.robot.commands.autonomous.TurnCommand;
 import frc.robot.commands.pidTuning.PidTuningCommand;
 import frc.robot.subsystems.*;
@@ -53,7 +52,11 @@ public class RobotContainer {
 
         hangerSubsystem.setDefaultCommand(new ControlHangerCommand(
                 hangerSubsystem,
-                () -> xbox.getY(GenericHID.Hand.kRight)));
+                () -> {
+                    double xboxCurrentY = xbox.getY(GenericHID.Hand.kRight);
+                    if (Math.abs(xboxCurrentY) < 0.25) return 0;
+                    return xboxCurrentY;
+                }));
     }
 
     /**
@@ -71,24 +74,29 @@ public class RobotContainer {
         SmartDashboard.putData("Run Drive Pid Tuning", new PidTuningCommand(driveTrain));
         SmartDashboard.putData("Run Shooter Pid Tuning", new PidTuningCommand(shooterSubsystem));
 
+        // Test command
         var testButton = new JoystickButton(xbox, XboxController.Button.kStart.value);
         testButton.whileActiveOnce(new TakeAimCommand(visionSystem, driveTrain));
 
+        //Robot Suck
         var leftBumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftBumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kLeft)
         ));
 
+        //Robot Shoot
         var rightBumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
         rightBumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
 
+        //Push balls
         var yButton = new JoystickButton(xbox, XboxController.Button.kY.value);
         yButton.whileActiveOnce(new RunPickUpMotorCommand(pickUpSubsystem, -5));
 
+        //NITRO
         var bButton = new JoystickButton(xbox, XboxController.Button.kB.value);
         bButton.whileActiveOnce(new BoostedArcadeDriveCommand(
                 () -> (xbox.getY(GenericHID.Hand.kLeft)),
@@ -106,12 +114,12 @@ public class RobotContainer {
         // return new ExampleCommand(new ExampleSubsystem());
         return new SequentialCommandGroup(
                 //new DriveForwardsCommand(driveTrain, 2.5),
-                //new TurnCommand(driveTrain, 180.0)
-                //new DriveForwardsCommand(driveTrain, 5.0)
+                new TurnCommand(driveTrain, 180.0),
+                //new DriveForwardsCommand(driveTrain, 5.0),
                 //new TurnCommand(drivetrain, -90.0),
                 new TakeAimCommand(visionSystem, driveTrain),
                 CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, () -> true)
-                //todo CHANGE THIS
+                //todo Make robot not fly backwards
 
         );
     }

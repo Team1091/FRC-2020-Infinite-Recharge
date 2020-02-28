@@ -15,7 +15,6 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
     private CANSparkMax secondLeftMotor = new CANSparkMax(Constants.CAN.secondLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax firstRightMotor = new CANSparkMax(Constants.CAN.firstRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax secondRightMotor = new CANSparkMax(Constants.CAN.secondRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    //TODO: finish more than basic implementation for two motors on both sides
     private CANEncoder leftEncoder = new CANEncoder(firstLeftMotor);
     private CANEncoder rightEncoder = new CANEncoder(firstRightMotor);
 
@@ -49,7 +48,7 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
         drive.arcadeDrive(speed, rotation);
     }
 
-    public void reset() {
+    public void resetEncoders() {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
     }

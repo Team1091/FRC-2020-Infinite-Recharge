@@ -99,7 +99,7 @@ public class PIDAdjustCommand extends CommandBase {
          *  com.revrobotics.ControlType.kVelocity
          *  com.revrobotics.ControlType.kVoltage
          */
-        double setPoint = speed * maxRPM; //TODO: possibly move this so that this command is not taking in the speed every time it's scheduled
+        double setPoint = speed * maxRPM;
         pidController.setReference(setPoint, ControlType.kVelocity);
 
         SmartDashboard.putNumber("SetPoint", setPoint);

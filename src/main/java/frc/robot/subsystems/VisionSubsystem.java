@@ -15,9 +15,7 @@ import java.text.DecimalFormat;
 public class VisionSubsystem extends SubsystemBase {
     private UsbCamera visionFeed = new UsbCamera("Camera1", 0);
     private Timer timer = new Timer();
-    private NetworkTableInstance networkTable = null;
-    private NetworkTable blobNetworkTable = null;
-    private NetworkTable contoursNetworkTable = null;
+    private NetworkTable contoursNetworkTable;
 
     private final int cameraWidth = 160;
     private final int cameraHeight = 120;
@@ -30,35 +28,21 @@ public class VisionSubsystem extends SubsystemBase {
         timer.start();
         visionFeed.setResolution(cameraWidth, cameraHeight);
         CameraServer.getInstance().startAutomaticCapture(visionFeed);
-        networkTable = NetworkTableInstance.getDefault();
-        //blobNetworkTable = NetworkTableInstance.getDefault().getTable("GRIP/myBlobsReport");
         contoursNetworkTable = NetworkTableInstance.getDefault().getTable("SNIP/myContoursReport");
 
     }
 
-    public boolean targetInSight() {
-        VisionContour[] contours = getContours();
-        boolean seen = false;
-        for (VisionContour contour : contours) {
-            if (contour != null && contour.getArea() > 5) {
-                seen = true;
-                break;
-            }
-        }
-        return seen;
-    }
 
-    public double getDistanceToTarget() {
-        VisionContour largestContour = getLargestValidContour();
+    public Double getDistanceToTarget() {
+        VisionContour largestContour = getTarget();
         if (largestContour == null) {
-            return -1;
+            return null;
         }
         double viewAngle = 44.5;
-        double distance = ((targetPhysWidth / 12.0) * (double) cameraWidth) / ((2.0 * largestContour.getWidth()) * Math.tan(viewAngle));
-        return distance;
+        return ((targetPhysWidth / 12.0) * (double) cameraWidth) / ((2.0 * largestContour.getWidth()) * Math.tan(viewAngle));
     }
 
-    public VisionContour getLargestValidContour() {
+    public VisionContour getTarget() {
         VisionContour largestContour = null;
         for (VisionContour contour : getContours()) {
             var ratio = contour.getWidth() / contour.getHeight();
@@ -79,7 +63,7 @@ public class VisionSubsystem extends SubsystemBase {
     }
 
     public TargetCoordinate getTargetCoordinates() {
-        VisionContour largestContour = getLargestValidContour();
+        VisionContour largestContour = getTarget();
         if (largestContour == null)
             return null;
 
@@ -130,9 +114,9 @@ public class VisionSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         if (timer.hasPeriodPassed(.2)) {
+            Double distanceToTarget = getDistanceToTarget();
             VisionContour[] contours = getContours();
-            SmartDashboard.putBoolean("Target Seen", targetInSight());
-            SmartDashboard.putNumber("Distance To Target", getDistanceToTarget());
+            SmartDashboard.putNumber("Distance To Target",distanceToTarget != null ? distanceToTarget : -1 );
             SmartDashboard.putNumber("Total Contours", contours.length);
             TargetCoordinate coordinate = getTargetCoordinates();
             if (coordinate != null) {

@@ -39,7 +39,7 @@ public class RunPidShooterCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        //Todo - Set these to the tuned values
+
         leftPidController.setP(Constants.SparkMaxNeoTurningDefaults.kP);
         leftPidController.setI(Constants.SparkMaxNeoTurningDefaults.kI);
         leftPidController.setD(Constants.SparkMaxNeoTurningDefaults.kD);

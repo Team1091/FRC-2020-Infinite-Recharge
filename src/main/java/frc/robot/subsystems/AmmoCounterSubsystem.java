@@ -44,9 +44,6 @@ public class AmmoCounterSubsystem extends SubsystemBase {
         return ammoCount;
     }
 
-    public void reset() {
-        ammoCount = 0;
-    }
 
     @Override
     public void periodic() {

@@ -30,7 +30,7 @@ public class ResetDriveEncodersCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        driveTrainSubsystem.reset();
+        driveTrainSubsystem.resetEncoders();
         return true;
     }
 

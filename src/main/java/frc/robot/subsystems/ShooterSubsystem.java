@@ -49,7 +49,7 @@ public class ShooterSubsystem extends PIDTunableSubsystem {
         if (percentOff < 1.10 || percentOff > 0.90) {
             shooterSpeed = abs(leftShooterEncoder.getVelocity());
         } else {
-            shooterSpeed = 0.0; //TODO: Replace this check system with a PID loop
+            shooterSpeed = 0.0;
         }
         SmartDashboard.putNumber("Shooter Speed", shooterSpeed);
         return shooterSpeed;
