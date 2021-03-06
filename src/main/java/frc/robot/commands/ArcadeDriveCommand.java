@@ -28,7 +28,7 @@ public class ArcadeDriveCommand extends CommandBase {
     public void execute() {
         speedCurve.set(speed.getAsDouble());
         rotationCurve.set(turn.getAsDouble());
-        driveTrain.doArcadeDrive(speedCurve.getCurrentSpeed(), rotationCurve.getCurrentSpeed());
+        driveTrain.doArcadeDrive(speedCurve.getCurrentSpeed(), -rotationCurve.getCurrentSpeed());
     }
 
     // Called once the command ends or is interrupted.

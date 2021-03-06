@@ -20,34 +20,38 @@ public final class Constants {
     public static final boolean hopperMotorInverted = true;
     public static final boolean liftMotorInverted = false;
     public static final boolean hopperReleaseMotorInverted = true;
-    public static final boolean rightDriveMotorInverted = false;
-    public static final boolean leftDriveMotorInverted = false;
+    public static final boolean rightDriveMotorInverted = true;
+    public static final boolean leftDriveMotorInverted = true;
     public static final boolean aimMotorInverted = false;
     public static final boolean rightShooterMotorInverted = true;
     public static final boolean leftShooterMotorInverted = false;
 
+    public static final double aimMotorSpeed = 0.2;
+
+
     public static final double encoderToFootRatio = 4.16424275; // this many encoder ticks is 1 foot
 
     public static final class PWM {
-        public static final int intakeMotor = 1;
-        public static final int HopperMotor = 3;
+        public static final int intakeMotor = 11;
+        public static final int HopperMotor = 6;
+        public static final int aimMoter = 4;
         public static final int liftMotor = 0;
-        public static final int hopperReleaseMotor = 2;
+        public static final int hopperReleaseMotor = 1;
     }
 
     public static final class CAN {
-        public static final int firstRightDriveMotor = 1;
-        public static final int secondRightDriveMotor = 2;
-        public static final int firstLeftDriveMotor = 3;
-        public static final int secondLeftDriveMotor = 4;
-        public static final int aimMotor = 5;
-        public static final int leftShooterMotor = 6;
-        public static final int rightShooterMotor = 7;
+        public static final int firstRightDriveMotor = 8;
+        public static final int secondRightDriveMotor = 9;
+        public static final int firstLeftDriveMotor = 2;
+        public static final int secondLeftDriveMotor = 3;
+        public static final int happerDoorMotor = 4;
+        public static final int leftShooterMotor = 11;
+        public static final int rightShooterMotor = 10;
     }
 
     public static final class DIO {
-        public static final int shooterLimitSwitch = 0;
-        public static final int pickUpLimitSwitch = 1;
+        public static final int shooterLimitSwitch = 8;
+        public static final int pickUpLimitSwitch = 9;
     }
 
     public static final class RELAY {

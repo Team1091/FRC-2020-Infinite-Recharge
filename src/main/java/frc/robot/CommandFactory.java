@@ -14,15 +14,17 @@ public class CommandFactory {
                                                       HopperSubsystem hopperSubsystem,
                                                       PickUpSubsystem pickUpSubsystem,
                                                       AmmoCounterSubsystem ammoCounterSubsystem,
+                                                      HopperDoorSubsystem hopperDoorSubsystem,
                                                       BooleanSupplier booleanSupplier) {
         return new SequentialCommandGroup(
                 new SetShooterPositionCommand(aimSubsystem, Constants.ShooterPositions.Pickup),
                 new ParallelRaceGroup(
                         new RunShooterMotorCommand(shooterSubsystem, 0.2),
                         new RunHopperMotorCommand(hopperSubsystem, 0.5),
+                        new RunHopperDoorMotorCommand(hopperDoorSubsystem, 0.2),
                         new RunPickUpMotorCommand(pickUpSubsystem, 0.5),
-                        new DoWhileTrueCommand(booleanSupplier),
-                        new TrackAmmoCommand(ammoCounterSubsystem, false)
+                        // new TrackAmmoCommand(ammoCounterSubsystem, false),
+                        new DoWhileTrueCommand(booleanSupplier)
                 )
         );
 
@@ -32,7 +34,7 @@ public class CommandFactory {
                                                     AimSubsystem aimSubsystem,
                                                     HopperSubsystem hopperSubsystem,
                                                     AmmoCounterSubsystem ammoCounterSubsystem,
-                                                    ElectroMagSubsystem electroMagSubsystem,
+                                                    HopperDoorSubsystem hopperDoorSubsystem,
                                                     BooleanSupplier booleanSupplier) {
         var shooterSpeed = 5000;
         return new SequentialCommandGroup(
@@ -45,16 +47,15 @@ public class CommandFactory {
                 new ParallelRaceGroup(
                         new RunPidShooterCommand(shooterSubsystem, -1, -1),
                         new DoWhileTrueCommand(() -> shooterSubsystem.getSpeed() < shooterSpeed), //Velocity is measure in RPM
-                        new TrackAmmoCommand(ammoCounterSubsystem, true),
+                        // new TrackAmmoCommand(ammoCounterSubsystem, true),
                         new DoWhileTrueCommand(booleanSupplier)
                 ),
                 new ParallelRaceGroup(
                         new RunPidShooterCommand(shooterSubsystem, -1, -1),
                         new RunHopperMotorCommand(hopperSubsystem, 0.4),
-                        new ReleaseAmmoCommand(electroMagSubsystem, shooterSubsystem, shooterSpeed,0.5),
-                        new TrackAmmoCommand(ammoCounterSubsystem, true),
+                        new ReleaseAmmoCommand(hopperDoorSubsystem, shooterSubsystem, shooterSpeed,0.5),
+                        // new TrackAmmoCommand(ammoCounterSubsystem, true),
                         new DoWhileTrueCommand(booleanSupplier)
-
                 )
         );
     }

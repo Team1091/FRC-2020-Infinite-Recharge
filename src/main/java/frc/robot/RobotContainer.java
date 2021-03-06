@@ -36,7 +36,7 @@ public class RobotContainer {
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
     private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
-    private final ElectroMagSubsystem electroMagSubsystem = new ElectroMagSubsystem();
+    private final HopperDoorSubsystem hopperDoorSubsystem = new HopperDoorSubsystem();
 
     /**
      * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -82,13 +82,14 @@ public class RobotContainer {
         var leftBumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftBumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
                 shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,
+                hopperDoorSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kLeft)
         ));
 
         //Robot Shoot
         var rightBumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
         rightBumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
-                shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, hopperDoorSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
 
@@ -118,7 +119,7 @@ public class RobotContainer {
                 //new DriveForwardsCommand(driveTrain, 5.0),
                 //new TurnCommand(drivetrain, -90.0),
                 new TakeAimCommand(visionSystem, driveTrain),
-                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, electroMagSubsystem, () -> true)
+                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, hopperDoorSubsystem, () -> true)
                 //todo Make robot not fly backwards
 
         );
