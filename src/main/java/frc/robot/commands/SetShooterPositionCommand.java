@@ -3,13 +3,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.AimSubsystem;
+import frc.robot.util.ShooterPosition;
 
 public class SetShooterPositionCommand extends CommandBase {
     private final AimSubsystem aimSubsystem;
-    private final int position;
+    private final ShooterPosition position;
     private final int delta = 10;
 
-    public SetShooterPositionCommand(AimSubsystem aimSubsystem, int position) {
+    public SetShooterPositionCommand(AimSubsystem aimSubsystem, ShooterPosition position) {
         super();
         this.aimSubsystem = aimSubsystem;
         this.position = position;
@@ -22,15 +23,14 @@ public class SetShooterPositionCommand extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
-        if (position == Constants.ShooterPositions.Pickup) {
+        public void execute() {
+        if (position == ShooterPosition.PICKUP) {
             aimSubsystem.goToPickupPosition();
             return;
         }
-        if (position == Constants.ShooterPositions.Shoot) {
+        if (position == ShooterPosition.SHOOT) {
             aimSubsystem.goToShootPosition();
         }
-        //aimSubsystem.setAim(position, delta);
     }
 
     // Called once the command ends or is interrupted.
@@ -42,10 +42,10 @@ public class SetShooterPositionCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (position == 1 && aimSubsystem.isAtPickUpPosition()) {
+        if (position == ShooterPosition.PICKUP && aimSubsystem.isAtPickUpPosition()) {
             return true;
         }
 
-        return position == 2 && aimSubsystem.isInShootPosition();
+        return position == ShooterPosition.SHOOT && aimSubsystem.isInShootPosition();
     }
 }

@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
+import frc.robot.util.ShooterPosition;
 
 import java.util.function.BooleanSupplier;
 
@@ -17,13 +18,13 @@ public class CommandFactory {
                                                       HopperDoorSubsystem hopperDoorSubsystem,
                                                       BooleanSupplier booleanSupplier) {
         return new SequentialCommandGroup(
-                new SetShooterPositionCommand(aimSubsystem, Constants.ShooterPositions.Pickup),
+                new SetShooterPositionCommand(aimSubsystem, ShooterPosition.PICKUP),
                 new ParallelRaceGroup(
                         new RunShooterMotorCommand(shooterSubsystem, 0.2),
                         new RunHopperMotorCommand(hopperSubsystem, 0.5),
-                        new RunHopperDoorMotorCommand(hopperDoorSubsystem, 0.2),
+                        new RunHopperDoorMotorCommand(hopperDoorSubsystem, 0.5),
                         new RunPickUpMotorCommand(pickUpSubsystem, 0.5),
-                        // new TrackAmmoCommand(ammoCounterSubsystem, false),
+                        new TrackAmmoCommand(ammoCounterSubsystem, false),
                         new DoWhileTrueCommand(booleanSupplier)
                 )
         );
@@ -39,9 +40,9 @@ public class CommandFactory {
         var shooterSpeed = 5000;
         return new SequentialCommandGroup(
                 new ParallelRaceGroup(
-                        new SetShooterPositionCommand(aimSubsystem, Constants.ShooterPositions.Shoot),
+                        new SetShooterPositionCommand(aimSubsystem, ShooterPosition.SHOOT),
                         new RunPidShooterCommand(shooterSubsystem, -1, -1),
-                        new TrackAmmoCommand(ammoCounterSubsystem, true),
+//                        new TrackAmmoCommand(ammoCounterSubsystem, true),
                         new DoWhileTrueCommand(booleanSupplier)
                 ),
                 new ParallelRaceGroup(

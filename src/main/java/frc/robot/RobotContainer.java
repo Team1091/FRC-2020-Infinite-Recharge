@@ -97,6 +97,19 @@ public class RobotContainer {
         var yButton = new JoystickButton(xbox, XboxController.Button.kY.value);
         yButton.whileActiveOnce(new RunPickUpMotorCommand(pickUpSubsystem, -5));
 
+        var xButton = new JoystickButton(xbox, XboxController.Button.kX.value);
+        xButton.whileActiveOnce(new RunAimMotorCommand(aimSubsystem, .5));
+
+        var aButton = new JoystickButton(xbox, XboxController.Button.kA.value);
+        aButton.whileActiveOnce(new RunAimMotorCommand(aimSubsystem, -.5));
+
+        var backButton = new JoystickButton(xbox, XboxController.Button.kBack.value);
+        backButton.whileActiveOnce(new RunHopperDoorMotorCommand(hopperDoorSubsystem, .5));
+
+        var startButton = new JoystickButton(xbox, XboxController.Button.kStart.value);
+        startButton.whileActiveOnce(new RunHopperDoorMotorCommand(hopperDoorSubsystem, -.5));
+
+
         //NITRO
         var bButton = new JoystickButton(xbox, XboxController.Button.kB.value);
         bButton.whileActiveOnce(new BoostedArcadeDriveCommand(

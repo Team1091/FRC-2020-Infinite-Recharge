@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,8 +8,8 @@ import frc.robot.Constants;
 
 public class AimSubsystem extends SubsystemBase {
     // TODO: this needs to be pwm, no encoder on it now
-    private Victor hopperMotor = new Victor(Constants.PWM.aimMoter);
-    private CANSparkMax aimMotor = new CANSparkMax(20, CANSparkMaxLowLevel.MotorType.kBrushless);
+    private Victor aimMotor = new Victor(Constants.PWM.aimMotor);
+
     //private CANEncoder aimMotorEncoder = new CANEncoder(aimMotor);
     private DigitalInput pickUpLimitSwitch = new DigitalInput(Constants.DIO.pickUpLimitSwitch);
     private DigitalInput shooterLimitSwitch = new DigitalInput(Constants.DIO.shooterLimitSwitch);
@@ -36,7 +34,6 @@ public class AimSubsystem extends SubsystemBase {
     public void goToPickupPosition() {
         if (pickUpLimitSwitch.get()) {
             return;
-
         }
         runAimMotor(-Constants.aimMotorSpeed);
     }

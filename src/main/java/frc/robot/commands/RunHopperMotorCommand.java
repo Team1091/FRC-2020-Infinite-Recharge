@@ -8,7 +8,7 @@ public class RunHopperMotorCommand extends CommandBase {
     private double speed;
 
     public RunHopperMotorCommand(HopperSubsystem hopperSubsystem) {
-        this(hopperSubsystem, .5);
+        this(hopperSubsystem, 1.0);
     }
 
     public RunHopperMotorCommand(HopperSubsystem hopperSubsystem, double speed) {

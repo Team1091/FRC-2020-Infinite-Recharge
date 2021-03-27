@@ -16,36 +16,36 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final boolean intakeMotorInverted = false;
+    public static final boolean intakeMotorInverted = true;
     public static final boolean hopperMotorInverted = true;
     public static final boolean liftMotorInverted = false;
     public static final boolean hopperReleaseMotorInverted = true;
-    public static final boolean rightDriveMotorInverted = true;
-    public static final boolean leftDriveMotorInverted = true;
+    public static final boolean rightDriveMotorInverted = false;
+    public static final boolean leftDriveMotorInverted = false;
     public static final boolean aimMotorInverted = false;
     public static final boolean rightShooterMotorInverted = true;
     public static final boolean leftShooterMotorInverted = false;
 
-    public static final double aimMotorSpeed = 0.2;
+    public static final double aimMotorSpeed = 0.6;
 
 
     public static final double encoderToFootRatio = 4.16424275; // this many encoder ticks is 1 foot
 
     public static final class PWM {
-        public static final int intakeMotor = 11;
-        public static final int HopperMotor = 6;
-        public static final int aimMoter = 4;
+        public static final int intakeMotor = 5;
+        public static final int HopperMotor = 3;
+        public static final int aimMotor = 6;
         public static final int liftMotor = 0;
         public static final int hopperReleaseMotor = 1;
     }
 
     public static final class CAN {
-        public static final int firstRightDriveMotor = 8;
-        public static final int secondRightDriveMotor = 9;
-        public static final int firstLeftDriveMotor = 2;
-        public static final int secondLeftDriveMotor = 3;
+        public static final int firstRightDriveMotor = 2;
+        public static final int secondRightDriveMotor = 3;
+        public static final int firstLeftDriveMotor = 7;
+        public static final int secondLeftDriveMotor = 8;
         public static final int happerDoorMotor = 4;
-        public static final int leftShooterMotor = 11;
+        public static final int leftShooterMotor = 9;
         public static final int rightShooterMotor = 10;
     }
 
