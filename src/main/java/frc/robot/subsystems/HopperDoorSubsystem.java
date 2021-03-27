@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class HopperDoorSubsystem extends SubsystemBase {
-    private Victor hopperReleaseMotor = new Victor(Constants.PWM.hopperReleaseMotor);
+    private Victor hopperReleaseMotor = new Victor(Constants.PWM.hopperDoorMotor);
 
     public HopperDoorSubsystem() {
         super();
-        hopperReleaseMotor.setInverted(Constants.hopperReleaseMotorInverted);
+        hopperReleaseMotor.setInverted(Constants.hopperDoorMotorInverted);
     }
 
     public void runHopperReleaseMotor(double speed) {

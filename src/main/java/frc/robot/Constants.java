@@ -19,14 +19,15 @@ public final class Constants {
     public static final boolean intakeMotorInverted = true;
     public static final boolean hopperMotorInverted = true;
     public static final boolean liftMotorInverted = false;
-    public static final boolean hopperReleaseMotorInverted = true;
+    public static final boolean hopperDoorMotorInverted = true;
+    public static final boolean hopperReleaseMotorInverted = false;
     public static final boolean rightDriveMotorInverted = false;
     public static final boolean leftDriveMotorInverted = false;
     public static final boolean aimMotorInverted = false;
     public static final boolean rightShooterMotorInverted = true;
     public static final boolean leftShooterMotorInverted = false;
-
     public static final double aimMotorSpeed = 0.6;
+    public static final double shootReadySpeed = 4000;
 
 
     public static final double encoderToFootRatio = 4.16424275; // this many encoder ticks is 1 foot
@@ -35,8 +36,8 @@ public final class Constants {
         public static final int intakeMotor = 5;
         public static final int HopperMotor = 3;
         public static final int aimMotor = 6;
-        public static final int liftMotor = 0;
-        public static final int hopperReleaseMotor = 1;
+        public static final int hopperDoorMotor = 1;
+        public static final int hopperReleaseMotor = 0;
     }
 
     public static final class CAN {
@@ -44,23 +45,13 @@ public final class Constants {
         public static final int secondRightDriveMotor = 3;
         public static final int firstLeftDriveMotor = 7;
         public static final int secondLeftDriveMotor = 8;
-        public static final int happerDoorMotor = 4;
         public static final int leftShooterMotor = 9;
         public static final int rightShooterMotor = 10;
     }
 
     public static final class DIO {
-        public static final int shooterLimitSwitch = 8;
-        public static final int pickUpLimitSwitch = 9;
-    }
-
-    public static final class RELAY {
-        public static final int electroMag = 0;
-    }
-
-    public static final class ShooterPositions {
-        public static final int Pickup = 1;
-        public static final int Shoot = 2;
+        public static final int shooterLimitSwitch = 1;
+        public static final int pickUpLimitSwitch = 0;
     }
 
     public static final class SparkMaxNeoTurningDefaults {

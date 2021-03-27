@@ -29,13 +29,12 @@ public class RobotContainer {
 
     private final VisionSubsystem visionSystem = new VisionSubsystem();
     private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
-
+    private final HopperReleaseSubsystem hopperReleaseSubsystem = new HopperReleaseSubsystem();
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final AimSubsystem aimSubsystem = new AimSubsystem();
-    private final HangerSubsystem hangerSubsystem = new HangerSubsystem();
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
-    private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
+    // private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
     private final HopperDoorSubsystem hopperDoorSubsystem = new HopperDoorSubsystem();
 
     /**
@@ -50,13 +49,7 @@ public class RobotContainer {
                 () -> (xbox.getY(GenericHID.Hand.kLeft)),
                 () -> (xbox.getX(GenericHID.Hand.kLeft))));
 
-        hangerSubsystem.setDefaultCommand(new ControlHangerCommand(
-                hangerSubsystem,
-                () -> {
-                    double xboxCurrentY = xbox.getY(GenericHID.Hand.kRight);
-                    if (Math.abs(xboxCurrentY) < 0.25) return 0;
-                    return xboxCurrentY;
-                }));
+
     }
 
     /**
@@ -66,13 +59,13 @@ public class RobotContainer {
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncodersCommand(driveTrain));
-        SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
-        SmartDashboard.putData("Increment Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() + 1));
-        SmartDashboard.putData("Decrement Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() - 1));
-        SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
-        SmartDashboard.putData("Run Drive Pid Tuning", new PidTuningCommand(driveTrain));
-        SmartDashboard.putData("Run Shooter Pid Tuning", new PidTuningCommand(shooterSubsystem));
+        // SmartDashboard.putData("Reset Drive Encoders", new ResetDriveEncodersCommand(driveTrain));
+        // SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
+        // SmartDashboard.putData("Increment Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() + 1));
+        // SmartDashboard.putData("Decrement Ammo", new SetAmmoCommand(ammoCounterSubsystem, ammoCounterSubsystem.getAmmo() - 1));
+        // SmartDashboard.putData("Reset Ammo", new SetAmmoCommand(ammoCounterSubsystem, 0));
+        // SmartDashboard.putData("Run Drive Pid Tuning", new PidTuningCommand(driveTrain));
+        // SmartDashboard.putData("Run Shooter Pid Tuning", new PidTuningCommand(shooterSubsystem));
 
         // Test command
         var testButton = new JoystickButton(xbox, XboxController.Button.kStart.value);
@@ -81,15 +74,15 @@ public class RobotContainer {
         //Robot Suck
         var leftBumper = new JoystickButton(xbox, XboxController.Button.kBumperLeft.value);
         leftBumper.whileActiveOnce(CommandFactory.buildSuctionBallCommand(
-                shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem, ammoCounterSubsystem,
-                hopperDoorSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem, pickUpSubsystem,
+                hopperDoorSubsystem, hopperReleaseSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kLeft)
         ));
 
         //Robot Shoot
         var rightBumper = new JoystickButton(xbox, XboxController.Button.kBumperRight.value);
         rightBumper.whileActiveOnce(CommandFactory.buildShootBallCommand(
-                shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, hopperDoorSubsystem,
+                shooterSubsystem, aimSubsystem, hopperSubsystem, hopperDoorSubsystem, hopperReleaseSubsystem,
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
 
@@ -132,7 +125,7 @@ public class RobotContainer {
                 //new DriveForwardsCommand(driveTrain, 5.0),
                 //new TurnCommand(drivetrain, -90.0),
                 new TakeAimCommand(visionSystem, driveTrain),
-                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, ammoCounterSubsystem, hopperDoorSubsystem, () -> true)
+                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, hopperDoorSubsystem, hopperReleaseSubsystem, () -> true)
                 //todo Make robot not fly backwards
 
         );
