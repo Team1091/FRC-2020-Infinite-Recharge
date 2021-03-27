@@ -86,7 +86,7 @@ public class RobotContainer {
                 () -> xbox.getBumper(GenericHID.Hand.kRight)
         ));
 
-        //Push balls very hard
+        //Push balls
         var yButton = new JoystickButton(xbox, XboxController.Button.kY.value);
         yButton.whileActiveOnce(new RunPickUpMotorCommand(pickUpSubsystem, -5));
 
