@@ -15,8 +15,8 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
     private CANSparkMax secondLeftMotor = new CANSparkMax(Constants.CAN.secondLeftDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax firstRightMotor = new CANSparkMax(Constants.CAN.firstRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax secondRightMotor = new CANSparkMax(Constants.CAN.secondRightDriveMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANEncoder leftEncoder = new CANEncoder(firstLeftMotor);
-    private CANEncoder rightEncoder = new CANEncoder(firstRightMotor);
+    private CANEncoder leftEncoder = firstLeftMotor.getEncoder();
+    private CANEncoder rightEncoder = firstRightMotor.getEncoder();
 
     private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor);  // private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor);
     private SpeedControllerGroup rightMotorGearbox = new SpeedControllerGroup(firstRightMotor);//, secondRightMotor

@@ -13,8 +13,8 @@ import static java.lang.StrictMath.abs;
 public class ShooterSubsystem extends PIDTunableSubsystem {
     private CANSparkMax leftShooterMotor = new CANSparkMax(Constants.CAN.leftShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
     private CANSparkMax rightShooterMotor = new CANSparkMax(Constants.CAN.rightShooterMotor, CANSparkMaxLowLevel.MotorType.kBrushless);
-    private CANEncoder leftShooterEncoder = new CANEncoder(leftShooterMotor);
-    private CANEncoder rightShooterEncoder = new CANEncoder(rightShooterMotor);
+    private CANEncoder leftShooterEncoder = leftShooterMotor.getEncoder();
+    private CANEncoder rightShooterEncoder = rightShooterMotor.getEncoder();
 
     public ShooterSubsystem() {
         super();
