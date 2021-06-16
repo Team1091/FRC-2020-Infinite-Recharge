@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.*;
+import frc.robot.commands.autonomous.DriveForwardsCommand;
 import frc.robot.commands.autonomous.TurnCommand;
 import frc.robot.commands.pidTuning.PidTuningCommand;
 import frc.robot.subsystems.*;
@@ -34,7 +35,7 @@ public class RobotContainer {
     private final AimSubsystem aimSubsystem = new AimSubsystem();
     private final PickUpSubsystem pickUpSubsystem = new PickUpSubsystem();
     private final HopperSubsystem hopperSubsystem = new HopperSubsystem();
-    // private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
+    private final AmmoCounterSubsystem ammoCounterSubsystem = new AmmoCounterSubsystem();
     private final HopperDoorSubsystem hopperDoorSubsystem = new HopperDoorSubsystem();
 
     /**
@@ -117,17 +118,12 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        // return new ExampleCommand(new ExampleSubsystem());
         return new SequentialCommandGroup(
-                //new DriveForwardsCommand(driveTrain, 2.5),
+                new DriveForwardsCommand(driveTrain, 2.5),
                 new TurnCommand(driveTrain, 180.0),
-                //new DriveForwardsCommand(driveTrain, 5.0),
-                //new TurnCommand(drivetrain, -90.0),
                 new TakeAimCommand(visionSystem, driveTrain),
                 CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, hopperDoorSubsystem, hopperReleaseSubsystem, () -> true)
                 //todo Make robot not fly backwards
-
         );
     }
 }
