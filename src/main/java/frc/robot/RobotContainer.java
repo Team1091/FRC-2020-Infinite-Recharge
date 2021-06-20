@@ -119,10 +119,10 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return new SequentialCommandGroup(
-                new DriveForwardsCommand(driveTrain, 2.5),
-                new TurnCommand(driveTrain, 180.0),
-                new TakeAimCommand(visionSystem, driveTrain),
-                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, hopperDoorSubsystem, hopperReleaseSubsystem, () -> true)
+                new DriveForwardsCommand(driveTrain, 4.0)
+                //new TurnCommand(driveTrain, 180.0)
+//                new TakeAimCommand(visionSystem, driveTrain),
+//                CommandFactory.buildShootBallCommand(shooterSubsystem, aimSubsystem, hopperSubsystem, hopperDoorSubsystem, hopperReleaseSubsystem, () -> true)
                 //todo Make robot not fly backwards
         );
     }

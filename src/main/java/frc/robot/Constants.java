@@ -16,7 +16,7 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static final boolean intakeMotorInverted = true;
+    public static final boolean intakeMotorInverted = false;
     public static final boolean hopperMotorInverted = true;
     public static final boolean liftMotorInverted = false;
     public static final boolean hopperDoorMotorInverted = true;

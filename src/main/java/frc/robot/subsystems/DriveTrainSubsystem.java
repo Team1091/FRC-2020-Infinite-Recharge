@@ -18,8 +18,8 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
     private CANEncoder leftEncoder = firstLeftMotor.getEncoder();
     private CANEncoder rightEncoder = firstRightMotor.getEncoder();
 
-    private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor);  // private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor);
-    private SpeedControllerGroup rightMotorGearbox = new SpeedControllerGroup(firstRightMotor);//, secondRightMotor
+    private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor, secondLeftMotor);  // private SpeedControllerGroup leftMotorGearbox = new SpeedControllerGroup(firstLeftMotor);
+    private SpeedControllerGroup rightMotorGearbox = new SpeedControllerGroup(firstRightMotor, secondRightMotor);//, secondRightMotor
 
     private final DifferentialDrive drive = new DifferentialDrive(rightMotorGearbox, leftMotorGearbox);
 
@@ -54,7 +54,8 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
     }
 
     public double getDistance() {
-        return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2.0;
+        // right encoder is negative
+        return (leftEncoder.getPosition()  -rightEncoder.getPosition()) / 2.0;
     }
 
     public double getDistanceFeet() {
@@ -64,7 +65,8 @@ public class DriveTrainSubsystem extends PIDTunableSubsystem {
     }
 
     public double getRotation() {
-        double rotationTicks = leftEncoder.getPosition() - rightEncoder.getPosition();
+        // right encoder is negative
+        double rotationTicks = leftEncoder.getPosition() + rightEncoder.getPosition();
         final double fullRotate = 30;
         final double rotationDeg = rotationTicks / fullRotate;
         final double circle = 360;

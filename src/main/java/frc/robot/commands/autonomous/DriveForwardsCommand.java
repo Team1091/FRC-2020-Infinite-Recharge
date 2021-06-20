@@ -1,5 +1,6 @@
 package frc.robot.commands.autonomous;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.util.AccelerationCurve;
@@ -24,8 +25,9 @@ public class DriveForwardsCommand extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        speedCurve.set(-1);
-        driveTrainSubsystem.doArcadeDrive(speedCurve.getCurrentSpeed(), 0);
+//        speedCurve.set(-1);
+//        driveTrainSubsystem.doArcadeDrive(speedCurve.getCurrentSpeed(), 0);
+        driveTrainSubsystem.doArcadeDrive(-0.5, 0);
     }
 
     // Called once the command ends or is interrupted.
@@ -37,6 +39,7 @@ public class DriveForwardsCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
+        SmartDashboard.putString("Drive Cutoff", this.driveTrainSubsystem.getDistanceFeet()+ " " + distanceToTravel);
         return this.driveTrainSubsystem.getDistanceFeet() > distanceToTravel;
     }
 }
